@@ -1,0 +1,3 @@
+[submodule "hackathonstarter"]
+	path = hackathonstarter
+	url = https://github.com/joincolony/hackathonstarter
