@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <hello-metamask/>
     <navbar/>
+    <hello-metamask/>
     <router-view />
     <travay-footer/>
   </div>
@@ -15,12 +15,12 @@
 export default {
   name: 'App',
   beforeCreate () {
-    // console.log('registerWeb3 Action dispatched from app.vue')
+    console.log('registerWeb3 Action dispatched from app.vue')
     this.$store.dispatch('registerWeb3')
   },
   components: {
-    'hello-metamask': HelloMetamask,
     'navbar': Navbar,
+    'hello-metamask': HelloMetamask,
     'travay-footer': TravayFooter,
   }
 }

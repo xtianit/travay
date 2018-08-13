@@ -4,19 +4,17 @@
       <div class="col">
         <h1>Components</h1>
         <!--<h1>{{ $t("App.home.title") /* Home Page */ }}</h1>-->
-        <!--<button type="button" class="btn btn-primary" @click="sendGridTest()">Sendgrid</button>-->
-        <travay-button>Story</travay-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import TravayButton from '../stories/VueButton'
+  import VueButton from '../stories/VueButton'
 
   export default {
     name: 'components',
-    components: {TravayButton},
+    components: {VueButton},
   }
 </script>
 
