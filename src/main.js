@@ -2,21 +2,19 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 /* eslint-disable */
 
-import Vue from "vue";
-import App from "./App";
-import router from "./router";
-import { store } from "./store/";
-import "font-awesome/css/font-awesome.css";
-import BootstrapVue from 'bootstrap-vue'
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import {store} from './store/'
+import 'font-awesome/css/font-awesome.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 
-Vue.config.productionTip = false;
-Vue.use(BootstrapVue);
+Vue.config.productionTip = false
 
 new Vue({
-  el: "#app",
+  el: '#app',
   router,
   store,
-  components: { App },
-  template: "<App/>"
-});
+  components: {App},
+  template: '<App/>'
+})
