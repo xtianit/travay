@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'travay-button',
+    name: 'vue-button',
 
     methods: {
       onClick () {

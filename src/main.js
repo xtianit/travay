@@ -8,8 +8,10 @@ import router from './router'
 import {store} from './store/'
 import 'font-awesome/css/font-awesome.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
+import BootstrapVue from 'bootstrap-vue'
 
 Vue.config.productionTip = false
+Vue.use(BootstrapVue);
 
 new Vue({
   el: '#app',

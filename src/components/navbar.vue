@@ -1,45 +1,49 @@
 <template>
-  <div class="container-fluid wrapper">
-    <div class="row">
-      <div class="col">
+  <b-navbar toggleable="md" type="dark" variant="info">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="#">Jobs <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Profile</a>
-              </li>
-            </ul>
-            <ul class="nav-item">
-              <a class="nav-link disabled" href="#">Sign-in</a>
-            </ul>
-            <ul class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                 aria-haspopup="true" aria-expanded="false">
-                Dropdown
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </ul>
-          </div>
-        </nav>
+    <b-navbar-brand><router-link :to="'/'">Home</router-link></b-navbar-brand>
 
-      </div>
-    </div>
-  </div>
+    <b-collapse is-nav id="nav_collapse">
+
+      <b-navbar-nav>
+        <b-nav-item><router-link :to="'/components'">Components</router-link></b-nav-item>
+        <b-nav-item><router-link :to="'/createJob'">Create Job</router-link></b-nav-item>
+        <b-nav-item><router-link :to="'/job'">Job</router-link></b-nav-item>
+        <b-nav-item><router-link :to="'/jobs'">Jobs</router-link></b-nav-item>
+        <b-nav-item><router-link :to="'/profile'">Profile</router-link></b-nav-item>
+        <b-nav-item><router-link :to="'/transactions'">Transactions</router-link></b-nav-item>
+        <b-nav-item><router-link :to="'/userGuide'">User Guide</router-link></b-nav-item>
+      </b-navbar-nav>
+
+      <!-- Right aligned nav items -->
+      <b-navbar-nav class="ml-auto">
+
+        <b-nav-form>
+          <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
+          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+        </b-nav-form>
+
+        <b-nav-item-dropdown text="Lang" right>
+          <b-dropdown-item href="#">EN</b-dropdown-item>
+          <b-dropdown-item href="#">ES</b-dropdown-item>
+          <b-dropdown-item href="#">RU</b-dropdown-item>
+          <b-dropdown-item href="#">FA</b-dropdown-item>
+        </b-nav-item-dropdown>
+
+        <b-nav-item-dropdown right>
+          <!-- Using button-content slot -->
+          <template slot="button-content">
+            <em>User</em>
+          </template>
+          <b-dropdown-item href="#">Profile</b-dropdown-item>
+          <b-dropdown-item href="#">Signout</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+
+    </b-collapse>
+  </b-navbar>
 </template>
 
 <script>

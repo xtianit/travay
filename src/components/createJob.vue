@@ -1,15 +1,13 @@
 <template>
-  <div>
-  Home
-  </div>
+<h1>Create Job</h1>
 </template>
+
 <script>
-
-
   export default {
-    name: 'home'
+    name: 'createJob'
   }
 </script>
 
 <style scoped>
+
 </style>
