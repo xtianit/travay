@@ -1,0 +1,43 @@
+import { uuid } from 'vue-uuid';
+import db from '../firebaseinit';
+
+export const sponsorSubmitMixin = {
+  methods: {
+    async sponsorSubmitHandler({ amount, taskId, task, job = {} }) {
+      const data = {
+        sponsoredId: uuid.v1(),
+        userId: this.$store.getters['signInModal/userId'],
+        amount,
+        taskId: taskId,
+        task: task
+      };
+      try {
+        const sponsoredResult = await db.collection('sponsored').add(data);
+        const totalAmount =
+          +(isNaN(job.sponsoredAmount) ? 0 : job.sponsoredAmount) + +amount;
+        const updateResult = await db
+          .collection('jobs')
+          .doc(taskId)
+          .update({
+            sponsoredAmount: totalAmount
+          });
+        if (Reflect.has(this, 'job')) {
+          this.job.sponsoredAmount = totalAmount;
+        } else {
+          const jobs = this.jobs.map(job => {
+            if (job.taskId === taskId) {
+              job.sponsoredAmount = totalAmount;
+            }
+            return job;
+          });
+          this.jobs = jobs;
+        }
+      } catch (err) {
+        console.error('error when trying to save the data', err);
+        alert('There was a problem when trying to insert data!');
+      } finally {
+        this.showSponsoredModal = false;
+      }
+    }
+  }
+};

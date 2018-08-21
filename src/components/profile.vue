@@ -3,7 +3,17 @@
 </template>
 
 <script>
+
   export default {
+    metaInfo: {
+      title: "Your Profile in Travay",
+      meta: [
+        {
+          name: "Profile",
+          content: "Your Profile in Travay"
+        }
+      ]
+    },
     name: 'profile'
   }
 </script>
