@@ -9,8 +9,7 @@
           <label>Deposit
             <input
               v-model="amount"
-              type="number"
-              min=".01">
+              type="number">
           </label>
 
           <button type="submit">Submit</button>
@@ -21,7 +20,7 @@
 </template>
 
 <script>
-  import { store } from '../store';
+  import {store} from '../store';
 
   export default {
     metaInfo: {
@@ -40,13 +39,12 @@
       }
     },
     methods: {
-      deposit (event) {
-        let vm = this;
-        console.log('DEPOSITING USD: $', this.amount)
+      deposit(event) {
+        console.log('contract instance', this.$store.state.contractInstance());
         this.$store.state.contractInstance().deposit(event.target.innerHTML, {
           gas: 300000,
-          value: vm.this.$store.state.web3.web3Instance().toWei(this.amount, 'ether'),
-          from: vm.this.$store.state.web3.coinbase
+          value: this.$store.state.web3.web3Instance().toWei(this.amount, 'ether'),
+          from: this.$store.state.web3.coinbase
         }, (error, result) => {
           if (error) {
             console.log(error)

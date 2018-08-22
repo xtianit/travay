@@ -9,6 +9,9 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   strict: true,
   state,
+  getters: {
+
+  },
   mutations: {
     registerWeb3Instance(state, payload) {
       console.log('registerWeb3instance Mutation being executed', payload);

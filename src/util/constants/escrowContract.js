@@ -1,6 +1,5 @@
 const address = '0xd61F9331CE61Eb27E0AB7d9b9bc75402Ea5db7f8';
 const ABI = [
-  [
     {
       constant: false,
       inputs: [],
@@ -80,7 +79,6 @@ const ABI = [
       stateMutability: 'view',
       type: 'function'
     }
-  ]
 ];
 
 export { address, ABI };
