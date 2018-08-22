@@ -1,5 +1,5 @@
 <template>
-  <footer id="sticky-footer">&copy; {{ year }} Acme Corp.</footer>
+  <!--<footer id="sticky-footer">&copy; {{ year }} Acme Corp.</footer>-->
 </template>
 
 <script>

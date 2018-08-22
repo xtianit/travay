@@ -4,6 +4,15 @@
 
 <script>
   export default {
+    metaInfo: {
+      title: "Transactions in Travay",
+      meta: [
+        {
+          name: "Transactions in Travay",
+          content: "Transactions in Travay."
+        }
+      ]
+    },
     name: 'transactions'
   }
 </script>

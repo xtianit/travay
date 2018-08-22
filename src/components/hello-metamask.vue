@@ -17,6 +17,15 @@ import { NETWORKS } from "../util/constants/networks";
 import { mapState } from "vuex";
 
 export default {
+  metaInfo: {
+    title: "Metamask and Travay",
+    meta: [
+      {
+        name: "",
+        content: ""
+      }
+    ]
+  },
   name: "hello-metamask",
   computed: mapState({
     isInjected: state => state.web3.isInjected,
