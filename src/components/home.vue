@@ -7,12 +7,13 @@
 
         <form @submit.prevent="deposit">
           <label>Deposit
-            <input
+            <vue-input
+              name="amount"
+              id="amount"
               v-model="amount"
-              type="number">
+              type="number" />
           </label>
-
-          <button type="submit">Submit</button>
+          <vue-button>Submit</vue-button>
         </form>
       </div>
     </div>

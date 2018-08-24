@@ -10,6 +10,10 @@ import 'font-awesome/css/font-awesome.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import BootstrapVue from 'bootstrap-vue'
 
+import VueUI from 'vue-ui/dist/vue-ui.common';
+import 'vue-ui/dist/vue-ui.css';
+
+Vue.use(VueUI);
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
 
