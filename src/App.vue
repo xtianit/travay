@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div id="app" :class="$style.app">
     <navbar/>
     <hello-metamask/>
-    <router-view />
+    <router-view :class="$style.content"/>
     <travay-footer/>
   </div>
 </template>
@@ -26,6 +26,22 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" module>
+  /*@import "./theme";*/
+  @import "./theme/reset";
+  @import "./theme/typo";
+  @import "./theme/global";
+  @import url($google-font);
+
+  .app {
+    min-height:     100vh;
+    display:        flex;
+    flex-direction: column;
+  }
+
+  .content {
+    flex: 1;
+    margin-top: 80px;
+  }
 
 </style>
