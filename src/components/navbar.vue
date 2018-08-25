@@ -2,35 +2,27 @@
     <vue-nav-bar imageUrl="static/logo.png">
       <ul :class="$style.nav">
         <li>
-          Home
           <router-link :to="'/'">Home</router-link>
         </li>
         <li>
-          Components
           <router-link :to="'/components'">Components</router-link>
         </li>
         <li>
-          Jobs
           <router-link :to="'/jobs'">Jobs</router-link>
         </li>
         <li>
-          Create Job
           <router-link :to="'/createJob'">Create Job</router-link>
         </li>
         <li>
-          Job
           <router-link :to="'/job'">Job</router-link>
         </li>
         <li>
-          Profile
           <router-link :to="'/profile'">Profile</router-link>
         </li>
         <li>
-          Transactions
           <router-link :to="'/transactions'">Transactions</router-link>
         </li>
         <li>
-          User Guide
           <router-link :to="'/userGuide'">User Guide</router-link>
         </li>
       </ul>
