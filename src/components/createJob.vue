@@ -4,6 +4,7 @@
     <div :class="$style.header">
       <vue-grid>
         <vue-grid-row>
+          <h1>Post a Job</h1>
           <!--<vue-grid-item class="vueGridItem">-->
             <!--<h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>-->
             <!--<p>-->

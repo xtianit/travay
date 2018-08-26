@@ -1,9 +1,175 @@
 <template>
-  <h1>Jobs</h1>
+  <div>
+
+    <div>
+      <vue-grid>
+        <vue-grid-row>
+          <vue-grid-item class="vueGridItem">
+            <h1>Jobs</h1>
+            <!--<h1>{{ $t('App.nav.jobs' /* Jobs */) }}</h1>-->
+            <!--<p>-->
+              <!--{{ $t('App.jobs.pageSubtitle' /* Here you'll find 6-month and 12-month jobs. */) }}-->
+            <!--</p>-->
+          </vue-grid-item>
+        </vue-grid-row>
+      </vue-grid>
+    </div>
+    <br>
+
+    <vue-grid>
+      <vue-grid-row>
+
+        <vue-grid-item>
+          <ul class="filter-bar">
+            <!--<li class="filter__item">{{ $t('App.jobs.search' /* Search */) }}:-->
+              <!--<input type="text" name="search" v-model="keyword" />-->
+            <!--</li>-->
+
+            <!--<li class="filter__item">{{ $t('App.jobs.filter' /* Filter */) }}:-->
+
+            <li
+              <select v-model="filterType">
+                <option value="all">All</option>
+                <option
+                  v-for="type in types"
+                  v-bind:value="type.id"
+                  v-bind:key="type.id"
+                >
+                  {{ type.title }}
+                </option>
+              </select>
+              <select v-if="isFilteringBySalary" v-model='startRange'>
+                <option>Select a Start range</option>
+                <option
+                  v-for="amount in amounts"
+                  v-bind:value="amount.value"
+                  v-bind:key="amount.id"
+                >
+                  {{ amount.id }}
+                </option>
+              </select>
+              <select v-if="isFilteringBySalary" v-model='endRange'>
+                <option>Select a End range</option>
+                <option
+                  v-for="amount in amounts"
+                  v-bind:value="amount.value"
+                  v-bind:key="amount.id"
+                >
+                  {{ amount.id }}
+                </option>
+              </select>
+              <select v-if="isFilteringBySkill" v-model='skill'>
+                <option>Select a Skill</option>
+                <option
+                  v-for="skill in skills"
+                  v-bind:value="skill.value"
+                  v-bind:key="skill.id"
+                >
+                  {{ skill.id }}
+                </option>
+              </select>
+              <select v-if="isFilteringByDomain" v-model='domain'>
+                <option value="">Select a Domain</option>
+                <option
+                  v-for="domain in domains"
+                  v-bind:value="domain.value"
+                  v-bind:key="domain.id"
+                >
+                  {{ domain.id }}
+                </option>
+              </select>
+            </li>
+
+          </ul>
+        </vue-grid-item>
+      </vue-grid-row>
+      <br>
+
+      <vue-grid-row>
+        <vue-grid-item>
+          <vue-button
+            class="sponsor-btn--container" accent>
+            <a style="color: white !important;" @click.prevent.stop="e => createJobClickedHandler()" id="remove-hyperlink">Post a Job</a>
+          </vue-button>
+        </vue-grid-item>
+      </vue-grid-row>
+      <br>
+      <sponsor-modal
+        :job="jobToSponsor"
+        :show.sync="showSponsoredModal"
+        @sponsorSubmit="amount => sponsorSubmitHandler({
+          amount,
+          taskId: this.selectedJobToSponsorId, task: this.jobToSponsor.task,
+          task: this.jobToSponsor.task || '',
+          job: this.jobToSponsor
+          })"></sponsor-modal>
+      <vue-grid-row>
+        <vue-grid-item>
+          <hr>
+          <vue-panel v-for="job in filteredJobs" v-bind:key="job.taskId">
+            <!-- <vue-panel-header title="Title" subtitle="subtitle"
+                              image="https://avatars2.githubusercontent.com/u/1667598?s=460&v=4" /> -->
+            <vue-panel-body>
+              <ul>
+                <li >
+                  Job: {{job.task}}<br>
+                  Description: {{job.brief}}<br>
+                  Domain: {{job.domain}}<br>
+                  Top Desired Skill: {{job.skill}}
+                  <br>
+                  <br>
+                  Full time rate: ${{job.salary['full-time-rate']}}<br>
+                  Pay frequency:
+                  <input id="weekly" true-value="weekly" type="checkbox" name="weekly" v-model="job.salary['pay-frequency'].label" disabled/>
+                  <label for="weekly">Weekly</label>
+                  <input id="bi-weekly" type="checkbox" true-value="bi-weekly" name="bi-weekly" v-model="job.salary['pay-frequency'].label" disabled/>
+                  <label for="bi-weekly">Bi-weekly</label>
+                  <input id="monthly" true-value="monthly" type="checkbox" name="monthly" v-model="job.salary['pay-frequency'].label" disabled/>
+                  <label for="monthly">Monthly</label><br>
+                  Term of employment:
+                  <input id="sixmonth" type="checkbox" name="sixmonth" v-model="job['terms-of-employment']" true-value="6" disabled/>
+                  <label for="sixmonth">6 month</label>
+                  <input id="oneyear" type="checkbox" name="oneyear" v-model="job['terms-of-employment']" true-value="12" disabled/>
+                  <label for="oneyear">1 year</label>
+                  <br>
+                  <br>
+                  Date Posted: {{ job['date-posted'] | moment }}<br>
+                </li>
+              </ul>
+            </vue-panel-body>
+            <vue-panel-footer>
+              <vue-button primary>
+                <router-link :to="`/job/${job.taskId}`" id="remove-hyperlink" style="color:white;">Learn More</router-link>
+              </vue-button>
+              <br />
+              <br />
+              <vue-button v-userRole.canSponsor="{
+                role: job.role
+              }" class="sponsor-btn--container" accent>
+                <a style="color: white !important;" @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)" id="remove-hyperlink">Sponsor this Job</a>
+              </vue-button>
+
+            </vue-panel-footer>
+            <br>
+          </vue-panel>
+          <br>
+        </vue-grid-item>
+
+      </vue-grid-row>
+    </vue-grid>
+  </div>
 </template>
 
 <script>
-  import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
+  import axios from 'axios';
+  import firebase from 'firebase';
+  import db from '../firebaseinit';
+  import SponsorModal from '../services/SponsorModal.vue';
+  import { uuid } from 'vue-uuid';
+  import moment from 'moment';
+  import { sponsorSubmitMixin } from '../mixins/sponsorSubmitMixin';
+  import { directive } from 'vee-validate';
+  import { userRole } from '../directives/userRole.js';
 
   export default {
     mixins: [sponsorSubmitMixin],
@@ -16,8 +182,219 @@
         }
       ]
     },
-    name: 'jobs'
-  }
+    name: 'jobs',
+    data() {
+      return {
+        jobs: [],
+        selectedJobToSponsorId: null,
+        showSponsoredModal: false,
+        posted: '',
+        filterType: 'all',
+        endRange: '1000000',
+        startRange: '1',
+        skill: '',
+        domain: '',
+        keyword: '',
+        types: [
+          {
+            id: 'salary',
+            title: 'Salary'
+          },
+          {
+            id: 'skill',
+            title: 'Skill'
+          },
+          {
+            id: 'domain',
+            title: 'Domain'
+          }
+        ],
+        amounts: [
+          {
+            id: '$1',
+            value: '1'
+          },
+          {
+            id: '$200',
+            value: '200'
+          },
+          {
+            id: '$400',
+            value: '400'
+          },
+          {
+            id: '$600',
+            value: '400'
+          },
+          {
+            id: '$800',
+            value: '800'
+          },
+          {
+            id: '$1000',
+            value: '1000'
+          }
+        ],
+        skills: [
+          {
+            id: 'labor',
+            value: 'Labor'
+          },
+          {
+            id: 'teaching',
+            value: 'Teaching'
+          },
+          {
+            id: 'engineering',
+            value: 'Engineering'
+          }
+        ],
+        domains: [
+          {
+            id: 'community',
+            value: 'Community'
+          },
+          {
+            id: 'education',
+            value: 'Education'
+          },
+          {
+            id: 'environment',
+            value: 'Environment'
+          }
+        ]
+      };
+    },
+    watch: {
+      filterType(selectedValue, oldValue) {
+        console.log('filter type value changed', selectedValue, oldValue);
+        this.filterJobs();
+      },
+      keyword(keyword) {
+        this.filterJobs(keyword);
+      },
+      domain(domain) {
+        this.filterJobs();
+      }
+    },
+    filters: {
+      moment: function(date) {
+        return moment(date).format('MMMM Do YYYY');
+      }
+    },
+    methods: {
+      // ...mapActions('jobs', []),
+      // ...mapActions('signInModal', ['openLoginModal', 'closeLoginModal']),
+      moment: function() {
+        return moment();
+      },
+      createJobClickedHandler() {
+        if (!this.userId) {
+          this.openLoginModal();
+          return;
+        }
+        this.$router.push('createJob');
+      },
+      sponsorJobClickedHandler(taskId) {
+        if (!this.userId) {
+          this.openLoginModal();
+          return;
+        }
+        this.selectedJobToSponsorId = taskId;
+        this.showSponsoredModal = true;
+      },
+      sort(jobs) {
+        const result = jobs.sort(function(a, b) {
+          let date1 = new Date(a['date-posted']);
+          let date2 = new Date(b['date-posted']);
+          return date1 - date2;
+        });
+        this.jobs = result;
+      },
+      filterJobs(keyword) {
+        console.log('filtering in filterJobs', keyword);
+        if (!Reflect.has(this.$options, 'originalJobs')) return [];
+        const jobs = this.$options.originalJobs.reduce((acc, job) => {
+          console.log(
+            'Checking the domain',
+            this.isFilteringByDomain,
+            this.domain
+          );
+          if (this.isFilteringByDomain && this.domain) {
+            console.log('Will filter by domain');
+            if (job.domain.toLowerCase() !== this.domain.toLowerCase()) {
+              console.log('Job should not be added!');
+              return acc;
+            }
+          }
+          let keywordSearchRegEx = RegExp(keyword, 'gi');
+          let valid =
+            keywordSearchRegEx.test(job.brief) &&
+            (parseInt(job['salary']['full-time-rate']) <=
+              parseInt(this.endRange) &&
+              parseInt(job['salary']['full-time-rate']) >=
+              parseInt(this.startRange));
+          if (valid) acc.push(job);
+          return acc;
+        }, []);
+        this.jobs = jobs;
+        /*if (this.isFilteringByDomain && this.domain) {
+          return this.$options.originalJobs.filter(job => {
+            console.log('job domain', job.domain, this.domain);
+            return job.domain.toLowerCase() === this.domain.toLowerCase();
+          });
+        }
+        this.jobs = this.$options.originalJobs.filter(
+          (job: any, index: Number) => {
+            let keywordSearchRegEx = RegExp(keyword, 'gi');
+            return (
+              keywordSearchRegEx.test(job.brief) &&
+              (parseInt(job['salary']['full-time-rate']) <=
+                parseInt(this.endRange) &&
+                parseInt(job['salary']['full-time-rate']) >=
+                  parseInt(this.startRange))
+            );
+          }
+        );*/
+      }
+    },
+    mounted() {},
+    computed: {
+      // ...mapGetters('signInModal', ['userId']),
+      // ...mapGetters('jobs', []),
+      jobToSponsor() {
+        return (
+          this.jobs.find(job => job.taskId === this.selectedJobToSponsorId) || {}
+        );
+      },
+      isFilteringBySalary() {
+        return this.filterType === 'salary';
+      },
+      isFilteringBySkill() {
+        return this.filterType === 'skill';
+      },
+      isFilteringByDomain() {
+        return this.filterType === 'domain';
+      },
+      filteredJobs() {
+        return this.jobs;
+      }
+    },
+    created() {
+      db
+        .collection('jobs')
+        .where('status.state', '==', 'incomplete')
+        .get()
+        .then(snapshot => {
+          const jobs = [];
+          snapshot.forEach(job => {
+            jobs.push(job.data());
+          });
+          this.jobs = jobs;
+          this.$options.originalJobs = jobs;
+        });
+    }
+  };
 </script>
 
 <style scoped>
