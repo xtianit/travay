@@ -4,8 +4,10 @@ import state from './state';
 import getWeb3 from '../util/getWeb3';
 import pollWeb3 from '../util/pollWeb3';
 import getContract from '../util/getContract';
+import signInModal from './modules/signInModal';
 
 Vue.use(Vuex);
+
 export const store = new Vuex.Store({
   strict: true,
   state,
@@ -58,5 +60,15 @@ export const store = new Vuex.Store({
         })
         .catch(e => console.log(e));
     }
+  },
+  modules: {
+    signInModal
   }
 });
+
+/*
+state - stores the data
+getters - functions which return something from the state
+actions - do all the logic you need like async calls, etc and then commit mutations
+mutations - it should only update the state, no side effects, state is received as a first parameter
+*/

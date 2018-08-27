@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.signInModal">
+  <div>
     <vue-modal :show="isOpen" @close="closeLoginModal">
       <vue-button warn @click="closeLoginModal">X</vue-button>
       <vue-grid>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapMutations} from 'vuex';
+  import * as types from '@/store/types'
   import firebase from 'firebase';
   import db from '../firebaseinit';
   import {travaySlackBotMixin} from '../mixins/travaySlackBotMixin';
@@ -61,14 +63,21 @@
     metaInfo: {
       title: 'SignInModal'
     },
+    created () {
+      console.log('vm', this)
+      this.updateSignInModalState('passed!')
+    },
     methods: {
-      // ...mapActions('signInModal', [
-      //   'openLoginModal',
-      //   'closeLoginModal',
-      //   'saveUserInStorage',
-      //   'logoutUser'
-      // ]),
-      // ...mapMutations('signInModal', ['SET_USER_DATA']),
+      ...mapActions('signInModal', [
+        'openLoginModal',
+        'closeLoginModal',
+        'saveUserInStorage',
+        'logoutUser'
+      ]),
+      ...mapMutations('signInModal', ['SET_USER_DATA']),
+      ...mapMutations({
+        updateSignInModalState: types.SET_SIGNIN_MODAL_OPEN
+      }),
       siginInWithUport: function () {
         this.closeLoginModal();
         uport
@@ -120,7 +129,7 @@
           })
           .catch(error => console.log(error));
       },
-      async updateUserData(user) {
+      async updateUserData (user) {
         const userRef = db.doc(`users/${user.uid}`);
         const data = {
           uid: user.uid,
@@ -149,8 +158,8 @@
       }
     },
     computed: {
-      // ...mapGetters('signInModal', ['isOpen', 'userId']),
-      modalHeading() {
+      ...mapGetters('signInModal', ['isOpen', 'userId']),
+      modalHeading () {
         return this.userId ? 'Sign Out' : 'Please Sign In';
       }
     }

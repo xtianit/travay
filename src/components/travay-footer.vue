@@ -1,5 +1,5 @@
 <template>
-  <footer id="sticky-footer">&copy; {{ year }} Acme Corp.</footer>
+  <footer id="sticky-footer">&copy; {{ year }} Travay</footer>
 </template>
 
 <script>
@@ -7,8 +7,16 @@
     name: 'travay-footer',
     computed: {
       year: function() {
-        return this.year = new Date().getFullYear();
-      }
+        return new Date().getFullYear();
+      },
+      /*year: {
+        get() {
+          return this.year = new Date().getFullYear();
+        },
+        set(param) {
+          console.log('we are setting a year!', param)
+        }
+      },*/
     }
   }
 </script>

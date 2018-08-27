@@ -1,3 +1,5 @@
+// state - stores the data
+
 let state = {
   web3: {
     isInjected: false,
@@ -9,4 +11,5 @@ let state = {
   },
   contractInstance: null
 }
+
 export default state

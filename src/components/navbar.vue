@@ -1,7 +1,7 @@
 <template>
   <div>
-    <vue-notification-stack />
-    <sign-in-modal />
+    <vue-notification-stack/>
+    <sign-in-modal/>
     <vue-nav-bar imageUrl="static/logo.png">
       <ul :class="$style.nav">
         <li>
@@ -14,9 +14,6 @@
           <router-link :to="'/createJob'">Create Job</router-link>
         </li>
         <li>
-          <router-link :to="'/job'">Job</router-link>
-        </li>
-        <li>
           <router-link :to="'/profile'">Profile</router-link>
         </li>
         <li>
@@ -25,51 +22,54 @@
         <li>
           <router-link :to="'/userGuide'">User Guide</router-link>
         </li>
+        <li>
+          <vue-button>Sign In / Sign Out</vue-button>
+        </li>
       </ul>
 
       <!--<ul :class="$style.nav">-->
-        <!--<li>-->
-          <!--<router-link to="/jobs" @click.native="navBarClose">-->
-            <!--<i class="fas fa-book" />-->
-            <!--<small>{{ $t('App.nav.jobs' /* Jobs */) }}</small>-->
-          <!--</router-link>-->
-        <!--</li>-->
-        <!--<li v-if="userId">-->
-          <!--<router-link to="/profile" @click.native="navBarClose">-->
-            <!--<i class="fas fa-user" />-->
-            <!--<small>{{ $t('App.nav.profile' /* Profile */) }}</small>-->
-          <!--</router-link>-->
-        <!--</li>-->
-        <!--<li v-if="userId">-->
-          <!--<router-link to="/transactions" @click.native="navBarClose">-->
-            <!--<i class="far fa-credit-card" />-->
-            <!--<small>{{ $t('App.nav.transactions' /* Transactions */) }}</small>-->
-          <!--</router-link>-->
-        <!--</li>-->
-        <!--<li>-->
-          <!--<a @click="signInClicked">-->
-            <!--<i class="fas fa-user-plus" />-->
-            <!--<small>{{ userId ? $t('App.nav.signout') : $t('App.nav.signin' /* Signin */) }}</small>-->
-          <!--</a>-->
-        <!--</li>-->
-        <!--<li>-->
-          <!--<a @click="localeSwitch('ht')">-->
-            <!--<i class="fas fa-flag" />-->
-            <!--<small>{{ $t('App.nav.kreyol' /* Haitian Creole */) }}</small>-->
-          <!--</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a @click="localeSwitch('fr')">-->
-        <!--<i class="fas fa-flag" />-->
-        <!--<small>{{ $t('App.nav.french' /* French */) }}</small>-->
-        <!--</a>-->
-        <!--</li>-->
-        <!--<li>-->
-          <!--<a @click="localeSwitch('en')">-->
-            <!--<i class="fas fa-flag" />-->
-            <!--<small>{{ $t('App.nav.english' /* English */) }}</small>-->
-          <!--</a>-->
-        <!--</li>-->
+      <!--<li>-->
+      <!--<router-link to="/jobs" @click.native="navBarClose">-->
+      <!--<i class="fas fa-book" />-->
+      <!--<small>{{ $t('App.nav.jobs' /* Jobs */) }}</small>-->
+      <!--</router-link>-->
+      <!--</li>-->
+      <!--<li v-if="userId">-->
+      <!--<router-link to="/profile" @click.native="navBarClose">-->
+      <!--<i class="fas fa-user" />-->
+      <!--<small>{{ $t('App.nav.profile' /* Profile */) }}</small>-->
+      <!--</router-link>-->
+      <!--</li>-->
+      <!--<li v-if="userId">-->
+      <!--<router-link to="/transactions" @click.native="navBarClose">-->
+      <!--<i class="far fa-credit-card" />-->
+      <!--<small>{{ $t('App.nav.transactions' /* Transactions */) }}</small>-->
+      <!--</router-link>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a @click="signInClicked">-->
+      <!--<i class="fas fa-user-plus" />-->
+      <!--<small>{{ userId ? $t('App.nav.signout') : $t('App.nav.signin' /* Signin */) }}</small>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a @click="localeSwitch('ht')">-->
+      <!--<i class="fas fa-flag" />-->
+      <!--<small>{{ $t('App.nav.kreyol' /* Haitian Creole */) }}</small>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a @click="localeSwitch('fr')">-->
+      <!--<i class="fas fa-flag" />-->
+      <!--<small>{{ $t('App.nav.french' /* French */) }}</small>-->
+      <!--</a>-->
+      <!--</li>-->
+      <!--<li>-->
+      <!--<a @click="localeSwitch('en')">-->
+      <!--<i class="fas fa-flag" />-->
+      <!--<small>{{ $t('App.nav.english' /* English */) }}</small>-->
+      <!--</a>-->
+      <!--</li>-->
       <!--</ul>-->
     </vue-nav-bar>
   </div>
@@ -80,13 +80,14 @@
 
   export default {
     name: 'navbar',
+    components: {SignInModal},
     computed: {
       // ...mapGetters('signInModal', ['userId'])
     },
     methods: {
       // ...mapActions('app', ['changeLocale']),
       // ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
-      signInClicked() {
+      signInClicked () {
         this.navBarClose();
         this.openLoginModal();
       },
@@ -96,11 +97,11 @@
       //   this.changeLocale(locale);
       //   this.navBarClose();
       // },
-      navBarClose() {
+      navBarClose () {
         EventBus.$emit('navbar.close');
       }
     },
-    created() {
+    created () {
       try {
         const userData = localStorage.getItem('userData');
         if (userData) {
