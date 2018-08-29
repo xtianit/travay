@@ -139,14 +139,14 @@
             </vue-panel-body>
             <vue-panel-footer>
               <vue-button primary>
-                <router-link :to="`/job/${job.taskId}`" id="remove-hyperlink" style="color:white;">Learn More</router-link>
+                <router-link :to="`/job/${job.taskId}`" style="color:white; text-decoration: none;">Learn More</router-link>
               </vue-button>
               <br />
               <br />
               <vue-button v-userRole.canSponsor="{
                 role: job.role
               }" class="sponsor-btn--container" accent>
-                <a style="color: white !important;" @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)" id="remove-hyperlink">Sponsor this Job</a>
+                <a style="color: white !important;" @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)">Sponsor this Job</a>
               </vue-button>
 
             </vue-panel-footer>
@@ -161,6 +161,7 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapMutations} from 'vuex';
   import axios from 'axios';
   import firebase from 'firebase';
   import db from '../firebaseinit';
@@ -169,7 +170,7 @@
   import moment from 'moment';
   import { sponsorSubmitMixin } from '../mixins/sponsorSubmitMixin';
   import { directive } from 'vee-validate';
-  import { userRole } from '../directives/userRole.js';
+  import { userRole } from '../directives/userRole';
 
   export default {
     mixins: [sponsorSubmitMixin],
@@ -183,6 +184,9 @@
       ]
     },
     name: 'jobs',
+    components: {
+      SponsorModal
+    },
     data() {
       return {
         jobs: [],
@@ -283,8 +287,8 @@
       }
     },
     methods: {
-      // ...mapActions('jobs', []),
-      // ...mapActions('signInModal', ['openLoginModal', 'closeLoginModal']),
+      ...mapActions('jobs', []),
+      ...mapActions('signInModal', ['openLoginModal', 'closeLoginModal']),
       moment: function() {
         return moment();
       },
@@ -360,8 +364,8 @@
     },
     mounted() {},
     computed: {
-      // ...mapGetters('signInModal', ['userId']),
-      // ...mapGetters('jobs', []),
+      ...mapGetters('signInModal', ['userId']),
+      ...mapGetters('jobs', []),
       jobToSponsor() {
         return (
           this.jobs.find(job => job.taskId === this.selectedJobToSponsorId) || {}

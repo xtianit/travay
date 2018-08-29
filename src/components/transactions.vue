@@ -22,6 +22,8 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapMutations} from 'vuex';
+
   export default {
     metaInfo: {
       title: "Transactions in Travay",

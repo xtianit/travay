@@ -64,7 +64,6 @@
       title: 'SignInModal'
     },
     created () {
-      console.log('vm', this)
       this.updateSignInModalState('passed!')
     },
     methods: {

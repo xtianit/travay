@@ -1,6 +1,5 @@
 <template>
   <div>
-    <vue-notification-stack/>
     <sign-in-modal/>
     <vue-nav-bar imageUrl="static/logo.png">
       <ul :class="$style.nav">
@@ -76,17 +75,20 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapMutations} from 'vuex';
   import SignInModal from '../services/SignInModal';
 
   export default {
     name: 'navbar',
-    components: {SignInModal},
+    components: {
+      SignInModal
+    },
     computed: {
-      // ...mapGetters('signInModal', ['userId'])
+      ...mapGetters('signInModal', ['userId'])
     },
     methods: {
       // ...mapActions('app', ['changeLocale']),
-      // ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
+      ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
       signInClicked () {
         this.navBarClose();
         this.openLoginModal();

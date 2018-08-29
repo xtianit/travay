@@ -89,6 +89,7 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapMutations} from 'vuex';
   import firebase from "firebase";
   import db from "../firebaseinit";
 
@@ -119,8 +120,8 @@
       };
     },
     computed: {
-      // ...mapGetters("profile", []),
-      // ...mapGetters("signInModal", ["userId"])
+      ...mapGetters("profile", []),
+      ...mapGetters("signInModal", ["userId"])
     },
     methods: {
       onSubmit () {

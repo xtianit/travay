@@ -1,84 +1,761 @@
-const address = '0xd61F9331CE61Eb27E0AB7d9b9bc75402Ea5db7f8';
+const address = '0xc0B6b1121895e1e34608271ab05604E781761848';
 const ABI = [
-    {
-      constant: false,
-      inputs: [],
-      name: 'accept',
-      outputs: [],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function'
-    },
-    {
-      constant: false,
-      inputs: [],
-      name: 'cancel',
-      outputs: [],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'function'
-    },
-    {
-      constant: false,
-      inputs: [],
-      name: 'deposit',
-      outputs: [],
-      payable: true,
-      stateMutability: 'payable',
-      type: 'function'
-    },
-    {
-      inputs: [
-        {
-          name: 'manager_address',
-          type: 'address'
-        },
-        {
-          name: 'worker_address',
-          type: 'address'
-        }
-      ],
-      payable: false,
-      stateMutability: 'nonpayable',
-      type: 'constructor'
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: 'kill',
-      outputs: [],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function'
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: 'manager',
-      outputs: [
-        {
-          name: '',
-          type: 'address'
-        }
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function'
-    },
-    {
-      constant: true,
-      inputs: [],
-      name: 'worker',
-      outputs: [
-        {
-          name: '',
-          type: 'address'
-        }
-      ],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function'
-    }
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "DAIWithdrawn",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "approvePayment",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelJob",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "claimJob",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "claimPayment",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "confirmProofOfWork",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_salary",
+        "type": "uint256"
+      },
+      {
+        "name": "_noOfTotalPayments",
+        "type": "uint256"
+      }
+    ],
+    "name": "createJob",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      },
+      {
+        "name": "_payment",
+        "type": "uint256"
+      }
+    ],
+    "name": "payToEvaluator",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "provideProofOfWork",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "register",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "setEvaluator",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "sponsor",
+        "type": "address"
+      }
+    ],
+    "name": "DAISponsored",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "manager",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "PaymentApproved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "worker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "PaymentClaimed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "JobCancelled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "TipMade",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "worker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "proofProvided",
+        "type": "bool"
+      }
+    ],
+    "name": "ProofOfWorkProvided",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "sponsorDAI",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "evaluator",
+        "type": "address"
+      }
+    ],
+    "name": "EvaluatorSet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "evaluator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "proofVerified",
+        "type": "bool"
+      }
+    ],
+    "name": "ProofOfWorkConfirmed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "worker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "JobClaimed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "manager",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "salary",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "noOfTotalPayments",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "JobCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "manager",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "evaluator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "payment",
+        "type": "uint256"
+      }
+    ],
+    "name": "EvaluatorPaid",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "address_Registered",
+        "type": "address"
+      }
+    ],
+    "name": "Register",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_to",
+        "type": "address"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "tip",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_receiver",
+        "type": "address"
+      },
+      {
+        "name": "_amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "withdrawDAI",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "name": "_DAI",
+        "type": "address"
+      },
+      {
+        "name": "_arbitrator",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "arbitrator",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "DAI",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      },
+      {
+        "name": "_sponsor",
+        "type": "address"
+      }
+    ],
+    "name": "get_Sponsored_Amount_in_Job_By_Address",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "get_Sponsors_list_by_Job",
+    "outputs": [
+      {
+        "name": "list",
+        "type": "address[]"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_JobID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getJob",
+    "outputs": [
+      {
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "name": "_manager",
+        "type": "address"
+      },
+      {
+        "name": "_salaryDeposited",
+        "type": "uint256"
+      },
+      {
+        "name": "_worker",
+        "type": "address"
+      },
+      {
+        "name": "_status",
+        "type": "uint256"
+      },
+      {
+        "name": "_noOfTotalPayments",
+        "type": "uint256"
+      },
+      {
+        "name": "_noOfPaymentsMade",
+        "type": "uint256"
+      },
+      {
+        "name": "_paymentAvailableForWorker",
+        "type": "uint256"
+      },
+      {
+        "name": "_totalPaidToWorker",
+        "type": "uint256"
+      },
+      {
+        "name": "_evaluator",
+        "type": "address"
+      },
+      {
+        "name": "_proofOfLastWorkVerified",
+        "type": "bool"
+      },
+      {
+        "name": "_sponsoredTokens",
+        "type": "uint256"
+      },
+      {
+        "name": "_sponsorsCount",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "jobCount",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "Jobs",
+    "outputs": [
+      {
+        "name": "JobID",
+        "type": "uint256"
+      },
+      {
+        "name": "manager",
+        "type": "address"
+      },
+      {
+        "name": "salaryDeposited",
+        "type": "uint256"
+      },
+      {
+        "name": "worker",
+        "type": "address"
+      },
+      {
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "name": "noOfTotalPayments",
+        "type": "uint256"
+      },
+      {
+        "name": "noOfPaymentsMade",
+        "type": "uint256"
+      },
+      {
+        "name": "paymentAvailableForWorker",
+        "type": "uint256"
+      },
+      {
+        "name": "totalPaidToWorker",
+        "type": "uint256"
+      },
+      {
+        "name": "evaluator",
+        "type": "address"
+      },
+      {
+        "name": "proofOfLastWorkVerified",
+        "type": "bool"
+      },
+      {
+        "name": "sponsoredTokens",
+        "type": "uint256"
+      },
+      {
+        "name": "sponsorsCount",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "JobsByManager",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      },
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "JobsByWorker",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "registeredUsers",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  }
 ];
 
 export { address, ABI };

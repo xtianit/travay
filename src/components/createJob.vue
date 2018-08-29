@@ -6,10 +6,10 @@
         <vue-grid-row>
           <h1>Post a Job</h1>
           <!--<vue-grid-item class="vueGridItem">-->
-            <!--<h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>-->
-            <!--<p>-->
-              <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
-            <!--</p>-->
+          <!--<h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>-->
+          <!--<p>-->
+          <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
+          <!--</p>-->
           <!--</vue-grid-item>-->
         </vue-grid-row>
       </vue-grid>
@@ -45,9 +45,9 @@
 
           <vue-grid-row>
             <!--<vue-grid-item>-->
-              <!--<i>{{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to-->
-                <!--be considered as complete. Add one requirement, then click Add Requirement, to add additional-->
-                <!--requirements. */) }}</i>-->
+            <!--<i>{{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to-->
+            <!--be considered as complete. Add one requirement, then click Add Requirement, to add additional-->
+            <!--requirements. */) }}</i>-->
             <!--</vue-grid-item>-->
 
             <vue-grid-item>
@@ -132,9 +132,9 @@
                 v-model="form.salary"
                 validation="required"/>
               <!--<div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be-->
-                <!--deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.-->
-                <!--(2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in-->
-                <!--total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.-->
+              <!--deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.-->
+              <!--(2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in-->
+              <!--total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.-->
               <!--</div>-->
             </vue-grid-item>
           </vue-grid-row>
@@ -214,11 +214,13 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapMutations} from 'vuex';
   import {uuid} from 'vue-uuid';
   import firebase from 'firebase';
   import db from '../firebaseinit';
   import {AssertionError} from 'assert';
   import {any} from 'bluebird';
+  import {addNotification, INotification} from 'vue-ui'
 
   export default {
     metaInfo: {
@@ -307,7 +309,7 @@
       };
     },
     methods: {
-      // ...mapActions('createJob', []),
+      ...mapActions('createJob', []),
       calendarChange (value) {
         console.log('value from datepicker', value);
         this.form.closingDate = value;
@@ -337,11 +339,11 @@
         const form = this.form;
         const self = this;
         if (this.hasEmptyFields) {
-          // addNotification({
-          //   title: 'Oops',
-          //   text: 'Please fill in all the fields.'
-          // } as INotification);
-          // return false;
+          addNotification({
+            title: 'Oops',
+            text: 'Please fill in all the fields.'
+          }, INotification);
+          return false;
         }
         this.isLoading = true;
         const jobId = uuid.v1();
@@ -390,14 +392,14 @@
             console.error('Error adding new job: ', error);
           });
         this.$nextTick(() => {
-          // setTimeout(() => {
-          //   this.isLoading = false;
-          //   addNotification({
-          //     title: 'Yay!',
-          //     text: `Your job is now posted! Click here to see the job.`,
-          //     link: `/job/${jobId}`
-          //   } as INotification);
-          // }, 500);
+          setTimeout(() => {
+            this.isLoading = false;
+            addNotification({
+              title: 'Yay!',
+              text: `Your job is now posted! Click here to see the job.`,
+              link: `/job/${jobId}`
+            }, INotification);
+          }, 500);
         });
       },
       clearForm () {
@@ -407,8 +409,8 @@
       }
     },
     computed: {
-      // ...mapGetters('createJob', []),
-      // ...mapGetters('signInModal', ['userId']),
+      ...mapGetters('createJob', []),
+      ...mapGetters('signInModal', ['userId']),
       estimatedWorkerPayout: function () {
         return this.form.salary - this.form.salary * 0.02;
       },

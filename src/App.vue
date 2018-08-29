@@ -8,13 +8,13 @@
 </template>
 
 <script>
-  import { mapActions, mapMutations, mapGetters } from 'vuex';
+  import { mapActions, mapMutations, mapGetters } from 'vuex'
   import HelloMetamask from '@/components/hello-metamask'
   import Navbar from '@/components/navbar'
   import TravayFooter from '@/components/travay-footer'
   import SignInModal from './services/SignInModal'
 
-export default {
+  export default {
   name: 'App',
   beforeCreate () {
     // console.log('registerWeb3 Action dispatched from app.vue')
@@ -60,7 +60,6 @@ export default {
 </script>
 
 <style lang="scss" module>
-  /*@import "./theme";*/
   @import "./theme/reset";
   @import "./theme/typo";
   @import "./theme/global";

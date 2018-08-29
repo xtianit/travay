@@ -334,6 +334,7 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapMutations} from 'vuex';
   import axios from "axios";
   import firebase from "firebase";
   import db from "../firebaseinit";
@@ -341,6 +342,7 @@
   import {uuid} from "vue-uuid";
   import moment from "moment";
   import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
+  import {addNotification, INotification} from 'vue-ui'
 
   const firebaseStorage = firebase.storage();
 
@@ -411,8 +413,8 @@
       }
     },
     computed: {
-      // ...mapGetters("job", []),
-      // ...mapGetters("signInModal", ["userId"]),
+      ...mapGetters("job", []),
+      ...mapGetters("signInModal", ["userId"]),
       hasErrors () {
         return this.errors && this.errors.items.length > 0;
       },
@@ -433,8 +435,8 @@
       }
     },
     methods: {
-      // ...mapGetters("signInModal", ["userId"]),
-      // ...mapActions("signInModal", ["openLoginModal", "closeLoginModal"]),
+      ...mapGetters("signInModal", ["userId"]),
+      ...mapActions("signInModal", ["openLoginModal", "closeLoginModal"]),
       removeImage (i) {
         this.images = this.images.filter((img, index) => index !== i);
       },
@@ -462,12 +464,12 @@
           });
           this.job.status.state = "cancelled";
           this.isEditingJobDetails = false;
-          // addNotification({
-            // title: this.$t("App.job.jobCanceledNotificationTitle") /* Success! */,
-            // text: this.$t(
-            //   "App.job.jobCanceledNotificationText"
-            // ) /* This job has been cancelled. */
-          // } as INotification);
+          addNotification({
+            title: this.$t("App.job.jobCanceledNotificationTitle") /* Success! */,
+            text: this.$t(
+              "App.job.jobCanceledNotificationText"
+            ) /* This job has been cancelled. */
+          }, INotification);
         } catch (error) {
         }
       },
@@ -482,14 +484,14 @@
           });
           this.job.status.state = "complete";
           this.isEditingJobDetails = false;
-          // addNotification({
-          //   title: this.$t(
-          //     "App.job.jobCompletedNotificationTitle"
-          //   ) /* Success! */,
-          //   text: this.$t(
-          //     "App.job.jobCompleteNotificationText"
-          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          // } as INotification);
+          addNotification({
+            title: this.$t(
+              "App.job.jobCompletedNotificationTitle"
+            ) /* Success! */,
+            text: this.$t(
+              "App.job.jobCompleteNotificationText"
+            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          }, INotification);
         } catch (error) {
         }
       },
@@ -532,24 +534,24 @@
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
-            // addNotification({
-              // title: this.$t("App.job.jobSavedNotificationTitle") /* Success */,
-              // text: this.$t(
-              //   "App.job.jobSavedNotificationText"
-              // ) /* The job has been saved! */
-             // } as INotification);
+            addNotification({
+              title: this.$t("App.job.jobSavedNotificationTitle") /* Success */,
+              text: this.$t(
+                "App.job.jobSavedNotificationText"
+              ) /* The job has been saved! */
+             }, INotification);
           }, 500);
         });
       },
       async onClaim (docId) {
         const taskId = this.$route.params.id;
         if (this.hasEmptyFields) {
-          // addNotification({
-          //   title: this.$t("App.job.jobEmptyFieldNotificationTitle") /* Oops */,
-          //   text: this.$t(
-          //     "App.job.jobEmptyFieldNotificationText"
-          //   ) /* Please complete all fields. */
-          // } as INotification);
+          addNotification({
+            title: this.$t("App.job.jobEmptyFieldNotificationTitle") /* Oops */,
+            text: this.$t(
+              "App.job.jobEmptyFieldNotificationText"
+            ) /* Please complete all fields. */
+          }, INotification);
           return false;
         }
         await db
@@ -580,12 +582,12 @@
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
-          //   addNotification({
-          //     title: this.$t("App.job.jobClaimedNotificationTitle") /* Yay! */,
-          //     text: this.$t(
-          //       "App.job.jobClaimedNotificationText"
-          //     ) /* Job confirmed successfully! You can start work immediately. */
-          //   } as INotification);
+            addNotification({
+              title: this.$t("App.job.jobClaimedNotificationTitle") /* Yay! */,
+              text: this.$t(
+                "App.job.jobClaimedNotificationText"
+              ) /* Job confirmed successfully! You can start work immediately. */
+            }, INotification);
            }, 700);
         });
       },
@@ -598,14 +600,14 @@
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
-            // addNotification({
-            //   title: this.$t(
-            //     "App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */
-            //   ),
-            //   text: this.$t(
-            //     "App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */
-            //   )
-            // } as INotification);
+            addNotification({
+              title: this.$t(
+                "App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */
+              ),
+              text: this.$t(
+                "App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */
+              )
+            }, INotification);
           }, 700);
         });
       },
@@ -633,14 +635,14 @@
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
-            // addNotification({
-            //   title: this.$t(
-            //     "App.job.jobUpdatedNotificationTitle"
-            //   ) /* Success! */,
-            //   text: this.$t(
-            //     "App.job.jobUpdatedNotificationText"
-            //   ) /* Job updated successfully! */
-            // } as INotification);
+            addNotification({
+              title: this.$t(
+                "App.job.jobUpdatedNotificationTitle"
+              ) /* Success! */,
+              text: this.$t(
+                "App.job.jobUpdatedNotificationText"
+              ) /* Job updated successfully! */
+            }, INotification);
           }, 700);
         });
         this.isEditingJobDetails = false;
@@ -691,14 +693,14 @@
           uploadTask.on(
             "state_changed",
             function (snapshot) {
-              // const progress =
-              //   snapshot.bytesTransferred / snapshot.totalBytes * 100;
-              // self.loadingText =
-              //   this.$t('App.job.uploadedPhotoProgress') /* Upload is */ +
-              //   progress +
-              //   this.$t(
-              //     'App.job.uploadedPhotoProgress2'
-              //   ); /* % done. Processing post. */
+              const progress =
+                snapshot.bytesTransferred / snapshot.totalBytes * 100;
+              self.loadingText =
+                this.$t('App.job.uploadedPhotoProgress') /* Upload is */ +
+                progress +
+                this.$t(
+                  'App.job.uploadedPhotoProgress2'
+                ); /* % done. Processing post. */
               this.upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
               console.log(this.upload.progress);
             },
