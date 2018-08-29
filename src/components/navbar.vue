@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vue-notification-stack />
     <sign-in-modal/>
     <vue-nav-bar imageUrl="static/logo.png">
       <ul :class="$style.nav">

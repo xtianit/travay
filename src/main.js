@@ -6,8 +6,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {store} from './store/'
-import 'font-awesome/css/font-awesome.css'
 import VueI18n from 'vue-i18n'
+import 'font-awesome/css/font-awesome.css'
+
 import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
 
@@ -29,7 +30,11 @@ window['$d'] = i18n.d.bind(i18n);
 window['$t'] = i18n.t.bind(i18n);
 window['$i18n'] = i18n;
 
-Vue.use(VueUI);
+Vue.use(VueUI, {
+  store,
+  i18n,
+});
+
 Vue.config.productionTip = false
 
 new Vue({
