@@ -145,8 +145,12 @@
               <br />
               <vue-button v-userRole.canSponsor="{
                 role: job.role
-              }" class="sponsor-btn--container" accent>
-                <a style="color: white !important;" @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)">Sponsor this Job</a>
+              }" 
+              class="sponsor-btn--container" 
+              accent>
+                <a 
+                  style="color: white !important;"
+                  @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)">Sponsor this Job</a>
               </vue-button>
 
             </vue-panel-footer>
@@ -170,7 +174,7 @@
   import moment from 'moment';
   import { sponsorSubmitMixin } from '../mixins/sponsorSubmitMixin';
   import { directive } from 'vee-validate';
-  import { userRole } from '../directives/userRole';
+  import * as types from '@/store/types'
 
   export default {
     mixins: [sponsorSubmitMixin],
@@ -288,7 +292,11 @@
     },
     methods: {
       ...mapActions('jobs', []),
-      ...mapActions('signInModal', ['openLoginModal', 'closeLoginModal']),
+      // ...mapActions('signInModal', ['openLoginModal', 'closeLoginModal']),
+      ...mapActions({
+        openLoginModal: types.OPEN_LOGIN_MODAL,
+        closeLoginModal: types.CLOSE_LOGIN_MODAL
+      }),
       moment: function() {
         return moment();
       },
@@ -306,6 +314,7 @@
         }
         this.selectedJobToSponsorId = taskId;
         this.showSponsoredModal = true;
+        console.log('should show sponsored modal', this.showSponsoredModal)
       },
       sort(jobs) {
         const result = jobs.sort(function(a, b) {
@@ -364,7 +373,10 @@
     },
     mounted() {},
     computed: {
-      ...mapGetters('signInModal', ['userId']),
+      // ...mapGetters('signInModal', ['userId']),
+      ...mapGetters({
+        userId: types.GET_USER_ID
+      }),
       ...mapGetters('jobs', []),
       jobToSponsor() {
         return (

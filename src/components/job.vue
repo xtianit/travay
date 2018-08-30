@@ -343,6 +343,7 @@
   import moment from "moment";
   import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
   import {addNotification, INotification} from 'vue-ui'
+  import * as types from '@/store/types'
 
   const firebaseStorage = firebase.storage();
 
@@ -387,6 +388,7 @@
     },
     created () {
       const taskId = this.$route.params.id;
+      console.log('In job.vue', taskId)
       db
         .collection("jobs")
         .where("taskId", "==", taskId)
@@ -414,7 +416,9 @@
     },
     computed: {
       ...mapGetters("job", []),
-      ...mapGetters("signInModal", ["userId"]),
+      ...mapGetters({
+        userId: types.GET_USER_ID
+      }),
       hasErrors () {
         return this.errors && this.errors.items.length > 0;
       },
@@ -435,8 +439,11 @@
       }
     },
     methods: {
-      ...mapGetters("signInModal", ["userId"]),
-      ...mapActions("signInModal", ["openLoginModal", "closeLoginModal"]),
+      //...mapActions("signInModal", ["openLoginModal", "closeLoginModal"]),
+      ...mapActions({
+        openLoginModal: types.OPEN_LOGIN_MODAL,
+        closeLoginModal: types.CLOSE_LOGIN_MODAL
+      }),
       removeImage (i) {
         this.images = this.images.filter((img, index) => index !== i);
       },

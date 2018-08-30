@@ -1,16 +1,18 @@
 import { uuid } from 'vue-uuid';
 import db from '../firebaseinit';
+import * as types from '@/store/types'
 
 export const sponsorSubmitMixin = {
   methods: {
     async sponsorSubmitHandler({ amount, taskId, task, job = {} }) {
       const data = {
         sponsoredId: uuid.v1(),
-        userId: this.$store.getters['signInModal/userId'],
+        userId: this.$store.getters[types.GET_USER_ID],
         amount,
         taskId: taskId,
         task: task
       };
+      console.log('data for sponsored', data)
       try {
         const sponsoredResult = await db.collection('sponsored').add(data);
         const totalAmount =

@@ -6,25 +6,25 @@ const state = {
   userData: null
 }
 const getters = {
-  isOpen (state) {
+  [types.IS_SIGNIN_MODAL_OPEN] (state) {
     return state.isOpen
   },
-  userId (state) {
+  [types.GET_USER_ID] (state) {
     return state.userData ? Reflect.get(state.userData, 'uid') : null
   }
 }
 const actions = {
-  openLoginModal () {
+  [types.OPEN_LOGIN_MODAL] ({commit}, payload) {
     commit('SET_IS_OPEN', true)
   },
-  closeLoginModal () {
+  [types.CLOSE_LOGIN_MODAL] ({commit}, payload) {
     commit('SET_IS_OPEN', false)
   },
-  saveUserInStorage (userData) {
+  [types.SAVE_USER_IN_STORAGE] ({commit}, userData) {
     localStorage.setItem('userData', JSON.stringify(userData))
     commit('SET_USER_DATA', userData)
   },
-  logoutUser () {
+  [types.LOGOUT_USER] ({commit}, payload) {
     localStorage.removeItem('userData')
     commit('SET_USER_DATA', null)
   }
@@ -32,8 +32,9 @@ const actions = {
 const mutations = {
   [types.SET_SIGNIN_MODAL_OPEN] (state, payload) {
   },
-  SET_IS_OPEN () {
-    state.isOpen = isOpen
+  SET_IS_OPEN (state, payload) {
+    state.isOpen = payload
+    console.log('state mutated', state)
   },
   SET_USER_DATA (state, userData) {
     state.userData = userData

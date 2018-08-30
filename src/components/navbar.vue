@@ -22,9 +22,12 @@
         <li>
           <router-link :to="'/userGuide'">User Guide</router-link>
         </li>
-        <li>
-          <vue-button>Sign In / Sign Out</vue-button>
-        </li>
+              <li>
+      <a @click="signInClicked">
+      <i class="fas fa-user-plus" />
+      <small>{{ userId ? "Signout" : "Signin" }}</small>
+      </a>
+      </li>
       </ul>
 
       <!--<ul :class="$style.nav">-->
@@ -78,6 +81,7 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import SignInModal from '../services/SignInModal';
+  import * as types from '@/store/types'
 
   export default {
     name: 'navbar',
@@ -85,11 +89,19 @@
       SignInModal
     },
     computed: {
-      ...mapGetters('signInModal', ['userId'])
+      //...mapGetters('signInModal', ['userId'])
+      ...mapGetters({
+        userId: types.GET_USER_ID,
+        isSignInModalOpen: types.IS_SIGNIN_MODAL_OPEN
+      })
     },
     methods: {
-      // ...mapActions('app', ['changeLocale']),
-      ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
+    // ...mapActions('app', ['changeLocale']),
+     // ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
+     ...mapActions({
+       openLoginModal: types.OPEN_LOGIN_MODAL,
+       saveUserInStorage: types.SAVE_USER_IN_STORAGE
+     }),
       signInClicked () {
         this.navBarClose();
         this.openLoginModal();
@@ -105,6 +117,7 @@
       }
     },
     created () {
+      console.log('checking user id', this.userId)
       try {
         const userData = localStorage.getItem('userData');
         if (userData) {

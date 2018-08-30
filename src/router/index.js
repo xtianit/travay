@@ -24,7 +24,7 @@ export default new Router({
       component: Jobs
     },
     {
-      path: '/job',
+      path: '/job/:id',
       name: 'job',
       component: Job
     },

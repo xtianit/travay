@@ -67,15 +67,22 @@
       this.updateSignInModalState('passed!')
     },
     methods: {
-      ...mapActions('signInModal', [
+      /*...mapActions('signInModal', [
         'openLoginModal',
         'closeLoginModal',
         'saveUserInStorage',
         'logoutUser'
-      ]),
+      ]),*/
+      ...mapActions({
+        openLoginModal: types.OPEN_LOGIN_MODAL,
+        closeLoginModal: types.CLOSE_LOGIN_MODAL,
+        saveUserInStorage: types.SAVE_USER_IN_STORAGE,
+        logoutUser: types.LOGOUT_USER
+      }),
       ...mapMutations('signInModal', ['SET_USER_DATA']),
       ...mapMutations({
-        updateSignInModalState: types.SET_SIGNIN_MODAL_OPEN
+        updateSignInModalState: types.SET_SIGNIN_MODAL_OPEN,
+        
       }),
       siginInWithUport: function () {
         this.closeLoginModal();
@@ -157,7 +164,10 @@
       }
     },
     computed: {
-      ...mapGetters('signInModal', ['isOpen', 'userId']),
+      ...mapGetters({
+        userId: types.GET_USER_ID,
+        isOpen: types.IS_SIGNIN_MODAL_OPEN
+      }),
       modalHeading () {
         return this.userId ? 'Sign Out' : 'Please Sign In';
       }

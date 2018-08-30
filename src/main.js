@@ -11,7 +11,7 @@ import 'font-awesome/css/font-awesome.css'
 
 import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
-
+import { userRole } from '@/directives/userRole'
 import enlocale from '../i18n/en.json';
 
 Vue.use(VueI18n)
@@ -34,6 +34,8 @@ Vue.use(VueUI, {
   store,
   i18n,
 });
+
+Vue.directive('userRole', userRole)
 
 Vue.config.productionTip = false
 
