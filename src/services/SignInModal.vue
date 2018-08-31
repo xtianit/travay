@@ -19,11 +19,11 @@
             </vue-grid-item>
             <br>
             <br>
-            <vue-grid-item>
-              <vue-button @click="siginInWithUport">
-                <i class="fab fa-google"></i> uPort
-              </vue-button>
-            </vue-grid-item>
+            <!--<vue-grid-item>-->
+              <!--<vue-button @click="siginInWithUport">-->
+                <!--<i class="fab fa-google"></i> uPort-->
+              <!--</vue-button>-->
+            <!--</vue-grid-item>-->
 
           </vue-grid-row>
         </template>
@@ -49,9 +49,9 @@
   import firebase from 'firebase';
   import db from '../firebaseinit';
   import {travaySlackBotMixin} from '../mixins/travaySlackBotMixin';
-  import {Connect, SimpleSigner} from 'uport-connect';
   import {uuid} from 'vue-uuid';
 
+  // import {Connect, SimpleSigner} from 'uport-connect';
   // const uport = new Connect('Travay', {
   //   clientId: UPORT_CONFIG.TRAVAY_UPORT_CLIENT_ID,
   //   network: 'rinkeby',
@@ -82,38 +82,38 @@
       ...mapMutations('signInModal', ['SET_USER_DATA']),
       ...mapMutations({
         updateSignInModalState: types.SET_SIGNIN_MODAL_OPEN,
-        
+
       }),
-      siginInWithUport: function () {
-        this.closeLoginModal();
-        uport
-          .requestCredentials({
-            requested: ['name', 'phone', 'country'],
-            notifications: true // Required for UX so users don't have to scan QR per interaction
-          })
-          .then((credentials) => {
-            const uid = uuid.v1();
-            const uPortUserData = {
-              name: credentials.name,
-              country: credentials.country,
-              phone: credentials.phone,
-              address: credentials.address,
-              uid: uuid.v1()
-            };
-            db
-              .collection('users')
-              .doc(uid)
-              .set(uPortUserData)
-              .then(function (docref) {
-              })
-              .catch(function (error) {
-                console.error('Error adding user: ', error);
-              });
-            console.log('uport user data', uPortUserData);
-            this.updateUserData(uPortUserData);
-          });
-        this.$router.push('/jobs');
-      },
+      // siginInWithUport: function () {
+      //   this.closeLoginModal();
+      //   uport
+      //     .requestCredentials({
+      //       requested: ['name', 'phone', 'country'],
+      //       notifications: true // Required for UX so users don't have to scan QR per interaction
+      //     })
+      //     .then((credentials) => {
+      //       const uid = uuid.v1();
+      //       const uPortUserData = {
+      //         name: credentials.name,
+      //         country: credentials.country,
+      //         phone: credentials.phone,
+      //         address: credentials.address,
+      //         uid: uuid.v1()
+      //       };
+      //       db
+      //         .collection('users')
+      //         .doc(uid)
+      //         .set(uPortUserData)
+      //         .then(function (docref) {
+      //         })
+      //         .catch(function (error) {
+      //           console.error('Error adding user: ', error);
+      //         });
+      //       console.log('uport user data', uPortUserData);
+      //       this.updateUserData(uPortUserData);
+      //     });
+      //   this.$router.push('/jobs');
+      // },
       signInWithGoogle: function () {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase

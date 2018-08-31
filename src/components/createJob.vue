@@ -4,13 +4,12 @@
     <div :class="$style.header">
       <vue-grid>
         <vue-grid-row>
-          <h1>Post a Job</h1>
-          <!--<vue-grid-item class="vueGridItem">-->
-          <!--<h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>-->
-          <!--<p>-->
-          <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
-          <!--</p>-->
-          <!--</vue-grid-item>-->
+          <vue-grid-item class="vueGridItem">
+          <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
+          <p>
+          {{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}
+          </p>
+          </vue-grid-item>
         </vue-grid-row>
       </vue-grid>
     </div>
@@ -44,11 +43,11 @@
           </vue-grid-row>
 
           <vue-grid-row>
-            <!--<vue-grid-item>-->
-            <!--<i>{{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to-->
-            <!--be considered as complete. Add one requirement, then click Add Requirement, to add additional-->
-            <!--requirements. */) }}</i>-->
-            <!--</vue-grid-item>-->
+            <vue-grid-item>
+            <i>{{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to
+            be considered as complete. Add one requirement, then click Add Requirement, to add additional
+              requirements. */) }}</i>
+            </vue-grid-item>
 
             <vue-grid-item>
               <vue-input
@@ -131,11 +130,11 @@
                 placeholder="Total Funding (aka Salary) for Job in USD"
                 v-model="form.salary"
                 validation="required"/>
-              <!--<div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be-->
-              <!--deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.-->
-              <!--(2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in-->
-              <!--total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.-->
-              <!--</div>-->
+              <div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be
+              deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.
+              (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in
+              total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.
+              </div>
             </vue-grid-item>
           </vue-grid-row>
           <br>

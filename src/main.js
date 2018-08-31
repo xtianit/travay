@@ -13,18 +13,20 @@ import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
 import { userRole } from '@/directives/userRole'
 import enlocale from '../i18n/en.json';
+import htlocale from '../i18n/ht.json';
 
-Vue.use(VueI18n)
+Vue.use(VueI18n);
 
 const messages = {
-  en: enlocale
-}
+  en: enlocale,
+  ht: htlocale
+};
 
 // Create VueI18n instance with options
 const i18n = new VueI18n({
   locale: 'en', // set locale
   messages, // set locale messages
-})
+});
 
 window['$d'] = i18n.d.bind(i18n);
 window['$t'] = i18n.t.bind(i18n);
@@ -35,14 +37,18 @@ Vue.use(VueUI, {
   i18n,
 });
 
-Vue.directive('userRole', userRole)
+Vue.directive('userRole', userRole);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   components: {App},
   template: '<App/>'
-})
+});
+
+// change other locale
+i18n.locale = 'ht';

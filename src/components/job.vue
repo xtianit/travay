@@ -4,8 +4,7 @@
 
       <vue-grid-row>
         <vue-grid-item fill>
-          <h1>Job</h1>
-          <!--<h1>{{ $t('App.job.pageHeader' /* Job */) }}</h1>-->
+          <h1>{{ $t('App.job.pageHeader' /* Job */) }}</h1>
         </vue-grid-item>
       </vue-grid-row>
 
@@ -361,6 +360,9 @@
     name: 'job',
     $_veeValidate: {
       validator: "new"
+    },
+    components: {
+      SponsorModal
     },
     data() {
       return {
