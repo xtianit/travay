@@ -5,10 +5,9 @@ import Jobs from '@/components/jobs'
 import Job from '@/components/job'
 import CreateJob from '@/components/createJob'
 import Profile from '@/components/profile'
-import Transactions from '@/components/transactions'
 import UserGuide from '@/components/userGuide'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -37,11 +36,6 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: Profile
-    },
-    {
-      path: '/transactions',
-      name: 'transactions',
-      component: Transactions
     },
     {
       path: '/userGuide',

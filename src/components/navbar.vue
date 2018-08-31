@@ -17,9 +17,6 @@
           <router-link :to="'/profile'">Profile</router-link>
         </li>
         <li>
-          <router-link :to="'/transactions'">Transactions</router-link>
-        </li>
-        <li>
           <router-link :to="'/userGuide'">User Guide</router-link>
         </li>
               <li>
