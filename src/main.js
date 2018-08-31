@@ -7,19 +7,26 @@ import App from './App'
 import router from './router'
 import {store} from './store/'
 import VueI18n from 'vue-i18n'
-import 'font-awesome/css/font-awesome.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
-import { userRole } from '@/directives/userRole'
+import { userRole } from './directives/userRole'
 import enlocale from '../i18n/en.json';
 import htlocale from '../i18n/ht.json';
+import frlocale from '../i18n/fr.json';
+
+Vue.directive('userRole', userRole);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueI18n);
 
 const messages = {
   en: enlocale,
-  ht: htlocale
+  ht: htlocale,
+  fr: frlocale
 };
 
 // Create VueI18n instance with options
@@ -37,8 +44,6 @@ Vue.use(VueUI, {
   i18n,
 });
 
-Vue.directive('userRole', userRole);
-
 Vue.config.productionTip = false;
 
 new Vue({
@@ -52,3 +57,4 @@ new Vue({
 
 // change other locale
 i18n.locale = 'ht';
+i18n.locale = 'fr';

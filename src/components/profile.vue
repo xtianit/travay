@@ -90,8 +90,8 @@
 
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
-  import firebase from "firebase";
   import db from "../firebaseinit";
+  import * as types from '@/store/types'
 
   export default {
     metaInfo: {
@@ -120,21 +120,24 @@
       };
     },
     computed: {
-      ...mapGetters("profile", []),
-      ...mapGetters("signInModal", ["userId"])
+      // ...mapGetters("signInModal", ["userId"])
+      ...mapGetters({
+        userId: types.GET_USER_ID
+      }),
+      ...mapGetters('jobs', []),
     },
     methods: {
       onSubmit () {
         this.isLoading = true;
         console.log(JSON.parse(JSON.stringify(this.form)));
         this.$nextTick(() => {
-          // setTimeout(() => {
-          //   this.isLoading = false;
-          //   addNotification({
-          //     title: "Data has been saved!",
-          //     text: "Have a look at the console!"
-          //   } as INotification);
-          // }, 500);
+          setTimeout(() => {
+            this.isLoading = false;
+            addNotification({
+              title: "Data has been saved!",
+              text: "Have a look at the console!"
+            }, INotification);
+          }, 500);
         });
       },
       getJobs() {

@@ -1,7 +1,7 @@
 {
   "name": "travay",
   "version": "0.0.1",
-  "description": "",
+  "description": "The long terms job market of Haiti",
   "author": "Farah Brunache",
   "private": true,
   "scripts": {
@@ -16,14 +16,19 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.4",
+    "@fortawesome/free-solid-svg-icons": "^5.3.1",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
     "@sendgrid/mail": "^6.3.1",
     "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "dotenv": "^6.0.0",
     "firebase": "^5.4.0",
     "font-awesome": "^4.7.0",
+    "i": "^0.3.6",
     "lodash": "^4.17.10",
     "moment": "latest",
+    "npm": "^6.4.1",
     "qrcode-terminal": "^0.12.0",
     "typescript": "^3.0.1",
     "uport-connect": "^0.7.6",

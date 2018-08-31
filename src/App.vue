@@ -37,7 +37,7 @@
       this.openLoginModal();
     },
     localeSwitch(locale) {
-      // loadLocaleAsync(locale).catch((error: Error) => console.log(error));
+      loadLocaleAsync(locale).catch((error) => console.log(error));
 
       this.changeLocale(locale);
       this.navBarClose();

@@ -1,11 +1,10 @@
 import { store } from '../store/';
 
 const role = {
-  manager: 0,
-  evaluator: 1,
-  worker: 2,
-  sponsor: 3,
-  admin: 4
+  manager: 0, // anyone who creates a job automatically gets this role
+  evaluator: 1, // person whom a manager assigns to review the completion of a job
+  worker: 2, // anyone who claims a job, but cannot be the manager or evaluator of that same job
+  sponsor: 3 // anyone who donates to a job
 };
 
 const hide = vnode => {
@@ -16,7 +15,7 @@ const hide = vnode => {
 
 export const userRole = {
   bind(el, binding, vnode) {
-    const userId = store.getters['signInModal/userId'];
+    const userId = store.userData;
     const { value, modifiers } = binding;
     if (value.role) {
       // Manager only

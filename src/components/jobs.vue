@@ -5,11 +5,10 @@
       <vue-grid>
         <vue-grid-row>
           <vue-grid-item class="vueGridItem">
-            <h1>Jobs</h1>
-            <!--<h1>{{ $t('App.nav.jobs' /* Jobs */) }}</h1>-->
-            <!--<p>-->
-              <!--{{ $t('App.jobs.pageSubtitle' /* Here you'll find 6-month and 12-month jobs. */) }}-->
-            <!--</p>-->
+            <h1>{{ $t('App.nav.jobs' /* Jobs */) }}</h1>
+            <p>
+              {{ $t('App.jobs.pageSubtitle' /* Here you'll find 6-month and 12-month jobs. */) }}
+            </p>
           </vue-grid-item>
         </vue-grid-row>
       </vue-grid>
@@ -17,72 +16,71 @@
     <br>
 
     <vue-grid>
-      <vue-grid-row>
-
-        <vue-grid-item>
-          <ul class="filter-bar">
+      <!--<vue-grid-row>-->
+        <!--<vue-grid-item>-->
+          <!--<ul class="filter-bar">-->
             <!--<li class="filter__item">{{ $t('App.jobs.search' /* Search */) }}:-->
               <!--<input type="text" name="search" v-model="keyword" />-->
             <!--</li>-->
 
             <!--<li class="filter__item">{{ $t('App.jobs.filter' /* Filter */) }}:-->
+            <!--</li>-->
 
-            <li
-              <select v-model="filterType">
-                <option value="all">All</option>
-                <option
-                  v-for="type in types"
-                  v-bind:value="type.id"
-                  v-bind:key="type.id"
-                >
-                  {{ type.title }}
-                </option>
-              </select>
-              <select v-if="isFilteringBySalary" v-model='startRange'>
-                <option>Select a Start range</option>
-                <option
-                  v-for="amount in amounts"
-                  v-bind:value="amount.value"
-                  v-bind:key="amount.id"
-                >
-                  {{ amount.id }}
-                </option>
-              </select>
-              <select v-if="isFilteringBySalary" v-model='endRange'>
-                <option>Select a End range</option>
-                <option
-                  v-for="amount in amounts"
-                  v-bind:value="amount.value"
-                  v-bind:key="amount.id"
-                >
-                  {{ amount.id }}
-                </option>
-              </select>
-              <select v-if="isFilteringBySkill" v-model='skill'>
-                <option>Select a Skill</option>
-                <option
-                  v-for="skill in skills"
-                  v-bind:value="skill.value"
-                  v-bind:key="skill.id"
-                >
-                  {{ skill.id }}
-                </option>
-              </select>
-              <select v-if="isFilteringByDomain" v-model='domain'>
-                <option value="">Select a Domain</option>
-                <option
-                  v-for="domain in domains"
-                  v-bind:value="domain.value"
-                  v-bind:key="domain.id"
-                >
-                  {{ domain.id }}
-                </option>
-              </select>
-            </li>
-
-          </ul>
-        </vue-grid-item>
-      </vue-grid-row>
+            <!--<li-->
+              <!--<select v-model="filterType">-->
+                <!--<option value="all">All</option>-->
+                <!--<option-->
+                  <!--v-for="type in types"-->
+                  <!--v-bind:value="type.id"-->
+                  <!--v-bind:key="type.id"-->
+                <!--&gt;-->
+                  <!--{{ type.title }}-->
+                <!--</option>-->
+              <!--</select>-->
+              <!--<select v-if="isFilteringBySalary" v-model='startRange'>-->
+                <!--<option>Select a Start range</option>-->
+                <!--<option-->
+                  <!--v-for="amount in amounts"-->
+                  <!--v-bind:value="amount.value"-->
+                  <!--v-bind:key="amount.id"-->
+                <!--&gt;-->
+                  <!--{{ amount.id }}-->
+                <!--</option>-->
+              <!--</select>-->
+              <!--<select v-if="isFilteringBySalary" v-model='endRange'>-->
+                <!--<option>Select a End range</option>-->
+                <!--<option-->
+                  <!--v-for="amount in amounts"-->
+                  <!--v-bind:value="amount.value"-->
+                  <!--v-bind:key="amount.id"-->
+                <!--&gt;-->
+                  <!--{{ amount.id }}-->
+                <!--</option>-->
+              <!--</select>-->
+              <!--<select v-if="isFilteringBySkill" v-model='skill'>-->
+                <!--<option>Select a Skill</option>-->
+                <!--<option-->
+                  <!--v-for="skill in skills"-->
+                  <!--v-bind:value="skill.value"-->
+                  <!--v-bind:key="skill.id"-->
+                <!--&gt;-->
+                  <!--{{ skill.id }}-->
+                <!--</option>-->
+              <!--</select>-->
+              <!--<select v-if="isFilteringByDomain" v-model='domain'>-->
+                <!--<option value="">Select a Domain</option>-->
+                <!--<option-->
+                  <!--v-for="domain in domains"-->
+                  <!--v-bind:value="domain.value"-->
+                  <!--v-bind:key="domain.id"-->
+                <!--&gt;-->
+                  <!--{{ domain.id }}-->
+                <!--</option>-->
+              <!--</select>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</vue-grid-item>-->
+      <!--</vue-grid-row>-->
       <br>
 
       <vue-grid-row>
@@ -145,10 +143,10 @@
               <br />
               <vue-button v-userRole.canSponsor="{
                 role: job.role
-              }" 
-              class="sponsor-btn--container" 
+              }"
+              class="sponsor-btn--container"
               accent>
-                <a 
+                <a
                   style="color: white !important;"
                   @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)">Sponsor this Job</a>
               </vue-button>
@@ -165,7 +163,7 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapMutations} from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
   import axios from 'axios';
   import firebase from 'firebase';
   import db from '../firebaseinit';
@@ -173,7 +171,6 @@
   import { uuid } from 'vue-uuid';
   import moment from 'moment';
   import { sponsorSubmitMixin } from '../mixins/sponsorSubmitMixin';
-  import { directive } from 'vee-validate';
   import * as types from '@/store/types'
 
   export default {
@@ -291,7 +288,6 @@
       }
     },
     methods: {
-      ...mapActions('jobs', []),
       // ...mapActions('signInModal', ['openLoginModal', 'closeLoginModal']),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,
@@ -351,14 +347,14 @@
           return acc;
         }, []);
         this.jobs = jobs;
-        /*if (this.isFilteringByDomain && this.domain) {
+        if (this.isFilteringByDomain && this.domain) {
           return this.$options.originalJobs.filter(job => {
             console.log('job domain', job.domain, this.domain);
             return job.domain.toLowerCase() === this.domain.toLowerCase();
           });
         }
         this.jobs = this.$options.originalJobs.filter(
-          (job: any, index: Number) => {
+          (job, index) => {
             let keywordSearchRegEx = RegExp(keyword, 'gi');
             return (
               keywordSearchRegEx.test(job.brief) &&
@@ -368,7 +364,7 @@
                   parseInt(this.startRange))
             );
           }
-        );*/
+        );
       }
     },
     mounted() {},

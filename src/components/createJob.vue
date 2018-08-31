@@ -44,9 +44,9 @@
 
           <vue-grid-row>
             <vue-grid-item>
-            <i>{{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to
+            {{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to
             be considered as complete. Add one requirement, then click Add Requirement, to add additional
-              requirements. */) }}</i>
+              requirements. */) }}
             </vue-grid-item>
 
             <vue-grid-item>

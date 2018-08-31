@@ -388,9 +388,9 @@
         claimed: false
       };
     },
-    created () {
+    created() {
       const taskId = this.$route.params.id;
-      console.log('In job.vue', taskId)
+      console.log('In job.vue', taskId);
       db
         .collection("jobs")
         .where("taskId", "==", taskId)
@@ -421,10 +421,10 @@
       ...mapGetters({
         userId: types.GET_USER_ID
       }),
-      hasErrors () {
+      hasErrors() {
         return this.errors && this.errors.items.length > 0;
       },
-      hasEmptyFields () {
+      hasEmptyFields() {
         let hasEmptyField = false;
         Object.keys(this.form).forEach((key) => {
           if (
@@ -436,7 +436,7 @@
         });
         return hasEmptyField;
       },
-      isSubmitDisabled () {
+      isSubmitDisabled() {
         return this.hasErrors || this.hasEmptyFields;
       }
     },
@@ -446,10 +446,10 @@
         openLoginModal: types.OPEN_LOGIN_MODAL,
         closeLoginModal: types.CLOSE_LOGIN_MODAL
       }),
-      removeImage (i) {
+      removeImage(i) {
         this.images = this.images.filter((img, index) => index !== i);
       },
-      addRequirement () {
+      addRequirement() {
         if (this.requirement) {
           if (Reflect.has(this.job, "deliverable")) {
             this.job.deliverable.push(this.requirement);
@@ -459,10 +459,10 @@
         }
         this.requirement = "";
       },
-      removeRequirement (index) {
+      removeRequirement(index) {
         this.job.deliverable.splice(index, 1);
       },
-      async cancelJobHandler () {
+      async cancelJobHandler() {
         const jobId = this.job.taskId;
         try {
           const job = await db.collection("jobs").doc(jobId);
@@ -482,7 +482,7 @@
         } catch (error) {
         }
       },
-      async markJobCompleteHandler () {
+      async markJobCompleteHandler() {
         const jobId = this.job.taskId;
         try {
           const job = await db.collection("jobs").doc(jobId);
@@ -504,7 +504,7 @@
         } catch (error) {
         }
       },
-      async fileUploaded (e) {
+      async fileUploaded(e) {
         const images = await Promise.all(
           Array.from(e.target.files).map(file => {
             return new Promise((resolve, reject) => {
@@ -520,7 +520,7 @@
         );
         this.images = images;
       },
-      sponsorJobClickedHandler (taskId) {
+      sponsorJobClickedHandler(taskId) {
         if (!this.userId) {
           this.openLoginModal();
           return;
@@ -528,17 +528,17 @@
         this.selectedJobToSponsorId = taskId;
         this.showSponsoredModal = true;
       },
-      getJob () {
+      getJob() {
         axios.get("/jobs.json").then((response) => {
           const job = response.data.jobs.filter(
-            (job) => job.taskId == this.$route.params.taskId
+            (job) => job.taskId === this.$route.params.taskId
           );
           if (job.length > 0) {
             this.job = job[0];
           }
         });
       },
-      onSubmit () {
+      onSubmit() {
         this.isLoading = true;
         this.$nextTick(() => {
           setTimeout(() => {
@@ -548,11 +548,11 @@
               text: this.$t(
                 "App.job.jobSavedNotificationText"
               ) /* The job has been saved! */
-             }, INotification);
+            }, INotification);
           }, 500);
         });
       },
-      async onClaim (docId) {
+      async onClaim(docId) {
         const taskId = this.$route.params.id;
         if (this.hasEmptyFields) {
           addNotification({
@@ -597,10 +597,10 @@
                 "App.job.jobClaimedNotificationText"
               ) /* Job confirmed successfully! You can start work immediately. */
             }, INotification);
-           }, 700);
+          }, 700);
         });
       },
-      onPayout (docId) {
+      onPayout(docId) {
         const taskId = this.$route.params.id;
         db
           .collection("jobs")
@@ -620,7 +620,7 @@
           }, 700);
         });
       },
-      async postEditedJob () {
+      async postEditedJob() {
         const jobData = {
           brief: this.job.brief,
           deliverable: this.job.deliverable,
@@ -656,7 +656,7 @@
         });
         this.isEditingJobDetails = false;
       },
-      async uploadImages () {
+      async uploadImages() {
         const self = this;
         const results = this.images.map(async ({file}) => {
           const imageUrl = await this.uploadFile(file, self.job.taskId);
@@ -674,7 +674,7 @@
             });
         });
       },
-      uploadProofOfWork () {
+      uploadProofOfWork() {
         this.uploadFile().then(imageUrl => {
           this.data.image = imageUrl;
           db
@@ -692,7 +692,7 @@
             });
         });
       },
-      uploadFile (file, jobId) {
+      uploadFile(file, jobId) {
         return new Promise((resolve, reject) => {
           const self = this;
           const storageRef = firebaseStorage
@@ -709,7 +709,8 @@
                 progress +
                 this.$t(
                   'App.job.uploadedPhotoProgress2'
-                ); /* % done. Processing post. */
+                );
+              /* % done. Processing post. */
               this.upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
               console.log(this.upload.progress);
             },
