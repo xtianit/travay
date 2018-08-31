@@ -1,23 +1,23 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col">
-
-        <h1>Home</h1>
-
+  <vue-grid>
+    <vue-grid-row>
+      <vue-grid-item><h1>Home</h1></vue-grid-item>
+    </vue-grid-row>
+    <vue-grid-row>
+      <vue-grid-item>
         <form @submit.prevent="deposit">
           <label>Deposit
             <vue-input
               name="amount"
               id="amount"
               v-model="amount"
-              type="number" />
+              type="number"/>
           </label>
           <vue-button>Submit</vue-button>
         </form>
-      </div>
-    </div>
-  </div>
+      </vue-grid-item>
+    </vue-grid-row>
+  </vue-grid>
 </template>
 
 <script>
@@ -40,7 +40,7 @@
       }
     },
     methods: {
-      deposit(event) {
+      deposit (event) {
         console.log('contract instance', this.$store.state.contractInstance());
         this.$store.state.contractInstance().deposit(event.target.innerHTML, {
           gas: 300000,
@@ -54,7 +54,7 @@
       }
     },
     mounted () {
-      console.log('dispatching getContractInstance')
+      // console.log('dispatching getContractInstance')
       this.$store.dispatch('getContractInstance')
     }
   }

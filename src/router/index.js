@@ -1,15 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/home'
-import Components from '@/components/components'
 import Jobs from '@/components/jobs'
 import Job from '@/components/job'
 import CreateJob from '@/components/createJob'
 import Profile from '@/components/profile'
-import Transactions from '@/components/transactions'
 import UserGuide from '@/components/userGuide'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -20,17 +18,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/components',
-      name: 'components',
-      component: Components
-    },
-    {
       path: '/jobs',
       name: 'jobs',
       component: Jobs
     },
     {
-      path: '/job',
+      path: '/job/:id',
       name: 'job',
       component: Job
     },
@@ -43,11 +36,6 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       component: Profile
-    },
-    {
-      path: '/transactions',
-      name: 'transactions',
-      component: Transactions
     },
     {
       path: '/userGuide',

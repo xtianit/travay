@@ -12,6 +12,7 @@ var config = {
 
 let firebaseApp;
 let firestore;
+
 try {
   if (!firebase.apps.length) {
     firebaseApp = firebase.initializeApp(config);
