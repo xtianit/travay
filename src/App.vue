@@ -14,12 +14,15 @@
   import TravayFooter from '@/components/travay-footer'
   import SignInModal from './services/SignInModal'
   import { loadLocaleAsync }  from './util/i18n';
+  import {store} from './store';
+
 
   export default {
   name: 'App',
   beforeCreate () {
-    // console.log('registerWeb3 Action dispatched from app.vue')
-    this.$store.dispatch('registerWeb3')
+    console.log('registerWeb3 Action dispatched from app.vue');
+    this.$store.dispatch('registerWeb3');
+    // console.log('contract instance', this.$store.state.contractInstance());
   },
   components: {
     'navbar': Navbar,

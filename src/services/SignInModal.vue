@@ -52,8 +52,6 @@
   import {uuid} from 'vue-uuid';
   import {store} from '../store';
 
-  const assert = require('assert');
-
   // import {Connect, SimpleSigner} from 'uport-connect';
   // const uport = new Connect('Travay', {
   //   clientId: UPORT_CONFIG.TRAVAY_UPORT_CLIENT_ID,
@@ -167,22 +165,7 @@
         }
       },
       async registerUserToEscrowContract() {
-        const EscrowInstance = await this.$store.state.contractInstance();
 
-        try {
-          const result = await EscrowInstance.register({from: accounts[0]});
-
-          assert.equal(
-            result.logs[0].args.address_Registered,
-            accounts[0],
-            `Registered address should be ${accounts[0]}`
-          );
-
-          const userExists = await EscrowInstance.registeredUsers(accounts[0]);
-          assert(userExists, "Address is not registered");
-        } catch (err) {
-          assert(false, err);
-        }
       }
     },
     computed: {
