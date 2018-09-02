@@ -5,10 +5,10 @@
       <vue-grid>
         <vue-grid-row>
           <vue-grid-item class="vueGridItem">
-          <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
-          <p>
-          {{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}
-          </p>
+            <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
+            <p>
+              {{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}
+            </p>
           </vue-grid-item>
         </vue-grid-row>
       </vue-grid>
@@ -16,7 +16,7 @@
 
     <vue-grid>
       <vue-grid-row>
-        <form :class="$style.formExample" @submit.prevent="createJob()">
+        <form @submit.prevent="createJob()">
 
           <vue-grid-row>
             <vue-grid-item>
@@ -44,8 +44,8 @@
 
           <vue-grid-row>
             <vue-grid-item>
-            {{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to
-            be considered as complete. Add one requirement, then click Add Requirement, to add additional
+              {{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to
+              be considered as complete. Add one requirement, then click Add Requirement, to add additional
               requirements. */) }}
             </vue-grid-item>
 
@@ -73,17 +73,18 @@
               </p>
             </vue-grid-item>
           </vue-grid-row>
-
+          <br>
+          <br>
 
           <vue-grid-row>
             <vue-grid-item class="vueGridItem">
               <vue-date-picker
-                @change="calendarChange"
-                :first-day-of-week="1"
-                ref="closingDatepicker"
-                :selectedDateValue="form.closingDate"
-                validation="required"
-                placeholder="Job Closing Date"/>
+              @change="calendarChange"
+              :first-day-of-week="1"
+              ref="closingDatepicker"
+              :selectedDate="form.closingDate"
+              validation="required"
+              placeholder="Job Closing Date" />
             </vue-grid-item>
           </vue-grid-row>
 
@@ -131,9 +132,9 @@
                 v-model="form.salary"
                 validation="required"/>
               <div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be
-              deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.
-              (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in
-              total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.
+                deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.
+                (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in
+                total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.
               </div>
             </vue-grid-item>
           </vue-grid-row>
@@ -220,6 +221,11 @@
   import {AssertionError} from 'assert';
   import {any} from 'bluebird';
   import {addNotification, INotification} from 'vue-ui'
+  import DatePicker from 'vue2-datepicker'
+
+  const state = {
+    date1: new Date()
+  };
 
   export default {
     metaInfo: {
@@ -235,7 +241,10 @@
     $_veeValidate: {
       validator: 'new'
     },
-    data () {
+    components: {
+      DatePicker
+    },
+    data() {
       return {
         form: {
           taskId: '',
@@ -247,9 +256,10 @@
           salary: '650',
           cityOfWork: 'Port-au-Prince',
           isTaskIdDisabled: true,
-          closingDate: '',
+          // closingDate: '',
+          state: state,
           isDatePostedDisabled: true,
-          acceptTerms: true,
+          acceptTerms: false,
           selectedPayFrequency: '',
           selectedTermOfEmployment: ''
         },
@@ -309,20 +319,20 @@
     },
     methods: {
       ...mapActions('createJob', []),
-      calendarChange (value) {
-        console.log('value from datepicker', value);
-        this.form.closingDate = value;
+      calendarChange(value) {
+        console.log('Closing Date Chosen', value);
+        this.$set(this.form, 'closingDate', value)
       },
-      selectChange (value, field) {
+      selectChange(value, field) {
         this.$set(this.form, field, value);
       },
-      getPayFrequencyLabel (selectedValue) {
+      getPayFrequencyLabel(selectedValue) {
         const selected = this.payFrequency.find(
           item => item.value === selectedValue
         );
         return selected ? Reflect.get(selected, 'label') : '';
       },
-      addRequirement () {
+      addRequirement() {
         if (this.requirement) this.form.deliverable.push(this.requirement);
         console.log(
           'adding requirement',
@@ -331,10 +341,10 @@
         );
         this.requirement = '';
       },
-      removeRequirement (i) {
+      removeRequirement(i) {
         this.form.deliverable.splice(i, 1);
       },
-      submitHandler () {
+      submitHandler() {
         const form = this.form;
         const self = this;
         if (this.hasEmptyFields) {
@@ -384,7 +394,6 @@
           .doc(jobId)
           .set(jobData)
           .then(function (docref) {
-            // self.createTask(); // ColonyJS + IPFS
             self.clearForm();
           })
           .catch(function (error) {
@@ -401,7 +410,7 @@
           }, 500);
         });
       },
-      clearForm () {
+      clearForm() {
         Object.keys(this.form).forEach(key => {
           this.form[key] = '';
         });
@@ -413,17 +422,17 @@
       estimatedWorkerPayout: function () {
         return this.form.salary - this.form.salary * 0.02;
       },
-      addressDisabled () {
+      addressDisabled() {
         return (
           this.form.firstname === '' ||
           this.form.lastname === '' ||
           this.form.email === ''
         );
       },
-      hasErrors () {
+      hasErrors() {
         return this.errors && this.errors.items.length > 0;
       },
-      hasEmptyFields () {
+      hasEmptyFields() {
         let hasEmptyField;
 
         Object.keys(this.form).forEach((key) => {
@@ -438,7 +447,7 @@
         });
         return hasEmptyField;
       },
-      isSubmitDisabled () {
+      isSubmitDisabled() {
         this.x;
         return this.hasErrors || this.hasEmptyFields;
       }
