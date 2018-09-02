@@ -33,7 +33,7 @@ export const store = new Vuex.Store({
       state.web3.balance = parseInt(payload.balance, 10);
     },
     registerContractInstance(state, payload) {
-      // console.log('Escrow contract instance: ', payload);
+      console.log('Escrow contract instance: ', payload);
       state.contractInstance = () => payload;
     }
   },

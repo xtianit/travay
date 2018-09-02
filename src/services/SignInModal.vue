@@ -50,7 +50,9 @@
   import db from '../firebaseinit';
   import {travaySlackBotMixin} from '../mixins/travaySlackBotMixin';
   import {uuid} from 'vue-uuid';
-  import {escrowContract} from '../util/getContract';
+  import {store} from '../store';
+
+  const assert = require('assert');
 
   // import {Connect, SimpleSigner} from 'uport-connect';
   // const uport = new Connect('Travay', {
@@ -123,7 +125,6 @@
           .then(result => {
             this.closeLoginModal();
             this.updateUserData(result.user);
-            this.registerUserToEscrowContract();
           })
           .catch(err => console.log(err));
       },
@@ -156,6 +157,7 @@
             .get();
           if (snapshot.docs.length === 0) {
             const user = await db.collection('users').add(data);
+            this.registerUserToEscrowContract();
           }
           this.user = data;
           this.saveUserInStorage(data);
@@ -164,11 +166,11 @@
           console.error('error while getting user by uid', error);
         }
       },
-      registerUserToEscrowContract() {
-        const EscrowInstance = Escrow.deployed();
+      async registerUserToEscrowContract() {
+        const EscrowInstance = await this.contractInstance;
 
         try {
-          const result = EscrowInstance.register({from: accounts[0]});
+          const result = await EscrowInstance.register({from: accounts[0]});
 
           assert.equal(
             result.logs[0].args.address_Registered,
@@ -176,7 +178,7 @@
             `Registered address should be ${accounts[0]}`
           );
 
-          const userExists = EscrowInstance.registeredUsers(accounts[0]);
+          const userExists = await EscrowInstance.registeredUsers(accounts[0]);
           assert(userExists, "Address is not registered");
         } catch (err) {
           assert(false, err);
