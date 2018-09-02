@@ -13,6 +13,7 @@
   import Navbar from '@/components/navbar'
   import TravayFooter from '@/components/travay-footer'
   import SignInModal from './services/SignInModal'
+  import { loadLocaleAsync }  from './util/i18n';
 
   export default {
   name: 'App',

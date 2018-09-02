@@ -55,7 +55,8 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import SignInModal from '../services/SignInModal';
-  import * as types from '@/store/types'
+  import * as types from '@/store/types';
+  import { loadLocaleAsync }  from '../util/i18n';
 
   export default {
     name: 'navbar',

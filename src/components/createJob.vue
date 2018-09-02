@@ -6,9 +6,9 @@
         <vue-grid-row>
           <vue-grid-item class="vueGridItem">
             <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
-            <p>
-              {{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}
-            </p>
+            <!--<p>-->
+              <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
+            <!--</p>-->
           </vue-grid-item>
         </vue-grid-row>
       </vue-grid>
