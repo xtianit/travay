@@ -167,7 +167,7 @@
         }
       },
       async registerUserToEscrowContract() {
-        const EscrowInstance = await this.contractInstance;
+        const EscrowInstance = await this.$store.state.contractInstance();
 
         try {
           const result = await EscrowInstance.register({from: accounts[0]});
