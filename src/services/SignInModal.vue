@@ -20,9 +20,9 @@
             <br>
             <br>
             <!--<vue-grid-item>-->
-              <!--<vue-button @click="siginInWithUport">-->
-                <!--<i class="fab fa-google"></i> uPort-->
-              <!--</vue-button>-->
+            <!--<vue-button @click="siginInWithUport">-->
+            <!--<i class="fab fa-google"></i> uPort-->
+            <!--</vue-button>-->
             <!--</vue-grid-item>-->
 
           </vue-grid-row>
@@ -45,11 +45,14 @@
 
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
-  import * as types from '@/store/types'
+  import * as types from '../store/types'
   import firebase from 'firebase';
   import db from '../firebaseinit';
   import {travaySlackBotMixin} from '../mixins/travaySlackBotMixin';
   import {uuid} from 'vue-uuid';
+  import {store} from '../store';
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow"
 
   // import {Connect, SimpleSigner} from 'uport-connect';
   // const uport = new Connect('Travay', {
@@ -63,7 +66,7 @@
     metaInfo: {
       title: 'SignInModal'
     },
-    created () {
+    created() {
       this.updateSignInModalState('passed!')
     },
     methods: {
@@ -135,7 +138,7 @@
           })
           .catch(error => console.log(error));
       },
-      async updateUserData (user) {
+      async updateUserData(user) {
         const userRef = db.doc(`users/${user.uid}`);
         const data = {
           uid: user.uid,
@@ -154,6 +157,7 @@
             .get();
           if (snapshot.docs.length === 0) {
             const user = await db.collection('users').add(data);
+            this.registerUserToEscrowContract();
           }
           this.user = data;
           this.saveUserInStorage(data);
@@ -161,6 +165,26 @@
         } catch (error) {
           console.error('error while getting user by uid', error);
         }
+      },
+      async registerUserToEscrowContract() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const EscrowInstance = await Escrow.deployed();
+
+        web3.eth.getAccounts(async (err, accounts) => {
+          if(err){
+            throw new {name:"Exception", message:"Accounts are not found"};
+          }
+
+          const registeringUser = accounts[0];
+
+          const result = await EscrowInstance.register({from:registeringUser});
+
+          console.log(result)
+
+        })
       }
     },
     computed: {
@@ -168,7 +192,7 @@
         userId: types.GET_USER_ID,
         isOpen: types.IS_SIGNIN_MODAL_OPEN
       }),
-      modalHeading () {
+      modalHeading() {
         return this.userId ? 'Sign Out' : 'Please Sign In';
       }
     }

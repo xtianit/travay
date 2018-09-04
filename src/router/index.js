@@ -5,7 +5,10 @@ import Jobs from '@/components/jobs'
 import Job from '@/components/job'
 import CreateJob from '@/components/createJob'
 import Profile from '@/components/profile'
+import GetStarted from '@/components/get-started'
 import UserGuide from '@/components/userGuide'
+import Privacy from '@/components/privacy'
+import CodeOfConduct from '@/components/code-of-conduct'
 
 Vue.use(Router);
 
@@ -38,9 +41,24 @@ export default new Router({
       component: Profile
     },
     {
+      path: '/get-started',
+      name: 'get-started',
+      component: GetStarted
+    },
+    {
       path: '/userGuide',
       name: 'user-guide',
       component: UserGuide
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: Privacy
+    },
+    {
+      path: '/code-of-conduct',
+      name: 'code-of-conduct',
+      component: CodeOfConduct
     }
   ]
 })

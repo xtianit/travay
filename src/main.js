@@ -7,7 +7,6 @@ import App from './App'
 import router from './router'
 import {store} from './store/'
 import VueI18n from 'vue-i18n'
-import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import VueUI from 'vue-ui/dist/vue-ui.common';

@@ -17,69 +17,69 @@
 
     <vue-grid>
       <!--<vue-grid-row>-->
-        <!--<vue-grid-item>-->
-          <!--<ul class="filter-bar">-->
-            <!--<li class="filter__item">{{ $t('App.jobs.search' /* Search */) }}:-->
-              <!--<input type="text" name="search" v-model="keyword" />-->
-            <!--</li>-->
+      <!--<vue-grid-item>-->
+      <!--<ul class="filter-bar">-->
+      <!--<li class="filter__item">{{ $t('App.jobs.search' /* Search */) }}:-->
+      <!--<input type="text" name="search" v-model="keyword" />-->
+      <!--</li>-->
 
-            <!--<li class="filter__item">{{ $t('App.jobs.filter' /* Filter */) }}:-->
-            <!--</li>-->
+      <!--<li class="filter__item">{{ $t('App.jobs.filter' /* Filter */) }}:-->
+      <!--</li>-->
 
-            <!--<li-->
-              <!--<select v-model="filterType">-->
-                <!--<option value="all">All</option>-->
-                <!--<option-->
-                  <!--v-for="type in types"-->
-                  <!--v-bind:value="type.id"-->
-                  <!--v-bind:key="type.id"-->
-                <!--&gt;-->
-                  <!--{{ type.title }}-->
-                <!--</option>-->
-              <!--</select>-->
-              <!--<select v-if="isFilteringBySalary" v-model='startRange'>-->
-                <!--<option>Select a Start range</option>-->
-                <!--<option-->
-                  <!--v-for="amount in amounts"-->
-                  <!--v-bind:value="amount.value"-->
-                  <!--v-bind:key="amount.id"-->
-                <!--&gt;-->
-                  <!--{{ amount.id }}-->
-                <!--</option>-->
-              <!--</select>-->
-              <!--<select v-if="isFilteringBySalary" v-model='endRange'>-->
-                <!--<option>Select a End range</option>-->
-                <!--<option-->
-                  <!--v-for="amount in amounts"-->
-                  <!--v-bind:value="amount.value"-->
-                  <!--v-bind:key="amount.id"-->
-                <!--&gt;-->
-                  <!--{{ amount.id }}-->
-                <!--</option>-->
-              <!--</select>-->
-              <!--<select v-if="isFilteringBySkill" v-model='skill'>-->
-                <!--<option>Select a Skill</option>-->
-                <!--<option-->
-                  <!--v-for="skill in skills"-->
-                  <!--v-bind:value="skill.value"-->
-                  <!--v-bind:key="skill.id"-->
-                <!--&gt;-->
-                  <!--{{ skill.id }}-->
-                <!--</option>-->
-              <!--</select>-->
-              <!--<select v-if="isFilteringByDomain" v-model='domain'>-->
-                <!--<option value="">Select a Domain</option>-->
-                <!--<option-->
-                  <!--v-for="domain in domains"-->
-                  <!--v-bind:value="domain.value"-->
-                  <!--v-bind:key="domain.id"-->
-                <!--&gt;-->
-                  <!--{{ domain.id }}-->
-                <!--</option>-->
-              <!--</select>-->
-            <!--</li>-->
-          <!--</ul>-->
-        <!--</vue-grid-item>-->
+      <!--<li-->
+      <!--<select v-model="filterType">-->
+      <!--<option value="all">All</option>-->
+      <!--<option-->
+      <!--v-for="type in types"-->
+      <!--v-bind:value="type.id"-->
+      <!--v-bind:key="type.id"-->
+      <!--&gt;-->
+      <!--{{ type.title }}-->
+      <!--</option>-->
+      <!--</select>-->
+      <!--<select v-if="isFilteringBySalary" v-model='startRange'>-->
+      <!--<option>Select a Start range</option>-->
+      <!--<option-->
+      <!--v-for="amount in amounts"-->
+      <!--v-bind:value="amount.value"-->
+      <!--v-bind:key="amount.id"-->
+      <!--&gt;-->
+      <!--{{ amount.id }}-->
+      <!--</option>-->
+      <!--</select>-->
+      <!--<select v-if="isFilteringBySalary" v-model='endRange'>-->
+      <!--<option>Select a End range</option>-->
+      <!--<option-->
+      <!--v-for="amount in amounts"-->
+      <!--v-bind:value="amount.value"-->
+      <!--v-bind:key="amount.id"-->
+      <!--&gt;-->
+      <!--{{ amount.id }}-->
+      <!--</option>-->
+      <!--</select>-->
+      <!--<select v-if="isFilteringBySkill" v-model='skill'>-->
+      <!--<option>Select a Skill</option>-->
+      <!--<option-->
+      <!--v-for="skill in skills"-->
+      <!--v-bind:value="skill.value"-->
+      <!--v-bind:key="skill.id"-->
+      <!--&gt;-->
+      <!--{{ skill.id }}-->
+      <!--</option>-->
+      <!--</select>-->
+      <!--<select v-if="isFilteringByDomain" v-model='domain'>-->
+      <!--<option value="">Select a Domain</option>-->
+      <!--<option-->
+      <!--v-for="domain in domains"-->
+      <!--v-bind:value="domain.value"-->
+      <!--v-bind:key="domain.id"-->
+      <!--&gt;-->
+      <!--{{ domain.id }}-->
+      <!--</option>-->
+      <!--</select>-->
+      <!--</li>-->
+      <!--</ul>-->
+      <!--</vue-grid-item>-->
       <!--</vue-grid-row>-->
       <br>
 
@@ -87,7 +87,8 @@
         <vue-grid-item>
           <vue-button
             class="sponsor-btn--container" accent>
-            <a style="color: white !important;" @click.prevent.stop="e => createJobClickedHandler()" id="remove-hyperlink">Post a Job</a>
+            <a style="color: white !important;" @click.prevent.stop="e => createJobClickedHandler()"
+               id="remove-hyperlink">Post a Job</a>
           </vue-button>
         </vue-grid-item>
       </vue-grid-row>
@@ -109,7 +110,7 @@
                               image="https://avatars2.githubusercontent.com/u/1667598?s=460&v=4" /> -->
             <vue-panel-body>
               <ul>
-                <li >
+                <li>
                   Job: {{job.task}}<br>
                   Description: {{job.brief}}<br>
                   Domain: {{job.domain}}<br>
@@ -118,16 +119,21 @@
                   <br>
                   Full time rate: ${{job.salary['full-time-rate']}}<br>
                   Pay frequency:
-                  <input id="weekly" true-value="weekly" type="checkbox" name="weekly" v-model="job.salary['pay-frequency'].label" disabled/>
+                  <input id="weekly" true-value="weekly" type="checkbox" name="weekly"
+                         v-model="job.salary['pay-frequency'].label" disabled/>
                   <label for="weekly">Weekly</label>
-                  <input id="bi-weekly" type="checkbox" true-value="bi-weekly" name="bi-weekly" v-model="job.salary['pay-frequency'].label" disabled/>
+                  <input id="bi-weekly" type="checkbox" true-value="bi-weekly" name="bi-weekly"
+                         v-model="job.salary['pay-frequency'].label" disabled/>
                   <label for="bi-weekly">Bi-weekly</label>
-                  <input id="monthly" true-value="monthly" type="checkbox" name="monthly" v-model="job.salary['pay-frequency'].label" disabled/>
+                  <input id="monthly" true-value="monthly" type="checkbox" name="monthly"
+                         v-model="job.salary['pay-frequency'].label" disabled/>
                   <label for="monthly">Monthly</label><br>
                   Term of employment:
-                  <input id="sixmonth" type="checkbox" name="sixmonth" v-model="job['terms-of-employment']" true-value="6" disabled/>
+                  <input id="sixmonth" type="checkbox" name="sixmonth" v-model="job['terms-of-employment']"
+                         true-value="6" disabled/>
                   <label for="sixmonth">6 month</label>
-                  <input id="oneyear" type="checkbox" name="oneyear" v-model="job['terms-of-employment']" true-value="12" disabled/>
+                  <input id="oneyear" type="checkbox" name="oneyear" v-model="job['terms-of-employment']"
+                         true-value="12" disabled/>
                   <label for="oneyear">1 year</label>
                   <br>
                   <br>
@@ -137,15 +143,16 @@
             </vue-panel-body>
             <vue-panel-footer>
               <vue-button primary>
-                <router-link :to="`/job/${job.taskId}`" style="color:white; text-decoration: none;">Learn More</router-link>
+                <router-link :to="`/job/${job.taskId}`" style="color:white; text-decoration: none;">Learn More
+                </router-link>
               </vue-button>
-              <br />
-              <br />
+              <br/>
+              <br/>
               <vue-button v-userRole.canSponsor="{
                 role: job.role
               }"
-              class="sponsor-btn--container"
-              accent>
+                          class="sponsor-btn--container"
+                          accent>
                 <a
                   style="color: white !important;"
                   @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)">Sponsor this Job</a>
@@ -168,10 +175,13 @@
   import firebase from 'firebase';
   import db from '../firebaseinit';
   import SponsorModal from '../services/SponsorModal.vue';
-  import { uuid } from 'vue-uuid';
+  import {uuid} from 'vue-uuid';
   import moment from 'moment';
-  import { sponsorSubmitMixin } from '../mixins/sponsorSubmitMixin';
+  import {sponsorSubmitMixin} from '../mixins/sponsorSubmitMixin';
   import * as types from '@/store/types'
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow"
+  import {store} from '../store';
 
   export default {
     mixins: [sponsorSubmitMixin],
@@ -283,7 +293,7 @@
       }
     },
     filters: {
-      moment: function(date) {
+      moment: function (date) {
         return moment(date).format('MMMM Do YYYY');
       }
     },
@@ -293,7 +303,7 @@
         openLoginModal: types.OPEN_LOGIN_MODAL,
         closeLoginModal: types.CLOSE_LOGIN_MODAL
       }),
-      moment: function() {
+      moment: function () {
         return moment();
       },
       createJobClickedHandler() {
@@ -313,7 +323,7 @@
         console.log('should show sponsored modal', this.showSponsoredModal)
       },
       sort(jobs) {
-        const result = jobs.sort(function(a, b) {
+        const result = jobs.sort(function (a, b) {
           let date1 = new Date(a['date-posted']);
           let date2 = new Date(b['date-posted']);
           return date1 - date2;
@@ -361,13 +371,14 @@
               (parseInt(job['salary']['full-time-rate']) <=
                 parseInt(this.endRange) &&
                 parseInt(job['salary']['full-time-rate']) >=
-                  parseInt(this.startRange))
+                parseInt(this.startRange))
             );
           }
         );
       }
     },
-    mounted() {},
+    mounted() {
+    },
     computed: {
       // ...mapGetters('signInModal', ['userId']),
       ...mapGetters({

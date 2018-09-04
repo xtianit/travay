@@ -6,9 +6,9 @@
         <vue-grid-row>
           <vue-grid-item class="vueGridItem">
             <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
-            <p>
-              {{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}
-            </p>
+            <!--<p>-->
+              <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
+            <!--</p>-->
           </vue-grid-item>
         </vue-grid-row>
       </vue-grid>
@@ -194,8 +194,9 @@
                 name="acceptTerms"
                 id="acceptTerms"
                 v-model="form.acceptTerms"
-                label="I accept the terms and privacy policy"
+                label=""
                 required/>
+              <p>{{ $t('App.createJob.acceptTerms' /* I accept the Terms, Privacy Policy and Code of Conduct. */) }}</p>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -203,7 +204,7 @@
           <vue-button warn
                       :loading="isLoading"
                       @click.prevent.stop="submitHandler">
-            Submit Job Posting
+            {{ $t('App.createJob.submitPostAJob' /* Submit Job Posting */) }}
           </vue-button>
         </form>
 
@@ -222,6 +223,9 @@
   import {any} from 'bluebird';
   import {addNotification, INotification} from 'vue-ui'
   import DatePicker from 'vue2-datepicker'
+  import {store} from '../store';
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow"
 
   const state = {
     date1: new Date()
@@ -355,6 +359,7 @@
           return false;
         }
         this.isLoading = true;
+        this.createJobInEscrow();
         const jobId = uuid.v1();
         let jobData = {
           salary: {
@@ -414,6 +419,36 @@
         Object.keys(this.form).forEach(key => {
           this.form[key] = '';
         });
+      },
+      async createJobInEscrow() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const manager = accounts[1];
+        const EscrowInstance = await Escrow.deployed();
+        const DAIInstance = await DAI.deployed();
+
+        const salary = 100 * 10 ** 18;
+
+        web3.eth.getAccounts(async (err) => {
+          if(err){
+            throw new {name:"Exception", message:"Accounts are not found"};
+          }
+
+          await DAIInstance.transfer(manager, salary, { from: accounts[0] });
+
+          await DAIInstance.approve(EscrowInstance.address, salary, {
+            from: manager
+          });
+
+          const result = await EscrowInstance.createJob(description, salary, 5, {
+            from: manager
+          });
+
+          console.log(result)
+
+        })
       }
     },
     computed: {
