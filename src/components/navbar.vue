@@ -56,7 +56,7 @@
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import SignInModal from '../services/SignInModal';
   import * as types from '../store/types';
-  import { loadLocaleAsync }  from '../util/i18n';
+  import { doChangeLocale }  from '../util/i18n';
 
   export default {
     name: 'navbar',
@@ -71,7 +71,7 @@
       })
     },
     methods: {
-      ...mapActions('app', ['changeLocale']),
+      //...mapActions('app', ['changeLocale']),
       // ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,
@@ -82,9 +82,9 @@
         this.openLoginModal();
       },
       localeSwitch(locale) {
-        loadLocaleAsync(locale).catch((error) => console.log(error));
+        doChangeLocale(locale);
 
-        this.changeLocale(locale);
+        //this.changeLocale(locale);
         this.navBarClose();
       },
       navBarClose() {

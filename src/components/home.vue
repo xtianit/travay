@@ -3,7 +3,7 @@
     <vue-grid-row>
       <vue-grid-item>
         <h1>Travay</h1>
-        <p>Long-terms job market of Haiti.</p>
+        <p>{{ $t('App.core.description')}}</p>
       </vue-grid-item>
     </vue-grid-row>
     <vue-grid-row>

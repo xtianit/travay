@@ -16,7 +16,7 @@
   import Navbar from '@/components/navbar'
   import TravayFooter from '@/components/travay-footer'
   import SignInModal from './services/SignInModal'
-  import { loadLocaleAsync }  from './util/i18n';
+  import { doChangeLocale }  from './util/i18n';
   import {store} from './store';
 
   export default {
@@ -43,10 +43,10 @@
       this.openLoginModal();
     },
     localeSwitch(locale) {
-      loadLocaleAsync(locale)
+      doChangeLocale(locale)
         .catch((error) => console.log(error));
 
-      this.changeLocale(locale);
+      //this.changeLocale(locale);
       this.navBarClose();
     },
     navBarClose() {
