@@ -55,7 +55,7 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import SignInModal from '../services/SignInModal';
-  import * as types from '@/store/types';
+  import * as types from '../store/types';
   import { loadLocaleAsync }  from '../util/i18n';
 
   export default {
@@ -71,7 +71,7 @@
       })
     },
     methods: {
-      // ...mapActions('app', ['changeLocale']),
+      ...mapActions('app', ['changeLocale']),
       // ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,

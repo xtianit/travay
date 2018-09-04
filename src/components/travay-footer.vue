@@ -1,6 +1,14 @@
 <template>
-  <!--<footer id="sticky-footer">&copy; {{ year }} Travay <br>-->
-    <!--<router-link :to="'/userGuide'">User Guide</router-link>-->
+  <footer id="footer-style">
+    &copy; {{ year }} Travay an Electric Feel company |
+    <router-link :to="'/userGuide'">User Guide</router-link> |
+    <router-link :to="'/get-started'">Get Started</router-link> |
+    <router-link :to="'/code-of-conduct'">Code of Conduct</router-link>
+  </footer>
+
+  <!--<footer id="sticky-footer">&copy; {{ year }} Travay |-->
+    <!--<router-link :to="'/userGuide'">User Guide</router-link> |-->
+    <!--<router-link :to="'/get-started'">Get Started</router-link>-->
   <!--</footer>-->
 </template>
 
@@ -24,6 +32,10 @@
 </script>
 
 <style scoped>
+  #footer-style {
+    text-align: center;
+  }
+
   #sticky-footer {
     width: 100%;
     padding: 15px;

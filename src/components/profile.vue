@@ -91,7 +91,10 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import db from "../firebaseinit";
-  import * as types from '@/store/types'
+  import * as types from '../store/types'
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow"
+  import {store} from '../store';
 
   export default {
     metaInfo: {

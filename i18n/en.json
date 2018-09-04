@@ -27,6 +27,8 @@
     "Your Job Manager will approve work and issue payment",
   "App.sectionFour.paragraph":
     "Find a job, claim it with no experience needed!",
+  "App.job.claim": "Claim",
+  "App.job.claimPayout": "Claim Payout",
   "App.job.editJobIcon": "Edit",
   "App.job.pageHeader": "Job",
   "App.job.jobDescription": "Description",
@@ -84,12 +86,16 @@
   "App.job.uploadedPhotoProgress": "Upload is",
   "App.job.uploadedPhotoProgress2": "% done. Processing post.",
   "App.job.markJobComplete": "Job is Done",
+  "App.job.evaluateJobAsSuccess" : "Approve Work",
+  "App.job.evaluateJobAsUnsuccessful": "Disapprove Work",
   "App.job.jobCompletedNotificationTitle": "Success",
   "App.job.jobCompleteNotificationText":
     "This job has been marked completed. Your Job Manager and Evaluator will review the work and send payment after confirming.",
   "App.jobs.pageSubtitle": "Here you'll find 6-month and 12-month jobs.",
   "App.jobs.search": "Search",
   "App.jobs.filter": "Filter",
+  "App.createJob.acceptTerms": "I accept the Terms, Privacy Policy and Code of Conduct.",
+  "App.createJob.submitPostAJob": "Submit Job Posting",
   "App.createJob.salaryPayoutDisclaimer":
     "Remember: (1) The salary you list above will be deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected. (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in total will receive approximately: ",
   "App.createJob.pageDescription":

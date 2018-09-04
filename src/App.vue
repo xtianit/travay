@@ -3,7 +3,10 @@
     <navbar/>
     <hello-metamask/>
     <router-view :class="$style.content"/>
-    <travay-footer/>
+    <br>
+    <br>
+    <travay-footer />
+    <br>
   </div>
 </template>
 
@@ -16,13 +19,12 @@
   import { loadLocaleAsync }  from './util/i18n';
   import {store} from './store';
 
-
   export default {
   name: 'App',
   beforeCreate () {
     console.log('registerWeb3 Action dispatched from app.vue');
     this.$store.dispatch('registerWeb3');
-    // console.log('contract instance', this.$store.state.contractInstance());
+    // console.log('contracts instance', this.$store.state.contractInstance());
   },
   components: {
     'navbar': Navbar,
@@ -34,14 +36,15 @@
     ...mapGetters('signInModal', ['userId'])
   },
   methods: {
-    ...mapActions('app', ['changeLocale']),
+    // ...mapActions('app', ['changeLocale']),
     ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
     signInClicked() {
       this.navBarClose();
       this.openLoginModal();
     },
     localeSwitch(locale) {
-      loadLocaleAsync(locale).catch((error) => console.log(error));
+      loadLocaleAsync(locale)
+        .catch((error) => console.log(error));
 
       this.changeLocale(locale);
       this.navBarClose();

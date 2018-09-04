@@ -45,12 +45,14 @@
 
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
-  import * as types from '@/store/types'
+  import * as types from '../store/types'
   import firebase from 'firebase';
   import db from '../firebaseinit';
   import {travaySlackBotMixin} from '../mixins/travaySlackBotMixin';
   import {uuid} from 'vue-uuid';
   import {store} from '../store';
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow"
 
   // import {Connect, SimpleSigner} from 'uport-connect';
   // const uport = new Connect('Travay', {
@@ -165,7 +167,24 @@
         }
       },
       async registerUserToEscrowContract() {
+        const Escrow = truffleContract(EscrowContract);
 
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const EscrowInstance = await Escrow.deployed();
+
+        web3.eth.getAccounts(async (err, accounts) => {
+          if(err){
+            throw new {name:"Exception", message:"Accounts are not found"};
+          }
+
+          const registeringUser = accounts[0];
+
+          const result = await EscrowInstance.register({from:registeringUser});
+
+          console.log(result)
+
+        })
       }
     },
     computed: {

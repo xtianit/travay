@@ -179,20 +179,24 @@
 
               <template v-if="!claimed">
                 <vue-grid-item>
-                  {{ $t('App.job.claimDisclaimer' /* Claiming this position is to accept the job requirements and
-                  terms and conditions of Travay. */) }}<br>
                   <vue-checkbox v-userRole.signedIn.canClaim="{role: job.role}"
                                 name="acceptTerms"
                                 id="acceptTerms"
                                 v-model="form.acceptTerms"
-                                label="I accept the terms"
+                                label=""
                                 validation="required"/>
+                  {{ $t('App.job.claimDisclaimer' /* Claiming this position is to accept the job requirements, Travay
+                  Terms, Privacy Policy and Code of Conduct. */) }}
                 </vue-grid-item>
 
                 <vue-grid-item>
                   <vue-button v-userRole.signedIn.canClaim="{role: job.role}"
                               primary @click.prevent.stop="e => onClaim(job.id)">
-                    Claim
+                    {{ $t('App.job.claim' /* Claim */) }}
+                  </vue-button>
+                  <vue-button v-userRole.signedIn.canClaim="{role: job.role}"
+                              primary @click.prevent.stop="e => claimPayout(job.id)">
+                    {{ $t('App.job.claimPayout' /* Claim Payout */) }}
                   </vue-button>
                 </vue-grid-item>
               </template>
@@ -286,9 +290,21 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.worker="{cb: uploadFile, role: job.role}" warn>
+                  <vue-button v-userRole.worker="{role: job.role}" warn>
                     <a @click="markJobCompleteHandler" style="color: white;">
                       {{ $t('App.job.markJobComplete' /* Job is Done */) }}
+                    </a>
+                  </vue-button>
+                  <br><br>
+                  <vue-button v-userRole.evaluator="{role: job.role}" primary>
+                    <a @click="evaluateJobAsCompletedSucessfullyHandler" style="color: white;">
+                      {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
+                    </a>
+                  </vue-button>
+                  <br><br>
+                  <vue-button v-userRole.evaluator="{role: job.role}" warn>
+                    <a @click="evaluateJobAsCompletedUnsucessfullyHandler" style="color: white;">
+                      {{ $t('App.job.evaluateJobAsUnsuccessful' /* Disapprove Work */) }}
                     </a>
                   </vue-button>
                 </vue-panel-footer>
@@ -315,7 +331,7 @@
                 <vue-panel-footer>
                   <vue-grid-item v-if="job.role">
                     <vue-button
-                      v-if="job.role['0'] == userId"
+                      v-if="job.role['0'] === userId"
                       @click.prevent.stop="e => onPayout(job.id)"
                       primary>
                       {{ $t('App.job.payoutJobButton' /* Payout Job */) }}
@@ -341,8 +357,11 @@
   import {uuid} from "vue-uuid";
   import moment from "moment";
   import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
-  import {addNotification, INotification} from 'vue-ui'
-  import * as types from '@/store/types'
+  import * as types from '../store/types'
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow"
+  import {store} from '../store/'
+  import {addNotification, INotification} from "vue-ui";
 
   const firebaseStorage = firebase.storage();
 
@@ -390,7 +409,6 @@
     },
     created() {
       const taskId = this.$route.params.id;
-      console.log('In job.vue', taskId);
       db
         .collection("jobs")
         .where("taskId", "==", taskId)
@@ -473,6 +491,7 @@
           });
           this.job.status.state = "cancelled";
           this.isEditingJobDetails = false;
+          this.cancelJobInEscrow();
           addNotification({
             title: this.$t("App.job.jobCanceledNotificationTitle") /* Success! */,
             text: this.$t(
@@ -503,6 +522,71 @@
           }, INotification);
         } catch (error) {
         }
+      },
+      async evaluateJobAsCompletedSucessfullyHandler() {
+        const jobId = this.job.taskId;
+        try {
+          const job = await db.collection("jobs").doc(jobId);
+          const update = await job.update({
+            status: {
+              successfullyCompleted: "true"
+            }
+          });
+          this.isEditingJobDetails = false;
+          this.evaluateJobToEscrow();
+          addNotification({
+            title: this.$t(
+              "App.job.jobCompletedNotificationTitle"
+            ) /* Success! */,
+            text: this.$t(
+              "App.job.jobCompleteNotificationText"
+            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          }, INotification);
+        } catch (error) {
+        }
+      },
+      async evaluateJobAsCompletedUnsucessfullyHandler() {
+        const jobId = this.job.taskId;
+        try {
+          const job = await db.collection("jobs").doc(jobId);
+          const update = await job.update({
+            status: {
+              successfullyCompleted: "false"
+            }
+          });
+          this.isEditingJobDetails = false;
+          addNotification({
+            title: this.$t(
+              "App.job.jobCompletedNotificationTitle"
+            ) /* Success! */,
+            text: this.$t(
+              "App.job.jobCompleteNotificationText"
+            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          }, INotification);
+        } catch (error) {
+        }
+      },
+      async claimPayout() {
+        const jobId = this.job.taskId;
+        try {
+          const job = await db.collection("jobs").doc(jobId);
+          const update = await job.update({
+            status: {
+              payout: "yes"
+            }
+          });
+          this.isEditingJobDetails = false;
+          addNotification({
+            title: this.$t(
+              "App.job.jobCompletedNotificationTitle"
+            ) /* Success! */,
+            text: this.$t(
+              "App.job.jobCompleteNotificationText"
+            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          }, INotification);
+        } catch (error) {
+        }
+        this.workerClaimPayoutInEscrow();
       },
       async fileUploaded(e) {
         const images = await Promise.all(
@@ -543,24 +627,24 @@
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
-            addNotification({
-              title: this.$t("App.job.jobSavedNotificationTitle") /* Success */,
-              text: this.$t(
-                "App.job.jobSavedNotificationText"
-              ) /* The job has been saved! */
-            }, INotification);
+            // addNotification({
+            //   title: this.$t("App.job.jobSavedNotificationTitle") /* Success */,
+            //   text: this.$t(
+            //     "App.job.jobSavedNotificationText"
+            //   ) /* The job has been saved! */
+            // }, INotification);
           }, 500);
         });
       },
       async onClaim(docId) {
         const taskId = this.$route.params.id;
         if (this.hasEmptyFields) {
-          addNotification({
-            title: this.$t("App.job.jobEmptyFieldNotificationTitle") /* Oops */,
-            text: this.$t(
-              "App.job.jobEmptyFieldNotificationText"
-            ) /* Please complete all fields. */
-          }, INotification);
+          // addNotification({
+          //   title: this.$t("App.job.jobEmptyFieldNotificationTitle") /* Oops */,
+          //   text: this.$t(
+          //     "App.job.jobEmptyFieldNotificationText"
+          //   ) /* Please complete all fields. */
+          // }, INotification);
           return false;
         }
         await db
@@ -591,14 +675,15 @@
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
-            addNotification({
-              title: this.$t("App.job.jobClaimedNotificationTitle") /* Yay! */,
-              text: this.$t(
-                "App.job.jobClaimedNotificationText"
-              ) /* Job confirmed successfully! You can start work immediately. */
-            }, INotification);
+            // addNotification({
+            //   title: this.$t("App.job.jobClaimedNotificationTitle") /* Yay! */,
+            //   text: this.$t(
+            //     "App.job.jobClaimedNotificationText"
+            //   ) /* Job confirmed successfully! You can start work immediately. */
+            // }, INotification);
           }, 700);
         });
+        this.claimJobInEscrowContract();
       },
       onPayout(docId) {
         const taskId = this.$route.params.id;
@@ -619,6 +704,7 @@
             }, INotification);
           }, 700);
         });
+        this.managerApprovesPaymentInEscrow();
       },
       async postEditedJob() {
         const jobData = {
@@ -691,6 +777,7 @@
               console.error("Error adding document: ", error);
             });
         });
+        this.proofOfWorkToEscrow();
       },
       uploadFile(file, jobId) {
         return new Promise((resolve, reject) => {
@@ -725,7 +812,130 @@
             }
           );
         });
+      },
+      async claimJobInEscrowContract() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const worker = this.role[2];
+
+        const EscrowInstance = await Escrow.deployed();
+
+        await EscrowInstance.register({from: worker});
+        const result = await EscrowInstance.claimJob(JobID, {from: worker});
+
+        console.log(result)
+
+
+      },
+      async cancelJobInEscrow() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const manager = accounts[0];
+        const EscrowInstance = await Escrow.deployed();
+        const DAIInstance = await DAI.deployed();
+
+        let balance_manager_before = await DAIInstance.balanceOf(manager);
+        balance_manager_before =
+          balance_manager_before.toNumber() / decimalConversion;
+
+        const salary = 100 * decimalConversion;
+
+        const twoPecentOfSalary = (salary * (1 / 50)) / decimalConversion;
+
+        await DAIInstance.approve(EscrowInstance.address, salary, {
+          from: manager
+        });
+
+        await EscrowInstance.createJob(description, salary, 5, {from: manager});
+
+        const JobID = 1;
+        const result = await EscrowInstance.cancelJob(JobID, {from: manager});
+
+        let balance_manager_after = await DAIInstance.balanceOf(manager);
+        balance_manager_after =
+          balance_manager_after.toNumber() / decimalConversion;
+
+        console.log(result)
+
+      },
+      async proofOfWorkToEscrow() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const worker = accounts[1];
+
+        const EscrowInstance = await Escrow.deployed();
+
+        const JobID = 0;
+
+        const result = await EscrowInstance.provideProofOfWork(JobID, {
+          from: worker
+        });
+
+        console.log(result)
+      },
+      async evaluateJobToEscrow() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const EscrowInstance = await Escrow.deployed();
+
+        const result = await EscrowInstance.confirmProofOfWork(JobID, {
+          from: evaluator
+        });
+      },
+      async managerApprovesPaymentInEscrow() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const manager = accounts[0];
+
+        const EscrowInstance = await Escrow.deployed();
+
+        const JobID = 0;
+        const salary = 98 * decimalConversion;
+        const payment = salary / 5;
+
+        const result = await EscrowInstance.approvePayment(JobID, {
+          from: manager
+        });
+
+        console.log(result)
+
+      },
+      async workerClaimPayoutInEscrow() {
+        const Escrow = truffleContract(EscrowContract);
+
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+        const EscrowInstance = await Escrow.deployed();
+
+        const DAIInstance = await DAI.deployed();
+
+        let worker_balance_before = await DAIInstance.balanceOf(worker);
+        worker_balance_before = worker_balance_before.toNumber();
+
+        const JobID = 0;
+
+        const Job = await EscrowInstance.getJob(JobID);
+        const payment = Job[7].toNumber();
+
+        const result = await EscrowInstance.claimPayment(JobID, {from: worker});
+
+        let worker_balance_after = await DAIInstance.balanceOf(worker);
+        worker_balance_after = worker_balance_after.toNumber();
+
+        console.log(result)
       }
+
+      // ended here: https://github.com/electricfeelco/EscrowSmartContract/blob/master/test/Escrow.js#L399
     }
   };
 </script>
