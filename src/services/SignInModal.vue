@@ -31,6 +31,9 @@
         <template v-else fill>
           <vue-grid-row>
             <vue-grid-item>
+
+              <p warn>Remember to also sign out of MetaMask, to prevent phishing for example: https://medium.com/metamask/new-phishing-strategy-becoming-common-1b1123837168.</p>
+              <p>What is Phishing?: https://en.wikipedia.org/wiki/Phishing</p>
               <vue-button @click="signOut">
                 <i class="fab fa-sign-out"></i> Sign Out
               </vue-button>

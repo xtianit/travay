@@ -36,7 +36,6 @@
     ...mapGetters('signInModal', ['userId'])
   },
   methods: {
-    // ...mapActions('app', ['changeLocale']),
     ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
     signInClicked() {
       this.navBarClose();

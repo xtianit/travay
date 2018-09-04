@@ -24,8 +24,8 @@ Vue.use(VueI18n);
 
 const messages = {
   en: enlocale,
-  ht: htlocale,
-  fr: frlocale
+  // ht: htlocale,
+  // fr: frlocale
 };
 
 // Create VueI18n instance with options

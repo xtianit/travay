@@ -19,6 +19,27 @@
               <!--<p>{{ user.phone || null }}</p>-->
               <!--<p>{{ user.address || null }}</p>-->
               <p>{{ user.country || null }}</p>
+
+              <form @submit.prevent="updateProfile()">
+                <vue-grid-row>
+                  <vue-grid-item>
+                    <vue-input
+                      name="mobile"
+                      id="mobile"
+                      required
+                      placeholder="Mobile"
+                      validation="required"
+                      type="tel"
+                      v-model="form.mobile"/>
+                  </vue-grid-item>
+                </vue-grid-row>
+
+                <vue-button primary
+                            :loading="isLoading"
+                            @click="updateProfile()">
+                  {{ $t('App.profile.updateProfile' /* Update Profile */) }}
+                </vue-button>
+              </form>
             </vue-panel-body>
           </vue-panel>
         </vue-grid-item>
@@ -91,10 +112,13 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import db from "../firebaseinit";
+  import * as firebase from 'firebase';
+  import 'firebase/firestore';
   import * as types from '../store/types'
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
   import {store} from '../store';
+  import SignInModal from '../services/SignInModal';
 
   export default {
     metaInfo: {
@@ -107,7 +131,10 @@
       ]
     },
     name: "Profile",
-    data () {
+    $_veeValidate: {
+      validator: 'new'
+    },
+    data() {
       return {
         isLoading: false,
         sponsored: false,
@@ -119,18 +146,28 @@
         completedJobs: [],
         evaluatingJobs: [],
         managingJobs: [],
-        canceledJobs: []
+        canceledJobs: [],
+        form: {
+          mobile: '',
+        },
       };
     },
     computed: {
-      // ...mapGetters("signInModal", ["userId"])
       ...mapGetters({
         userId: types.GET_USER_ID
       }),
       ...mapGetters('jobs', []),
+      ...mapGetters({
+        userId: types.GET_USER_ID,
+        isSignInModalOpen: types.IS_SIGNIN_MODAL_OPEN
+      })
     },
     methods: {
-      onSubmit () {
+      ...mapActions({
+        openLoginModal: types.OPEN_LOGIN_MODAL,
+        saveUserInStorage: types.SAVE_USER_IN_STORAGE
+      }),
+      onSubmit() {
         this.isLoading = true;
         console.log(JSON.parse(JSON.stringify(this.form)));
         this.$nextTick(() => {
@@ -142,6 +179,16 @@
             }, INotification);
           }, 500);
         });
+      },
+      updateProfile() {
+        const form = this.form;
+        db
+          .collection("users")
+          .where("uid", "==", this.userId)
+          .get()
+          .update({
+            "phone": form.mobile
+          })
       },
       getJobs() {
         return db
@@ -196,7 +243,7 @@
             Promise.resolve(true);
           });
       },
-      getSponsored () {
+      getSponsored() {
         return db
           .collection("sponsored")
           .where("userId", "==", this.userId)
@@ -210,7 +257,7 @@
             Promise.resolve(true);
           });
       },
-      async prepareData () {
+      async prepareData() {
         this.isLoading = true;
         try {
           await Promise.all([
@@ -225,12 +272,17 @@
         }
       }
     },
-    created () {
+    created() {
       this.prepareData();
+      try {
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+          this.saveUserInStorage(JSON.parse(userData));
+        }
+      } catch (err) {
+        console.log('err when trying to get user data from storage', err);
+      }
     }
   };
 </script>
 
-<style scoped>
-
-</style>

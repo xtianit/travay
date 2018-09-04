@@ -203,7 +203,7 @@
           <br/>
           <vue-button warn
                       :loading="isLoading"
-                      @click.prevent.stop="submitHandler">
+                      @click.prevent.stop="createJob">
             {{ $t('App.createJob.submitPostAJob' /* Submit Job Posting */) }}
           </vue-button>
         </form>
@@ -348,7 +348,7 @@
       removeRequirement(i) {
         this.form.deliverable.splice(i, 1);
       },
-      submitHandler() {
+      createJob() {
         const form = this.form;
         const self = this;
         if (this.hasEmptyFields) {

@@ -71,7 +71,6 @@
       })
     },
     methods: {
-      //...mapActions('app', ['changeLocale']),
       // ...mapActions('signInModal', ['openLoginModal', 'saveUserInStorage']),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,
@@ -83,8 +82,6 @@
       },
       localeSwitch(locale) {
         doChangeLocale(locale);
-
-        //this.changeLocale(locale);
         this.navBarClose();
       },
       navBarClose() {
@@ -92,7 +89,6 @@
       }
     },
     created() {
-      console.log('checking user id', this.userId);
       try {
         const userData = localStorage.getItem('userData');
         if (userData) {

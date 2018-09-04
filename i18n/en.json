@@ -27,6 +27,7 @@
     "Your Job Manager will approve work and issue payment",
   "App.sectionFour.paragraph":
     "Find a job, claim it with no experience needed!",
+  "App.profile.updateProfile": "Update Profile",
   "App.job.claim": "Claim",
   "App.job.claimPayout": "Claim Payout",
   "App.job.editJobIcon": "Edit",
