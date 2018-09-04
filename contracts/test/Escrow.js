@@ -4,17 +4,17 @@ const decimals = 18;
 const decimalConversion = 10 ** decimals;
 
 contract("Escrow Contract", accounts => {
-  it("Escrow contracts is deployed", async () => {
+  it("Escrow contract is deployed", async () => {
     const EscrowInstance = await Escrow.deployed();
     assert.notEqual(EscrowInstance.address, "");
   });
 
-  it("Fake DAI token contracts is deployed", async () => {
+  it("Fake DAI token contract is deployed", async () => {
     const DAIInstance = await DAI.deployed();
     assert.notEqual(DAIInstance.address);
   });
 
-  it("Tranfer DAI to Escrow contracts", async () => {
+  it("Tranfer DAI to Escrow contract", async () => {
     const sender = accounts[0];
 
     const DAIInstance = await DAI.deployed();

@@ -188,12 +188,15 @@
                   {{ $t('App.job.claimDisclaimer' /* Claiming this position is to accept the job requirements, Travay
                   Terms, Privacy Policy and Code of Conduct. */) }}
                 </vue-grid-item>
+                <br>
 
                 <vue-grid-item>
                   <vue-button v-userRole.signedIn.canClaim="{role: job.role}"
                               primary @click.prevent.stop="e => onClaim(job.id)">
                     {{ $t('App.job.claim' /* Claim */) }}
                   </vue-button>
+                  <br>
+                  <br>
                   <vue-button v-userRole.signedIn.canClaim="{role: job.role}"
                               primary @click.prevent.stop="e => claimPayout(job.id)">
                     {{ $t('App.job.claimPayout' /* Claim Payout */) }}
@@ -361,7 +364,6 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
   import {store} from '../store/'
-  import {addNotification, INotification} from "vue-ui";
 
   const firebaseStorage = firebase.storage();
 

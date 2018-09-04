@@ -112,7 +112,7 @@ contract Escrow{
         require(registeredUsers[msg.sender]);  // only execute function if the sender is a registered address
         _;
     }
-    
+
     modifier onlyArbitrator{
         require(msg.sender == arbitrator);
         _;
@@ -127,7 +127,7 @@ contract Escrow{
         require(registeredUsers[msg.sender] == false);
 
         registeredUsers[msg.sender] = true;
-        
+
         emit Register(msg.sender);
     }
 
@@ -154,7 +154,7 @@ contract Escrow{
         emit JobCreated(msg.sender, finalSalary, _noOfTotalPayments, jobCount, _description);
         jobCount++;
 
-        DAI.transferFrom(msg.sender, address(this), _salary);  
+        DAI.transferFrom(msg.sender, address(this), _salary);
 
     }
 
@@ -180,7 +180,7 @@ contract Escrow{
         JobsByWorker[msg.sender].push(_JobID);
         emit JobClaimed(msg.sender, _JobID);
 
-        
+
     }
 
 
@@ -219,7 +219,7 @@ contract Escrow{
         }
 
         job.status = JobStatus.Cancelled;
-        uint returnAmount = job.salaryDeposited; 
+        uint returnAmount = job.salaryDeposited;
 
         emit JobCancelled(_JobID);
         DAI.transfer(job.manager, returnAmount);
@@ -245,7 +245,7 @@ contract Escrow{
 
         emit PaymentClaimed(msg.sender, payment, _JobID);
         DAI.transfer(msg.sender, payment);
-        
+
     }
 
 
@@ -305,7 +305,7 @@ contract Escrow{
 
     event ProofOfWorkConfirmed(uint JobID, address evaluator, bool proofVerified);
 
-    /// @notice this function lets the evaluator confirm the proof of work provided by worker 
+    /// @notice this function lets the evaluator confirm the proof of work provided by worker
     /// @param _JobID is the ID of the job for which the evaluator confirms proof of work
     function confirmProofOfWork(uint _JobID) public onlyRegisteredUser {
         require(_JobID >= 0);
@@ -352,7 +352,7 @@ contract Escrow{
 
 
     event DAISponsored(uint JobID, uint amount, address sponsor);
-    
+
     /// @notice this function lets any registered address send DAI tokens to any Job as sponsored tokens
     /// @dev Uses transferFrom on the DAI token contract to send DAI from sender's address to Escrow
     /// @param _JobID is the ID of the job for which the sponsor contributes DAI
@@ -371,7 +371,7 @@ contract Escrow{
         job.sponsoredTokens = job.sponsoredTokens + _amount;
 
         emit DAISponsored(_JobID, _amount, msg.sender);
-        
+
         require(DAI.allowance(msg.sender, address(this)) >= _amount);
         DAI.transferFrom(msg.sender, address(this), _amount);
     }
@@ -379,14 +379,14 @@ contract Escrow{
 
     event DAIWithdrawn(address receiver, uint amount);
 
-    /// @notice this function lets arbitrator withdraw DAI to the provided address 
+    /// @notice this function lets arbitrator withdraw DAI to the provided address
     /// @dev Uses transfer on the DAI token contract to send DAI from Escrow to the provided address
     /// @param _receiver is the receiving the withdrawn DAI tokens
     /// @param _amount is the amount of DAI tokens to be withdrawn
     function withdrawDAI(address _receiver, uint _amount) public onlyArbitrator {
         require(_receiver != 0x0);
         require(_amount > 0);
-        
+
         require(DAI.balanceOf(address(this)) >= _amount);
 
         DAI.transfer(_receiver, _amount);
@@ -426,18 +426,17 @@ contract Escrow{
         Job storage job = Jobs[_JobID];
         _description = job.description;
         _manager = job.manager;
-        _salaryDeposited = job.salaryDeposited;             
-        _worker = job.worker;                   
-        _status = uint(job.status);                 
-        _noOfTotalPayments = job.noOfTotalPayments;           
-        _noOfPaymentsMade = job.noOfPaymentsMade;           
-        _paymentAvailableForWorker = job.paymentAvailableForWorker;   
-        _totalPaidToWorker = job.totalPaidToWorker;           
-        _evaluator = job.evaluator;               
-        _proofOfLastWorkVerified = job.proofOfLastWorkVerified;     
-        _sponsoredTokens = job.sponsoredTokens;             
+        _salaryDeposited = job.salaryDeposited;
+        _worker = job.worker;
+        _status = uint(job.status);
+        _noOfTotalPayments = job.noOfTotalPayments;
+        _noOfPaymentsMade = job.noOfPaymentsMade;
+        _paymentAvailableForWorker = job.paymentAvailableForWorker;
+        _totalPaidToWorker = job.totalPaidToWorker;
+        _evaluator = job.evaluator;
+        _proofOfLastWorkVerified = job.proofOfLastWorkVerified;
+        _sponsoredTokens = job.sponsoredTokens;
         _sponsorsCount = job.sponsorsCount;
     }
 
 }
-
