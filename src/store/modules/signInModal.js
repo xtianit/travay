@@ -42,6 +42,7 @@ const mutations = {
 };
 
 export default {
+  namespace: true,
   state,
   getters,
   actions,

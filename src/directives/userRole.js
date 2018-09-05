@@ -18,9 +18,10 @@ export const userRole = {
     const userId = store.userData;
     const { value, modifiers } = binding;
     if (value.role) {
+
       // Manager only
       if (Reflect.has(modifiers, 'manager')) {
-        if (value.role[0] === userId) hide(vnode);
+        if (value.role[0] !== userId) hide(vnode);
       }
 
       // Evaluator only
@@ -30,7 +31,6 @@ export const userRole = {
 
       // Worker only
       if (Reflect.has(modifiers, 'worker')) {
-        // console.log(value, userId, 'comming from here');
         if (value.role[2] !== userId) hide(vnode);
       }
 
@@ -53,7 +53,6 @@ export const userRole = {
 
       // Only if user did not claim the job && is not the evaluator
       if (Reflect.has(modifiers, 'canClaim')) {
-        console.log('canClaim is in modifiers');
         if (
           value.role[0] === userId ||
           value.role[1].includes(userId) ||

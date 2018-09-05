@@ -51,7 +51,6 @@
   import * as types from '../store/types'
   import firebase from 'firebase';
   import db from '../firebaseinit';
-  import {travaySlackBotMixin} from '../mixins/travaySlackBotMixin';
   import {uuid} from 'vue-uuid';
   import {store} from '../store';
   import truffleContract from "truffle-contract";
@@ -65,7 +64,6 @@
   // });
 
   export default {
-    mixins: [travaySlackBotMixin],
     metaInfo: {
       title: 'SignInModal'
     },
@@ -151,7 +149,8 @@
           photoURL: user.photoURL || null,
           phone: user.phone || null,
           country: user.country || null,
-          address: user.address || null
+          address: user.address || null,
+          optInTexts: user.optInTexts|| null
         };
         try {
           const snapshot = await db

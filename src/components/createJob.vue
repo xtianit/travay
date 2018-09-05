@@ -7,7 +7,7 @@
           <vue-grid-item class="vueGridItem">
             <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
             <!--<p>-->
-              <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
+            <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
             <!--</p>-->
           </vue-grid-item>
         </vue-grid-row>
@@ -79,12 +79,12 @@
           <vue-grid-row>
             <vue-grid-item class="vueGridItem">
               <vue-date-picker
-              @change="calendarChange"
-              :first-day-of-week="1"
-              ref="closingDatepicker"
-              :selectedDate="form.closingDate"
-              validation="required"
-              placeholder="Job Closing Date" />
+                @change="calendarChange"
+                :first-day-of-week="1"
+                ref="closingDatepicker"
+                :selectedDate="form.closingDate"
+                validation="required"
+                placeholder="Job Closing Date" />
             </vue-grid-item>
           </vue-grid-row>
 
@@ -224,6 +224,7 @@
   import {store} from '../store';
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
+  import * as types from '../store/types'
 
   const state = {
     date1: new Date()
@@ -448,7 +449,9 @@
     },
     computed: {
       ...mapGetters('createJob', []),
-      ...mapGetters('signInModal', ['userId']),
+      ...mapGetters({
+        userId: types.GET_USER_ID
+      }),
       estimatedWorkerPayout: function () {
         return this.form.salary - this.form.salary * 0.02;
       },
