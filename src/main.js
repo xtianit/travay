@@ -29,6 +29,20 @@ const messages = {
 };
 
 const dateTimeFormats = {
+  'en': {
+    datePicker: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }
+  },
+  'ht': {
+    datePicker: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }
+  },
   'fr': {
     datePicker: {
       year: 'numeric',
