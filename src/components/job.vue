@@ -188,12 +188,15 @@
                   {{ $t('App.job.claimDisclaimer' /* Claiming this position is to accept the job requirements, Travay
                   Terms, Privacy Policy and Code of Conduct. */) }}
                 </vue-grid-item>
+                <br>
 
                 <vue-grid-item>
                   <vue-button v-userRole.signedIn.canClaim="{role: job.role}"
                               primary @click.prevent.stop="e => onClaim(job.id)">
                     {{ $t('App.job.claim' /* Claim */) }}
                   </vue-button>
+                  <br>
+                  <br>
                   <vue-button v-userRole.signedIn.canClaim="{role: job.role}"
                               primary @click.prevent.stop="e => claimPayout(job.id)">
                     {{ $t('App.job.claimPayout' /* Claim Payout */) }}
@@ -358,10 +361,11 @@
   import moment from "moment";
   import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
   import * as types from '../store/types'
-  import truffleContract from "truffle-contract";
-  import EscrowContract from "../../contracts/build/contracts/Escrow"
   import {store} from '../store/'
-  import {addNotification, INotification} from "vue-ui";
+
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow.json";
+  import DAIContract from "../../contracts/build/contracts/DAI.json";
 
   const firebaseStorage = firebase.storage();
 
@@ -815,18 +819,34 @@
       },
       async claimJobInEscrowContract() {
         const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
+        window.Escrow = Escrow;
         Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-
-        const worker = this.role[2];
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
         const EscrowInstance = await Escrow.deployed();
+        const DAIInstance = await DAI.deployed();
 
-        await EscrowInstance.register({from: worker});
-        const result = await EscrowInstance.claimJob(JobID, {from: worker});
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
 
-        console.log(result)
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
+        web3.eth.getAccounts( async(err, accounts) => {
+          const worker = accounts[0];
+
+          const JobID = 0; // you need to get this from UI
+
+          try {
+            const result = await EscrowInstance.claimJob(JobID, { from: worker });
+
+          } catch (err) {
+            console.log(err)
+          }
+        })
 
       },
       async cancelJobInEscrow() {
