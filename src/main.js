@@ -78,7 +78,3 @@ new Vue({
   components: {App},
   template: '<App/>'
 });
-
-// change other locale
-i18n.locale = 'ht';
-i18n.locale = 'fr';
