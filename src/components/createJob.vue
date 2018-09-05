@@ -221,7 +221,6 @@
   import db from '../firebaseinit';
   import {AssertionError} from 'assert';
   import {any} from 'bluebird';
-  import {addNotification, INotification} from 'vue-ui'
   import {store} from '../store';
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
@@ -355,7 +354,7 @@
           return false;
         }
         this.isLoading = true;
-        this.createJobInEscrow();
+        // this.createJobInEscrow();
         const jobId = uuid.v1();
         let jobData = {
           salary: {
@@ -401,14 +400,14 @@
             console.error('Error adding new job: ', error);
           });
         this.$nextTick(() => {
-          setTimeout(() => {
-            this.isLoading = false;
-            addNotification({
-              title: 'Yay!',
-              text: `Your job is now posted! Click here to see the job.`,
-              link: `/job/${jobId}`
-            }, INotification);
-          }, 500);
+          // setTimeout(() => {
+          //   this.isLoading = false;
+          //   addNotification({
+          //     title: 'Yay!',
+          //     text: `Your job is now posted! Click here to see the job.`,
+          //     link: `/job/${jobId}`
+          //   }, INotification);
+          // }, 500);
         });
       },
       clearForm() {

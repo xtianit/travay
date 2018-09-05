@@ -177,7 +177,7 @@
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}<br><br>
               </vue-grid-item>
 
-              <template v-if="!claimed">
+              <template v-if="!claimed && job.role">
                 <vue-grid-item>
                   <vue-checkbox v-userRole.signedIn.canClaim="{role: job.role}"
                                 name="acceptTerms"
@@ -228,7 +228,7 @@
 
                 </vue-panel-body>
                 <vue-panel-footer>
-                  <vue-button v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container" accent>
+                  <vue-button v-if="job.role" v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container" accent>
                     <a style="color: white !important;" @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)"
                        id="remove-hyperlink">
                       {{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}
@@ -265,7 +265,7 @@
                     </div>
                   </vue-grid-item>
 
-                  <vue-grid-item v-userRole.signedIn.worker="{cb: uploadFile, role: job.role}">
+                  <vue-grid-item v-if="job.role" v-userRole.signedIn.worker="{cb: uploadFile, role: job.role}">
 
                     <div v-for="(image, index) in images" :key="index">
                       <a @click.prevent="removeImage(index)">X</a>
@@ -286,7 +286,7 @@
                   </vue-grid-item>
 
                 </vue-panel-body>
-                <vue-panel-footer>
+                <vue-panel-footer v-if="job.role">
                   <vue-button v-userRole.worker="{cb: uploadFile, role: job.role}" accent>
                     <a @click.prevent="uploadImages" style="color: white;">
                       {{ $t('App.job.uploadFileButton' /* Submit Proof */) }}

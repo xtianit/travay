@@ -34,7 +34,7 @@
     "truffle-contract": "^3.0.6",
     "truffle-hdwallet-provider": "0.0.6",
     "typescript": "^3.0.1",
-    "uport-connect": "^0.7.6",
+    "uport-connect": "^0.8.4",
     "vee-validate": "^2.1.0-beta.8",
     "vue": "^2.5.17",
     "vue-i18n": "^8.1.0",
