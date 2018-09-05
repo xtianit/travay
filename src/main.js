@@ -28,10 +28,35 @@ const messages = {
   fr: frlocale
 };
 
+const dateTimeFormats = {
+  'en': {
+    datePicker: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }
+  },
+  'ht': {
+    datePicker: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }
+  },
+  'fr': {
+    datePicker: {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    }
+  }
+};
+
 // Create VueI18n instance with options
 export const i18n = new VueI18n({
   locale: 'en', // set locale
   messages, // set locale messages
+  dateTimeFormats
 });
 
 window['$d'] = i18n.d.bind(i18n);

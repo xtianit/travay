@@ -222,7 +222,6 @@
   import {AssertionError} from 'assert';
   import {any} from 'bluebird';
   import {addNotification, INotification} from 'vue-ui'
-  import DatePicker from 'vue2-datepicker'
   import {store} from '../store';
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
@@ -244,9 +243,6 @@
     name: 'createJob',
     $_veeValidate: {
       validator: 'new'
-    },
-    components: {
-      DatePicker
     },
     data() {
       return {
