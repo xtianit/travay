@@ -203,12 +203,11 @@
       },
       async updateProfile() {
         const docRef = db.collection("users").doc("userId");
-        docRef.set({
+        docRef.update({
           optInTexts: this.form.optInTexts,
           phone: this.form.mobile
         });
         db.collection("users")
-          .doc("userId")
           .update({
             optInTexts: this.form.optInTexts,
             phone: this.form.mobile

@@ -10,6 +10,7 @@ import UserGuide from '@/components/userGuide'
 import Privacy from '@/components/privacy'
 import CodeOfConduct from '@/components/code-of-conduct'
 import SetUpMetaMask from '@/components/set-up-metamask'
+import Tip from '@/components/tip'
 
 Vue.use(Router);
 
@@ -65,6 +66,11 @@ export default new Router({
       path: '/set-up-metamask',
       name: 'set-up-metamask',
       component: SetUpMetaMask
+    },
+    {
+      path: '/tip',
+      name: 'tip',
+      component: Tip
     }
   ]
 })

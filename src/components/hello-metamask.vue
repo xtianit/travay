@@ -2,7 +2,7 @@
   <vue-grid class='metamask-info'>
     <vue-grid-row v-if="isInjected">
       <vue-grid-item>
-        <p id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> Metamask installed</p>
+        <p id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> MetaMask installed</p>
         <p>Network: <strong>{{ network }}</strong></p>
         <p>Account: {{ coinbase }}</p>
         <p>Balance: {{ balance }} Wei // {{ ethBalance }} Eth</p>

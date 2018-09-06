@@ -179,7 +179,7 @@
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}<br><br>
               </vue-grid-item>
 
-              <template v-if="!claimed && job.role">
+              <template v-if="!claimed">
                 <vue-grid-item>
                   <vue-checkbox v-userRole.signedIn.canClaim="{role: job.role}"
                                 name="acceptTerms"
@@ -268,8 +268,8 @@
                     </div>
                   </vue-grid-item>
 
-                  <vue-grid-item v-if="job.role" v-userRole.signedIn.worker="{cb: uploadFile, role: job.role}">
-
+                  <!--<vue-grid-item v-if="job.role" v-userRole.signedIn.worker="{cb: uploadFile, role: job.role}">-->
+                  <vue-grid-item>
                     <div v-for="(image, index) in images" :key="index">
                       <a @click.prevent="removeImage(index)">X</a>
                       <img :src="image.src"/>
@@ -289,7 +289,8 @@
                   </vue-grid-item>
 
                 </vue-panel-body>
-                <vue-panel-footer v-if="job.role">
+                <!--<vue-panel-footer v-if="job.role">-->
+                <vue-panel-footer>
                   <vue-button v-userRole.worker="{cb: uploadFile, role: job.role}" accent>
                     <a @click.prevent="uploadImages" style="color: white;">
                       {{ $t('App.job.uploadFileButton' /* Submit Proof */) }}
@@ -518,16 +519,17 @@
           });
           this.job.status.state = "complete";
           this.isEditingJobDetails = false;
-          addNotification({
-            title: this.$t(
-              "App.job.jobCompletedNotificationTitle"
-            ) /* Success! */,
-            text: this.$t(
-              "App.job.jobCompleteNotificationText"
-            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          }, INotification);
+          // addNotification({
+          //   title: this.$t(
+          //     "App.job.jobCompletedNotificationTitle"
+          //   ) /* Success! */,
+          //   text: this.$t(
+          //     "App.job.jobCompleteNotificationText"
+          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          // }, INotification);
         } catch (error) {
         }
+        this.proofOfWorkToEscrow();
       },
       async evaluateJobAsCompletedSucessfullyHandler() {
         const jobId = this.job.taskId;
@@ -540,14 +542,14 @@
           });
           this.isEditingJobDetails = false;
           this.evaluateJobToEscrow();
-          addNotification({
-            title: this.$t(
-              "App.job.jobCompletedNotificationTitle"
-            ) /* Success! */,
-            text: this.$t(
-              "App.job.jobCompleteNotificationText"
-            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          }, INotification);
+          // addNotification({
+          //   title: this.$t(
+          //     "App.job.jobCompletedNotificationTitle"
+          //   ) /* Success! */,
+          //   text: this.$t(
+          //     "App.job.jobCompleteNotificationText"
+          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          // }, INotification);
         } catch (error) {
         }
       },
@@ -561,14 +563,14 @@
             }
           });
           this.isEditingJobDetails = false;
-          addNotification({
-            title: this.$t(
-              "App.job.jobCompletedNotificationTitle"
-            ) /* Success! */,
-            text: this.$t(
-              "App.job.jobCompleteNotificationText"
-            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          }, INotification);
+          // addNotification({
+          //   title: this.$t(
+          //     "App.job.jobCompletedNotificationTitle"
+          //   ) /* Success! */,
+          //   text: this.$t(
+          //     "App.job.jobCompleteNotificationText"
+          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          // }, INotification);
         } catch (error) {
         }
       },
@@ -582,14 +584,14 @@
             }
           });
           this.isEditingJobDetails = false;
-          addNotification({
-            title: this.$t(
-              "App.job.jobCompletedNotificationTitle"
-            ) /* Success! */,
-            text: this.$t(
-              "App.job.jobCompleteNotificationText"
-            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          }, INotification);
+          // addNotification({
+          //   title: this.$t(
+          //     "App.job.jobCompletedNotificationTitle"
+          //   ) /* Success! */,
+          //   text: this.$t(
+          //     "App.job.jobCompleteNotificationText"
+          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
+          // }, INotification);
         } catch (error) {
         }
         this.workerClaimPayoutInEscrow();
@@ -677,7 +679,6 @@
               claimedJobs: [...claimedJobs, this.job.taskId]
             });
           });
-        this.claimed = true;
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
@@ -698,17 +699,17 @@
           .doc(docId)
           .update({});
         this.$nextTick(() => {
-          setTimeout(() => {
-            this.isLoading = false;
-            addNotification({
-              title: this.$t(
-                "App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */
-              ),
-              text: this.$t(
-                "App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */
-              )
-            }, INotification);
-          }, 700);
+          // setTimeout(() => {
+          //   this.isLoading = false;
+          //   addNotification({
+          //     title: this.$t(
+          //       "App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */
+          //     ),
+          //     text: this.$t(
+          //       "App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */
+          //     )
+          //   }, INotification);
+          // }, 700);
         });
         this.managerApprovesPaymentInEscrow();
       },
@@ -783,7 +784,6 @@
               console.error("Error adding document: ", error);
             });
         });
-        this.proofOfWorkToEscrow();
       },
       uploadFile(file, jobId) {
         return new Promise((resolve, reject) => {
@@ -906,78 +906,134 @@
       },
       async proofOfWorkToEscrow() {
         const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
+        window.Escrow = Escrow;
         Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-
-        const worker = accounts[1];
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
         const EscrowInstance = await Escrow.deployed();
+        const DAIInstance = await DAI.deployed();
 
-        const JobID = 0;
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
 
-        const result = await EscrowInstance.provideProofOfWork(JobID, {
-          from: worker
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+
+        web3.eth.getAccounts(async (err, accounts) => {
+          const worker = accounts[1]; // TODO: link to UI
+          const JobID = 0;
+
+          try {
+            // TODO: result is undefined
+            const result = await EscrowInstance.provideProofOfWork(JobID, {
+              from: worker
+            });
+
+          } catch (err) {
+            console.log(err);
+          }
         });
-
         console.log(result)
       },
       async evaluateJobToEscrow() {
         const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
+        window.Escrow = Escrow;
         Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
         const EscrowInstance = await Escrow.deployed();
+        const DAIInstance = await DAI.deployed();
 
-        const result = await EscrowInstance.confirmProofOfWork(JobID, {
-          from: evaluator
-        });
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
+
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+
+        const JobID = 0; // TODO: link to UI
+        // const evaluator = TODO link to UI
+        try {
+          const result = await EscrowInstance.confirmProofOfWork(JobID, {
+            from: evaluator
+          });
+
+        } catch (err) {
+          console.log(err);
+        }
+
       },
       async managerApprovesPaymentInEscrow() {
         const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
+        window.Escrow = Escrow;
         Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-
-        const manager = accounts[0];
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
         const EscrowInstance = await Escrow.deployed();
+        const DAIInstance = await DAI.deployed();
 
-        const JobID = 0;
-        const salary = 98 * decimalConversion;
-        const payment = salary / 5;
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
 
-        const result = await EscrowInstance.approvePayment(JobID, {
-          from: manager
-        });
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        console.log(result)
+        const JobID = 0; // TODO: link to UI
 
+        try {
+          const result = await EscrowInstance.approvePayment(JobID, {
+            from: manager
+          });
+
+        } catch (err) {
+          console.log(err);
+        }
       },
       async workerClaimPayoutInEscrow() {
         const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
+        window.Escrow = Escrow;
         Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
         const EscrowInstance = await Escrow.deployed();
-
         const DAIInstance = await DAI.deployed();
 
-        let worker_balance_before = await DAIInstance.balanceOf(worker);
-        worker_balance_before = worker_balance_before.toNumber();
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
 
-        const JobID = 0;
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        const Job = await EscrowInstance.getJob(JobID);
-        const payment = Job[7].toNumber();
+        try {
+          let worker_balance_before = await DAIInstance.balanceOf(worker);
+          worker_balance_before = worker_balance_before.toNumber();
 
-        const result = await EscrowInstance.claimPayment(JobID, {from: worker});
+          const JobID = 0; // TODO: link to UI
 
-        let worker_balance_after = await DAIInstance.balanceOf(worker);
-        worker_balance_after = worker_balance_after.toNumber();
+          const Job = await EscrowInstance.getJob(JobID);
 
-        console.log(result)
+          const result = await EscrowInstance.claimPayment(JobID, {from: worker});
+
+          let worker_balance_after = await DAIInstance.balanceOf(worker);
+          worker_balance_after = worker_balance_after.toNumber();
+
+        } catch (err) {
+          console.log(err);
+        }
+        console.log(result);
       }
 
-      // ended here: https://github.com/electricfeelco/EscrowSmartContract/blob/master/test/Escrow.js#L399
     }
   };
 </script>

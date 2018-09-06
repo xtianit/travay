@@ -74,7 +74,6 @@
         web3.eth.getAccounts( async(err, accounts) => {
           const sponsor = accounts[0];
           try {
-            //await DAIInstance.transfer(pool, payment);
 
             await DAIInstance.approve(EscrowInstance.address, payment, {from :sponsor});
 

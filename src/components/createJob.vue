@@ -348,11 +348,6 @@
       },
       addRequirement() {
         if (this.requirement) this.form.deliverable.push(this.requirement);
-        console.log(
-          'adding requirement',
-          this.requirement,
-          this.form.deliverable
-        );
         this.requirement = '';
       },
       removeRequirement(i) {
@@ -369,7 +364,7 @@
           // return false;
         }
         this.isLoading = true;
-        // this.createJobInEscrow();
+        this.createJobInEscrow();
         const jobId = uuid.v1();
         let jobData = {
           salary: {
@@ -460,6 +455,7 @@
             const result = await EscrowInstance.createJob(description, salary, 5, {
               from: manager
             });
+            console.log(result);
 
             const job = await EscrowInstance.getJob(
               result.logs[0].args.JobID.toNumber()
