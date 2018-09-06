@@ -369,7 +369,7 @@
           // return false;
         }
         this.isLoading = true;
-        this.createJobInEscrow();
+        // this.createJobInEscrow();
         const jobId = uuid.v1();
         let jobData = {
           salary: {

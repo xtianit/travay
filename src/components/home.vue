@@ -35,6 +35,7 @@
       <vue-grid-item>
         <h2>How to Get Started Fast</h2>
         <p>Find a job, claim it with no experience needed!</p>
+        <br>
         <ol>
           <li>Visit this website in the <a
             href="https://play.google.com/store/apps/details?id=org.mozilla.firefox&hl=fr" target="_blank">Firefox</a>

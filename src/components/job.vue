@@ -179,8 +179,7 @@
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}<br><br>
               </vue-grid-item>
 
-              <!--<template v-if="!claimed && job.role">-->
-              <template>
+              <template v-if="!claimed && job.role">
                 <vue-grid-item>
                   <vue-checkbox v-userRole.signedIn.canClaim="{role: job.role}"
                                 name="acceptTerms"

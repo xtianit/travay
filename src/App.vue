@@ -24,7 +24,6 @@
   beforeCreate () {
     console.log('registerWeb3 Action dispatched from app.vue');
     this.$store.dispatch('registerWeb3');
-    // console.log('contracts instance', this.$store.state.contractInstance());
   },
   components: {
     'navbar': Navbar,
@@ -45,7 +44,6 @@
       doChangeLocale(locale)
         .catch((error) => console.log(error));
 
-      //this.changeLocale(locale);
       this.navBarClose();
     },
     navBarClose() {
