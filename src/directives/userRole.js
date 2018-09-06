@@ -1,4 +1,5 @@
 import { store } from '../store/';
+import * as types from '../store/types'
 
 const role = {
   manager: 0, // anyone who creates a job automatically gets this role
@@ -15,7 +16,7 @@ const hide = vnode => {
 
 export const userRole = {
   bind(el, binding, vnode) {
-    const userId = store.userData;
+    const userId = store.getters[types.GET_USER_ID];
     const { value, modifiers } = binding;
     if (value.role) {
       // Manager only
@@ -53,9 +54,8 @@ export const userRole = {
 
       // Only if user did not claim the job && is not the evaluator
       if (Reflect.has(modifiers, 'canClaim')) {
-        console.log('canClaim is in modifiers');
         if (
-          value.role[0] === userId ||
+          value.role[0] !== userId ||
           value.role[1].includes(userId) ||
           (value.role[3].includes(userId) && value.role[2] === userId)
         ) {
