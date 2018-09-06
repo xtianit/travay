@@ -24,6 +24,7 @@
             <vue-panel-header>
               <router-link :key="`/job/${job.taskId}`">{{ job.task }}</router-link>
             </vue-panel-header>
+
             <vue-panel-body>
               <p v-if="'status' in job && job.status.state === 'cancelled'">This job has been cancelled</p>
 
@@ -123,9 +124,10 @@
 
                     {{ $t('App.job.jobSponsoredAmount' /* Sponsored Amount */) }}: ${{ job.sponsoredAmount }}<br>
 
-                    {{ $t('App.job.jobPayFrequency' /* Pay Frequency */) }}: {{job.salary['pay-frequency'].label}}<br>
+                    <!--{{ $t('App.job.jobPayFrequency' /* Pay Frequency */) }}: {{job.salary['pay-frequency'].label}}<br>-->
 
-                    {{ $t('App.job.termsOfEmployment' /* Terms of Employment */) }}: {{ job['terms-of-employment']
+                    {{ $t('App.job.termsOfEmployment' /* Terms of Employment (Months) */) }}: {{
+                    job['terms-of-employment']
                     }}<br><br>
 
                     {{ $t('App.job.requirements' /* Requirements */) }}:<br>
@@ -177,7 +179,8 @@
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}<br><br>
               </vue-grid-item>
 
-              <template v-if="!claimed && job.role">
+              <!--<template v-if="!claimed && job.role">-->
+              <template>
                 <vue-grid-item>
                   <vue-checkbox v-userRole.signedIn.canClaim="{role: job.role}"
                                 name="acceptTerms"
@@ -228,7 +231,8 @@
 
                 </vue-panel-body>
                 <vue-panel-footer>
-                  <vue-button v-if="job.role" v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container" accent>
+                  <vue-button v-if="job.role" v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container"
+                              accent>
                     <a style="color: white !important;" @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)"
                        id="remove-hyperlink">
                       {{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}
@@ -362,7 +366,6 @@
   import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
   import * as types from '../store/types'
   import {store} from '../store/'
-
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
@@ -496,12 +499,12 @@
           this.job.status.state = "cancelled";
           this.isEditingJobDetails = false;
           this.cancelJobInEscrow();
-          addNotification({
-            title: this.$t("App.job.jobCanceledNotificationTitle") /* Success! */,
-            text: this.$t(
-              "App.job.jobCanceledNotificationText"
-            ) /* This job has been cancelled. */
-          }, INotification);
+          // addNotification({
+          //   title: this.$t("App.job.jobCanceledNotificationTitle") /* Success! */,
+          //   text: this.$t(
+          //     "App.job.jobCanceledNotificationText"
+          //   ) /* This job has been cancelled. */
+          // }, INotification);
         } catch (error) {
         }
       },
@@ -731,19 +734,19 @@
           .catch(function (error) {
             console.error("Error updating document: ", error);
           });
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.isLoading = false;
-            addNotification({
-              title: this.$t(
-                "App.job.jobUpdatedNotificationTitle"
-              ) /* Success! */,
-              text: this.$t(
-                "App.job.jobUpdatedNotificationText"
-              ) /* Job updated successfully! */
-            }, INotification);
-          }, 700);
-        });
+        // this.$nextTick(() => {
+        //   setTimeout(() => {
+        //     this.isLoading = false;
+        //     addNotification({
+        //       title: this.$t(
+        //         "App.job.jobUpdatedNotificationTitle"
+        //       ) /* Success! */,
+        //       text: this.$t(
+        //         "App.job.jobUpdatedNotificationText"
+        //       ) /* Job updated successfully! */
+        //     }, INotification);
+        //   }, 700);
+        // });
         this.isEditingJobDetails = false;
       },
       async uploadImages() {
@@ -835,52 +838,72 @@
         DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        web3.eth.getAccounts( async(err, accounts) => {
-          const worker = accounts[0];
+        const JobID = 0; // TODO: replace with what is in the UI
 
-          const JobID = 0; // you need to get this from UI
+        web3.eth.getAccounts(async (err, accounts) => {
+          const worker = accounts[0]; // TODO: replace with what is in the UI
+          if (err) {
+            throw new {name: "Exception", message: "Accounts are not found"};
+          }
 
           try {
-            const result = await EscrowInstance.claimJob(JobID, { from: worker });
-
-          } catch (err) {
-            console.log(err)
+            await EscrowInstance.register({from: worker});
+            const result = await EscrowInstance.claimJob(JobID, {from: worker});
+            console.log(result)
+          } catch (error) {
+            console.log(error);
           }
-        })
 
+        })
       },
       async cancelJobInEscrow() {
         const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
+        window.Escrow = Escrow;
         Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        const manager = accounts[0];
         const EscrowInstance = await Escrow.deployed();
         const DAIInstance = await DAI.deployed();
 
-        let balance_manager_before = await DAIInstance.balanceOf(manager);
-        balance_manager_before =
-          balance_manager_before.toNumber() / decimalConversion;
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
 
-        const salary = 100 * decimalConversion;
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        const twoPecentOfSalary = (salary * (1 / 50)) / decimalConversion;
+        // TODO: error Invalid number of arguments to Solidity function
+        web3.eth.getAccounts(async (err, accounts) => {
+          const manager = accounts[0];
+          try {
+            let balance_manager_before = await DAIInstance.balanceOf(manager);
+            balance_manager_before =
+              balance_manager_before.toNumber() / (10 ** 18);
 
-        await DAIInstance.approve(EscrowInstance.address, salary, {
-          from: manager
-        });
+            const salary = this.salary * (10 ** 18);
 
-        await EscrowInstance.createJob(description, salary, 5, {from: manager});
+            const twoPecentOfSalary = (salary * (1 / 50)) / (10 ** 18);
+            await DAIInstance.approve(EscrowInstance.address, salary, {
+              from: manager
+            });
+            const description = this.brief;
 
-        const JobID = 1;
-        const result = await EscrowInstance.cancelJob(JobID, {from: manager});
+            await EscrowInstance.createJob(description, salary, 5, {from: manager});
 
-        let balance_manager_after = await DAIInstance.balanceOf(manager);
-        balance_manager_after =
-          balance_manager_after.toNumber() / decimalConversion;
+            const JobID = 1;
+            const result = await EscrowInstance.cancelJob(JobID, {from: manager});
 
-        console.log(result)
+            let balance_manager_after = await DAIInstance.balanceOf(manager);
+            balance_manager_after =
+              balance_manager_after.toNumber() / (10 ** 18);
 
+            const Job = await EscrowInstance.getJob(JobID);
+          } catch (err) {
+            console.log(err);
+          }
+        })
       },
       async proofOfWorkToEscrow() {
         const Escrow = truffleContract(EscrowContract);

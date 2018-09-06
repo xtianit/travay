@@ -109,18 +109,23 @@
                 :value="form.selectedTermOfEmployment"
                 @input="val => selectChange(val, 'selectedTermOfEmployment')"
                 validation="required"/>
+              <div>{{ $t('App.createJob.termOfEmploymentExplanation' /* Months of work is also referenced as
+                milestones. The total amount you fund for this job will be divided by the number of milestones or
+                total months of employment. */) }}
+              </div>
             </vue-grid-item>
-            <vue-grid-item>
-              <vue-select
-                name="payFrequency"
-                id="payFrequency"
-                :options="payFrequency"
-                :value="form.selectedPayFrequency"
-                @input="val => selectChange(val, 'selectedPayFrequency')"
-                validation="required"/>
-            </vue-grid-item>
+            <!--<vue-grid-item>-->
+              <!--<vue-select-->
+                <!--name="payFrequency"-->
+                <!--id="payFrequency"-->
+                <!--:options="payFrequency"-->
+                <!--:value="form.selectedPayFrequency"-->
+                <!--@input="val => selectChange(val, 'selectedPayFrequency')"-->
+                <!--validation="required"/>-->
+            <!--</vue-grid-item>-->
           </vue-grid-row>
-
+          <br>
+          <br>
           <vue-grid-row>
             <vue-grid-item>
               <vue-input
@@ -222,9 +227,10 @@
   import {AssertionError} from 'assert';
   import {any} from 'bluebird';
   import {store} from '../store';
-  import truffleContract from "truffle-contract";
-  import EscrowContract from "../../contracts/build/contracts/Escrow"
   import * as types from '../store/types'
+  import truffleContract from "truffle-contract";
+  import EscrowContract from "../../contracts/build/contracts/Escrow.json";
+  import DAIContract from "../../contracts/build/contracts/DAI.json";
 
   const state = {
     date1: new Date()
@@ -283,8 +289,16 @@
         ],
         termOfEmployment: [
           {
-            label: 'Select Terms of Employment',
+            label: 'Select How Many Months of Work',
             value: 'none'
+          },
+          {
+            label: '1-month',
+            value: '1'
+          },
+          {
+            label: '3-months',
+            value: '3'
           },
           {
             label: '6-months',
@@ -348,14 +362,14 @@
         const form = this.form;
         const self = this;
         if (this.hasEmptyFields) {
-          addNotification({
-            title: 'Oops',
-            text: 'Please fill in all the fields.'
-          }, INotification);
-          return false;
+          // addNotification({
+          //   title: 'Oops',
+          //   text: 'Please fill in all the fields.'
+          // }, INotification);
+          // return false;
         }
         this.isLoading = true;
-        // this.createJobInEscrow();
+        this.createJobInEscrow();
         const jobId = uuid.v1();
         let jobData = {
           salary: {
@@ -418,37 +432,46 @@
       },
       async createJobInEscrow() {
         const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
+        window.Escrow = Escrow;
         Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        const manager = accounts[1];
         const EscrowInstance = await Escrow.deployed();
         const DAIInstance = await DAI.deployed();
 
-        const salary = 100 * 10 ** 18;
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
 
-        web3.eth.getAccounts(async (err) => {
-          if(err){
-            throw new {name:"Exception", message:"Accounts are not found"};
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+
+        const description = this.form.brief;
+        const salary = this.form.salary * (10 ** 18);
+
+        web3.eth.getAccounts(async (err, accounts) => {
+          const manager = accounts[0];
+          try {
+            await DAIInstance.approve(EscrowInstance.address, salary, {
+              from: manager
+            });
+            const result = await EscrowInstance.createJob(description, salary, 5, {
+              from: manager
+            });
+
+            const job = await EscrowInstance.getJob(
+              result.logs[0].args.JobID.toNumber()
+            );
+
+          } catch (error) {
+            console.log(error);
           }
-
-          await DAIInstance.transfer(manager, salary, { from: accounts[0] });
-
-          await DAIInstance.approve(EscrowInstance.address, salary, {
-            from: manager
-          });
-
-          const result = await EscrowInstance.createJob(description, salary, 5, {
-            from: manager
-          });
-
-          console.log(result)
-
         })
       }
     },
     computed: {
-      ...mapGetters('createJob', []),
       ...mapGetters({
         userId: types.GET_USER_ID
       }),

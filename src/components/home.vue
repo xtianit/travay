@@ -28,19 +28,15 @@
           <li>Find a job your want and click claim</li>
           <li>When work is complete, upload your proof of work and click complete job</li>
           <li>Your Job Manager will approve work and issue payment</li>
-          <p>Find a job, claim it with no experience needed!</p>
         </ol>
       </vue-grid-item>
     </vue-grid-row>
     <vue-grid-row>
       <vue-grid-item>
-        <h1>How to Get Started Fast</h1>
-      </vue-grid-item>
-    </vue-grid-row>
-    <vue-grid-row>
-      <vue-grid-item>
+        <h2>How to Get Started Fast</h2>
+        <p>Find a job, claim it with no experience needed!</p>
         <ol>
-          <li>Visit and use this website in the <a
+          <li>Visit this website in the <a
             href="https://play.google.com/store/apps/details?id=org.mozilla.firefox&hl=fr" target="_blank">Firefox</a>
             browser.
           </li>

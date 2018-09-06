@@ -67,6 +67,7 @@
         DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
+        // TODO: fix variables
         const JobID = 0; // you need to get this from UI
         const payment = 10 * (10 ** 18);  // need to get token number from UI
 
@@ -81,9 +82,10 @@
             const result = await EscrowInstance.sponsorDAI(JobID, payment, {
               from: sponsor
             });
+            console.log(result)
 
           } catch (err) {
-            console.log(false, err);
+            console.log(err);
           }
         })
       }

@@ -16,30 +16,59 @@
               v-for="user in users"
               :key="user.uid">
               <p>{{ user.name || user.displayName }}</p>
-              <!--<p>{{ user.phone || null }}</p>-->
+              <p>{{ user.email || null }}</p>
+              <p>{{ user.phone || null }}</p>
               <!--<p>{{ user.address || null }}</p>-->
               <p>{{ user.country || null }}</p>
+              <br>
 
-              <form @submit.prevent="updateProfile()">
-                <vue-grid-row>
-                  <vue-grid-item>
-                    <vue-input
-                      name="mobile"
-                      id="mobile"
-                      required
-                      placeholder="Mobile"
-                      validation="required"
-                      type="tel"
-                      v-model="form.mobile"/>
-                  </vue-grid-item>
-                </vue-grid-row>
+              <p>
+                <a @click.prevent.stop="e => {}">
+                  <i class="fa edit-icon" :class="isEditingProfile ? 'fa-times' : 'fa-edit'"
+                     @click="isEditingProfile = !isEditingProfile"></i>
+                  {{ !isEditingProfile ? $t('App.job.notEditingProfileIcon' /* Edit Profile */) :
+                  $t('App.job.editProfileIcon' /* Editing Profile */)}}
+                </a>
+              </p>
 
-                <vue-button primary
-                            :loading="isLoading"
-                            @click="updateProfile()">
-                  {{ $t('App.profile.updateProfile' /* Update Profile */) }}
-                </vue-button>
-              </form>
+              <template v-if="isEditingProfile">
+                <form @submit.prevent="updateProfile()">
+
+                  <p>{{ $t('App.profile.updateProfile' /* Update mobile number. */) }}</p>
+
+                  <vue-grid-row>
+                    <vue-grid-item>
+                      <vue-input
+                        name="mobile"
+                        id="mobile"
+                        required
+                        placeholder="Mobile"
+                        validation="required"
+                        type="tel"
+                        v-model="form.mobile"/>
+                    </vue-grid-item>
+                  </vue-grid-row>
+
+                  <vue-grid-row>
+                    <vue-grid-item>
+                      <vue-checkbox
+                        name="optInTexts"
+                        id="optInTexts"
+                        v-model="form.optInTexts"
+                        label=""/>
+                      <p>{{ $t('App.profile.optInTexts' /* I want to receive text messages when there are new jobs. */)
+                        }}</p>
+                    </vue-grid-item>
+                  </vue-grid-row>
+
+                  <vue-button primary
+                              :loading="isLoading"
+                              @click="updateProfile()">
+                    {{ $t('App.profile.updateProfileButton' /* Update Profile */) }}
+                  </vue-button>
+                </form>
+              </template>
+
             </vue-panel-body>
           </vue-panel>
         </vue-grid-item>
@@ -111,12 +140,9 @@
 
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
-  import db from "../firebaseinit";
-  import * as firebase from 'firebase';
-  import 'firebase/firestore';
+  import firebase from 'firebase';
+  import db from '../firebaseinit';
   import * as types from '../store/types'
-  import truffleContract from "truffle-contract";
-  import EscrowContract from "../../contracts/build/contracts/Escrow"
   import {store} from '../store';
   import SignInModal from '../services/SignInModal';
 
@@ -138,7 +164,7 @@
       return {
         isLoading: false,
         sponsored: false,
-        isEditing: false,
+        isEditingProfile: false,
         job: {},
         jobs: {},
         users: {},
@@ -149,22 +175,17 @@
         canceledJobs: [],
         form: {
           mobile: '',
+          optInTexts: true,
         },
       };
     },
     computed: {
       ...mapGetters({
         userId: types.GET_USER_ID
-      }),
-      ...mapGetters('jobs', []),
-      ...mapGetters({
-        userId: types.GET_USER_ID,
-        isSignInModalOpen: types.IS_SIGNIN_MODAL_OPEN
       })
     },
     methods: {
       ...mapActions({
-        openLoginModal: types.OPEN_LOGIN_MODAL,
         saveUserInStorage: types.SAVE_USER_IN_STORAGE
       }),
       onSubmit() {
@@ -180,15 +201,24 @@
           }, 500);
         });
       },
-      updateProfile() {
-        const form = this.form;
-        db
-          .collection("users")
-          .where("uid", "==", this.userId)
-          .get()
+      async updateProfile() {
+        const docRef = db.collection("users").doc("userId");
+        docRef.set({
+          optInTexts: this.form.optInTexts,
+          phone: this.form.mobile
+        });
+        db.collection("users")
+          .doc("userId")
           .update({
-            "phone": form.mobile
+            optInTexts: this.form.optInTexts,
+            phone: this.form.mobile
           })
+          .then(function () {
+            console.log("Profile successfully updated!");
+          })
+          .catch(function (error) {
+            console.error("Error updating document: ", error);
+          });
       },
       getJobs() {
         return db

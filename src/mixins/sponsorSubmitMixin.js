@@ -12,7 +12,7 @@ export const sponsorSubmitMixin = {
         taskId: taskId,
         task: task
       };
-      console.log('data for sponsored', data)
+      console.log('data for sponsored', data);
       try {
         const sponsoredResult = await db.collection('sponsored').add(data);
         const totalAmount =

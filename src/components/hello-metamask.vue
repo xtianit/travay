@@ -3,7 +3,7 @@
     <vue-grid-row v-if="isInjected">
       <vue-grid-item>
         <p id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> Metamask installed</p>
-        <p>Network: {{ network }}</p>
+        <p>Network: <strong>{{ network }}</strong></p>
         <p>Account: {{ coinbase }}</p>
         <p>Balance: {{ balance }} Wei // {{ ethBalance }} Eth</p>
       </vue-grid-item>
@@ -22,7 +22,7 @@
 
   export default {
     metaInfo: {
-      title: "Metamask and Travay",
+      title: "Metamask in Travay",
       meta: [
         {
           name: "",

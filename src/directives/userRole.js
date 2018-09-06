@@ -53,15 +53,16 @@ export const userRole = {
 
       // Only if user did not claim the job && is not the evaluator
       if (Reflect.has(modifiers, 'canClaim')) {
-        if (
-          value.role[0] === userId ||
-          value.role[1].includes(userId) ||
-          (value.role[3].includes(userId) && value.role[2] === userId)
-        ) {
-          console.log('NOT HIDING');
-        } else {
-          hide(vnode);
-        }
+        // if (
+        //   value.role[0] === userId ||
+        //   value.role[1].includes(userId) ||
+        //   (value.role[3].includes(userId) && value.role[2] === userId)
+        // ) {
+        //   console.log('NOT HIDING');
+        // } else {
+        //   hide(vnode);
+        // }
+        if (value.role[2] !== userId) hide(vnode);
       }
 
       // Only sponsor if not claimed, not the evaluator, not the manager, and not the worker

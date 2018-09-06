@@ -75,11 +75,9 @@
 
         <h2>Attribution</h2>
 
-        <p>This Code of Conduct is adapted from Colony:
-          <a href="https://github.com/JoinColony/colonyStarter/blob/master/.github/CODE_OF_CONDUCT.md"
-             target="_blank">https://github.com/JoinColony/colonyStarter/blob/master/.github/CODE_OF_CONDUCT.md</a>
-          and Netflix Company Culture: <a href="https://jobs.netflix.com/culture" target="_blank">https://jobs.netflix
-            .com/culture</a></p>
+        <p>This Code of Conduct is adapted from <a
+          href="https://github.com/JoinColony/colonyStarter/blob/master/.github/CODE_OF_CONDUCT.md" target="_blank">
+          Colony</a> and <a href="https://jobs.netflix.com/culture" target="_blank">Netflix Company Culture</a>.</p>
       </vue-grid-item>
     </vue-grid-row>
   </vue-grid>
