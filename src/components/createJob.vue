@@ -84,7 +84,7 @@
                 ref="closingDatepicker"
                 :selectedDate="form.closingDate"
                 validation="required"
-                placeholder="Job Closing Date" />
+                placeholder="Job Closing Date"/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -115,13 +115,13 @@
               </div>
             </vue-grid-item>
             <!--<vue-grid-item>-->
-              <!--<vue-select-->
-                <!--name="payFrequency"-->
-                <!--id="payFrequency"-->
-                <!--:options="payFrequency"-->
-                <!--:value="form.selectedPayFrequency"-->
-                <!--@input="val => selectChange(val, 'selectedPayFrequency')"-->
-                <!--validation="required"/>-->
+            <!--<vue-select-->
+            <!--name="payFrequency"-->
+            <!--id="payFrequency"-->
+            <!--:options="payFrequency"-->
+            <!--:value="form.selectedPayFrequency"-->
+            <!--@input="val => selectChange(val, 'selectedPayFrequency')"-->
+            <!--validation="required"/>-->
             <!--</vue-grid-item>-->
           </vue-grid-row>
           <br>
@@ -259,7 +259,7 @@
           deliverable: [],
           datePosted: '',
           payoutEvaluator: 'Dexter Morgan',
-          salary: '650',
+          salary: '20',
           cityOfWork: 'Port-au-Prince',
           isTaskIdDisabled: true,
           // closingDate: '',
@@ -354,71 +354,79 @@
         this.form.deliverable.splice(i, 1);
       },
       createJob() {
-        const form = this.form;
-        const self = this;
-        if (this.hasEmptyFields) {
-          // addNotification({
-          //   title: 'Oops',
-          //   text: 'Please fill in all the fields.'
-          // }, INotification);
-          // return false;
-        }
+
         this.isLoading = true;
-        this.createJobInEscrow();
-        const jobId = uuid.v1();
-        let jobData = {
-          salary: {
-            'full-time-rate': form.salary,
-            'pay-frequency': {
-              label: this.getPayFrequencyLabel(form.selectedPayFrequency),
-              duration: form.selectedPayFrequency
+
+        this.createJobInEscrow()
+          .then(JobID => {
+            const form = this.form;
+            const self = this;
+
+            if (this.hasEmptyFields) {
+              // addNotification({
+              //   title: 'Oops',
+              //   text: 'Please fill in all the fields.'
+              // }, INotification);
+              // return false;
             }
-          },
-          brief: form.brief,
-          'date-posted': new Date(),
-          deliverable: form.deliverable,
-          skill: form.skill,
-          domain: form.domain,
-          payouts: {
-            evaluator: 0,
-            manager: 0,
-            worker: 0
-          },
-          role: {
-            '0': this.userId,
-            '1': [],
-            '2': '',
-            '3': []
-          },
-          sponsoredAmount: 0,
-          task: form.task,
-          taskId: jobId,
-          country: form.country,
-          'terms-of-employment': form.selectedTermOfEmployment,
-          status: {
-            state: 'incomplete'
-          }
-        };
-        db
-          .collection('jobs')
-          .doc(jobId)
-          .set(jobData)
-          .then(function (docref) {
-            self.clearForm();
+
+            const jobId = JobID;
+
+            let jobData = {
+              salary: {
+                'full-time-rate': form.salary,
+                'pay-frequency': {
+                  label: this.getPayFrequencyLabel(form.selectedPayFrequency),
+                  duration: form.selectedPayFrequency
+                }
+              },
+              brief: form.brief,
+              'date-posted': new Date(),
+              deliverable: form.deliverable,
+              skill: form.skill,
+              domain: form.domain,
+              payouts: {
+                evaluator: 0,
+                manager: 0,
+                worker: 0
+              },
+              role: {
+                '0': this.userId,
+                '1': [],
+                '2': '',
+                '3': []
+              },
+              sponsoredAmount: 0,
+              task: form.task,
+              taskId: jobId,
+              country: form.country,
+              'terms-of-employment': form.selectedTermOfEmployment,
+              status: {
+                state: 'incomplete'
+              }
+            };
+            db
+              .collection('jobs')
+              .doc(jobId)
+              .set(jobData)
+              .then(function (docref) {
+                self.clearForm();
+              })
+              .catch(function (error) {
+                console.error('Error adding new job: ', error);
+              });
+            this.$nextTick(() => {
+              setTimeout(() => {
+                this.isLoading = false;
+                //   addNotification({
+                //     title: 'Yay!',
+                //     text: `Your job is now posted! Click here to see the job.`,
+                //     link: `/job/${jobId}`
+                //   }, INotification);
+              }, 500);
+            });
           })
-          .catch(function (error) {
-            console.error('Error adding new job: ', error);
-          });
-        this.$nextTick(() => {
-          // setTimeout(() => {
-          //   this.isLoading = false;
-          //   addNotification({
-          //     title: 'Yay!',
-          //     text: `Your job is now posted! Click here to see the job.`,
-          //     link: `/job/${jobId}`
-          //   }, INotification);
-          // }, 500);
-        });
+          .catch(error => console.log(error));
       },
       clearForm() {
         Object.keys(this.form).forEach(key => {
@@ -426,45 +434,53 @@
         });
       },
       async createJobInEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
 
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        return new Promise(async (resolve, reject) => {
 
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-        const description = this.form.brief;
-        const salary = this.form.salary * (10 ** 18);
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-        web3.eth.getAccounts(async (err, accounts) => {
-          const manager = accounts[0];
-          try {
-            await DAIInstance.approve(EscrowInstance.address, salary, {
-              from: manager
-            });
-            const result = await EscrowInstance.createJob(description, salary, 5, {
-              from: manager
-            });
-            console.log(result);
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-            const job = await EscrowInstance.getJob(
-              result.logs[0].args.JobID.toNumber()
-            );
+          const description = this.form.brief;
+          const salary = this.form.salary * (10 ** 18);
 
-          } catch (error) {
-            console.log(error);
-          }
+          web3.eth.getAccounts(async (err, accounts) => {
+            const manager = accounts[0];
+            try {
+              await DAIInstance.approve(EscrowInstance.address, salary, {
+                from: manager
+              });
+              const result = await EscrowInstance.createJob(description, salary, 5, {
+                from: manager
+              });
+              console.log(result);
+
+              const job = await EscrowInstance.getJob(
+                result.logs[0].args.JobID.toNumber()
+              );
+              resolve(result.logs[0].args.JobID.toNumber())
+
+              // TODO: convert big number: https://ethereum.stackexchange.com/questions/29597/how-to-convert-bignumber-to-number-in-truffle-framework
+
+            } catch (error) {
+              reject(error);
+            }
+          })
         })
+
       }
     },
     computed: {

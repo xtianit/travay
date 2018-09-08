@@ -32,7 +32,8 @@
           <vue-grid-row>
             <vue-grid-item>
 
-              <p warn>Remember to also sign out of MetaMask, to prevent phishing for example: https://medium.com/metamask/new-phishing-strategy-becoming-common-1b1123837168.</p>
+              <p warn>Remember to also sign out of MetaMask, to prevent phishing for example:
+                https://medium.com/metamask/new-phishing-strategy-becoming-common-1b1123837168.</p>
               <p>What is Phishing?: https://en.wikipedia.org/wiki/Phishing</p>
               <vue-button @click="signOut">
                 <i class="fab fa-sign-out"></i> Sign Out
@@ -54,7 +55,8 @@
   import {uuid} from 'vue-uuid';
   import {store} from '../store';
   import truffleContract from "truffle-contract";
-  import EscrowContract from "../../contracts/build/contracts/Escrow"
+  import EscrowContract from "../../contracts/build/contracts/Escrow.json";
+  import DAIContract from "../../contracts/build/contracts/DAI.json";
 
   // import {Connect, SimpleSigner} from 'uport-connect';
   // const uport = new Connect('Travay', {
@@ -140,7 +142,7 @@
           .catch(error => console.log(error));
       },
       async updateUserData(user) {
-        const userRef = db.doc(`users/${user.uid}`);
+        // const userRef = db.doc(`users/${user.uid}`);
         const data = {
           uid: user.uid,
           email: user.email || null,
@@ -150,7 +152,7 @@
           phone: user.phone || null,
           country: user.country || null,
           address: user.address || null,
-          optInTexts: user.optInTexts|| null
+          optInTexts: user.optInTexts || null
         };
         try {
           const snapshot = await db
@@ -169,24 +171,36 @@
         }
       },
       async registerUserToEscrowContract() {
-        const Escrow = truffleContract(EscrowContract);
 
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        const EscrowInstance = await Escrow.deployed();
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        web3.eth.getAccounts(async (err, accounts) => {
-          if(err){
-            throw new {name:"Exception", message:"Accounts are not found"};
-          }
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-          const registeringUser = accounts[0];
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-          const result = await EscrowInstance.register({from:registeringUser});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          console.log(result)
+          web3.eth.getAccounts(async (error, accounts) => {
+            if (error) {
+              throw new {name: "Exception", message: "Accounts are not found"};
+            }
 
-        })
+            const registeringUser = accounts[0];
+
+            const result = await EscrowInstance.register({from: registeringUser});
+
+            console.log(result)
+
+          })
       }
     },
     computed: {

@@ -34,7 +34,6 @@ const mutations = {
   },
   SET_IS_OPEN (state, payload) {
     state.isOpen = payload;
-    console.log('state mutated', state)
   },
   SET_USER_DATA (state, userData) {
     state.userData = userData

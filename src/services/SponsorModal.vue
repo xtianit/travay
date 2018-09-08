@@ -11,7 +11,7 @@
         type="number"
         v-model="sponsorAmount"/>
 
-      <vue-button primary @click.prevent.stop="clickHandler">Sponsor</vue-button>
+      <vue-button primary @click.prevent.stop="sponsorJob">Sponsor</vue-button>
     </vue-modal>
   </div>
 </template>
@@ -44,48 +44,54 @@
     },
     computed: {},
     methods: {
-      clickHandler() {
-        this.$emit('sponsorSubmit', this.sponsorAmount);
-        this.sponsorAmount = '';
-        this.sponsorAmountToEscrow();
+      sponsorJob() {
+        this.sponsorAmountToEscrow()
+          .then(result => {
+            this.$emit('sponsorSubmit', this.sponsorAmount);
+            this.sponsorAmount = '';
+          })
+          .catch(error => console.log(error));
       },
       async sponsorAmountToEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
 
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        return new Promise(async (resolve, reject) => {
 
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-        // TODO: fix variables
-        const JobID = 0; // you need to get this from UI
-        const payment = 10 * (10 ** 18);  // need to get token number from UI
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-        web3.eth.getAccounts( async(err, accounts) => {
-          const sponsor = accounts[0];
-          try {
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-            await DAIInstance.approve(EscrowInstance.address, payment, {from :sponsor});
+          // TODO: fix variables
+          const JobID = 0; // you need to get this from UI
+          const payment = 10 * (10 ** 18);  // need to get token number from UI
 
-            //await EscrowInstance.register({from: sponsor});
-            const result = await EscrowInstance.sponsorDAI(JobID, payment, {
-              from: sponsor
-            });
-            console.log(result)
+          web3.eth.getAccounts(async (err, accounts) => {
+            const sponsor = accounts[0];
+            try {
 
-          } catch (err) {
-            console.log(err);
-          }
+              await DAIInstance.approve(EscrowInstance.address, payment, {from: sponsor});
+
+              const result = await EscrowInstance.sponsorDAI(JobID, payment, {
+                from: sponsor
+              });
+              resolve(result)
+
+            } catch (error) {
+              reject(error);
+            }
+          })
         })
       }
     }

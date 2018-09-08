@@ -10,7 +10,8 @@ selenium-debug.log
 storybook-static
 .env
 sendgrid.env
-/contract/truffle.js
+/contracts/truffle.js
+/contracts/geth-setup.md
 
 # Editor directories and files
 .idea

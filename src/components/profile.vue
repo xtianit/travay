@@ -38,14 +38,20 @@
 
                   <vue-grid-row>
                     <vue-grid-item>
-                      <vue-input
-                        name="mobile"
-                        id="mobile"
-                        required
-                        placeholder="Mobile"
-                        validation="required"
-                        type="tel"
-                        v-model="form.mobile"/>
+                      <vue-input type="text" name="country" id="country" placeholder="Country Code" required
+                                 v-model="form.country"/>
+                    </vue-grid-item>
+                    <vue-grid-item>
+                      <vue-input type="text" name="area" id="area" placeholder="Area Code" required
+                                 v-model="form.area"/>
+                    </vue-grid-item>
+                    <vue-grid-item>
+                      <vue-input type="text" name="prefix" id="prefix" placeholder="Prefix" required
+                                 v-model="form.prefix"/>
+                    </vue-grid-item>
+                    <vue-grid-item>
+                      <vue-input type="text" name="line" id="line" placeholder="Line" required
+                                 v-model="form.line"/>
                     </vue-grid-item>
                   </vue-grid-row>
 
@@ -61,9 +67,9 @@
                     </vue-grid-item>
                   </vue-grid-row>
 
+
                   <vue-button primary
-                              :loading="isLoading"
-                              @click="updateProfile()">
+                              :loading="isLoading">
                     {{ $t('App.profile.updateProfileButton' /* Update Profile */) }}
                   </vue-button>
                 </form>
@@ -145,8 +151,10 @@
   import * as types from '../store/types'
   import {store} from '../store';
   import SignInModal from '../services/SignInModal';
+  import VueButton from "../stories/VueButton";
 
   export default {
+    components: {VueButton},
     metaInfo: {
       title: "Your Profile in Travay",
       meta: [
@@ -174,7 +182,10 @@
         managingJobs: [],
         canceledJobs: [],
         form: {
-          mobile: '',
+          country: '509',
+          area: '00',
+          prefix: '11',
+          line: '5555',
           optInTexts: true,
         },
       };
@@ -188,36 +199,30 @@
       ...mapActions({
         saveUserInStorage: types.SAVE_USER_IN_STORAGE
       }),
-      onSubmit() {
-        this.isLoading = true;
-        console.log(JSON.parse(JSON.stringify(this.form)));
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.isLoading = false;
-            addNotification({
-              title: "Data has been saved!",
-              text: "Have a look at the console!"
-            }, INotification);
-          }, 500);
-        });
+      concatenateToE164() {
+        const phone = this.form.country + this.form.area + this.form.prefix + this.form.line;
+        return `+${phone}`
       },
       async updateProfile() {
-        const docRef = db.collection("users").doc("userId");
-        docRef.update({
+
+        const e164 = this.concatenateToE164();
+
+        const data = {
           optInTexts: this.form.optInTexts,
-          phone: this.form.mobile
-        });
-        db.collection("users")
-          .update({
-            optInTexts: this.form.optInTexts,
-            phone: this.form.mobile
+          phone: e164
+        };
+
+        const user = await db.collection('users')
+          .where("uid", "==", this.userId)
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(function (doc) {
+              // console.log(doc.id, " => ", doc.data());
+              db.collection("users").doc(doc.id).update(data);
+            });
+            console.log(snapshot);
+            console.log(e164)
           })
-          .then(function () {
-            console.log("Profile successfully updated!");
-          })
-          .catch(function (error) {
-            console.error("Error updating document: ", error);
-          });
       },
       getJobs() {
         return db
