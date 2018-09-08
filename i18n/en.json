@@ -32,6 +32,7 @@
   "App.job.notEditingProfileIcon": "Edit Profile",
   "App.profile.updateProfileButton": "Update Profile",
   "App.profile.optInTexts": "I want to receive text messages when there are new jobs.",
+  "App.profile.subscribeToMailingList": "I want to receive email messages when there are new jobs.",
   "App.profile.updateProfile": "Update mobile number.",
   "App.job.claim": "Claim",
   "App.job.claimPayout": "Claim Payout",

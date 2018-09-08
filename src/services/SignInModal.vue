@@ -152,7 +152,8 @@
           phone: user.phone || null,
           country: user.country || null,
           address: user.address || null,
-          optInTexts: user.optInTexts || null
+          optInTexts: user.optInTexts || null,
+          subscribeToMailingList: user.subscribeToMailingList || null
         };
         try {
           const snapshot = await db

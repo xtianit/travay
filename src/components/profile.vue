@@ -67,6 +67,18 @@
                     </vue-grid-item>
                   </vue-grid-row>
 
+                  <vue-grid-row>
+                    <vue-grid-item>
+                      <vue-checkbox
+                        name="subscribeToMailingList"
+                        id="subscribeToMailingList"
+                        v-model="form.subscribeToMailingList"
+                        label=""/>
+                      <p>{{ $t('App.profile.subscribeToMailingList' /* I want to receive emails when there are
+                        new jobs. */)
+                        }}</p>
+                    </vue-grid-item>
+                  </vue-grid-row>
 
                   <vue-button primary
                               :loading="isLoading">
@@ -151,10 +163,8 @@
   import * as types from '../store/types'
   import {store} from '../store';
   import SignInModal from '../services/SignInModal';
-  import VueButton from "../stories/VueButton";
 
   export default {
-    components: {VueButton},
     metaInfo: {
       title: "Your Profile in Travay",
       meta: [
@@ -187,6 +197,7 @@
           prefix: '11',
           line: '5555',
           optInTexts: true,
+          subscribeToMailingList: true
         },
       };
     },
@@ -209,6 +220,7 @@
 
         const data = {
           optInTexts: this.form.optInTexts,
+          subscribeToMailingList: this.form.subscribeToMailingList,
           phone: e164
         };
 
@@ -221,7 +233,6 @@
               db.collection("users").doc(doc.id).update(data);
             });
             console.log(snapshot);
-            console.log(e164)
           })
       },
       getJobs() {
