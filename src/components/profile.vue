@@ -215,7 +215,7 @@
         return `+${phone}`
       },
       async updateProfile() {
-
+        this.isLoading = true;
         const e164 = this.concatenateToE164();
 
         const data = {
@@ -233,6 +233,8 @@
               db.collection("users").doc(doc.id).update(data);
             });
             console.log(snapshot);
+            this.isEditingProfile = false;
+            this.isLoading = false;
           })
       },
       getJobs() {
