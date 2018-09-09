@@ -40,7 +40,7 @@
         if (state.web3.web3Instance !== null)
           return state.web3.web3Instance().fromWei(state.web3.balance, "ether");
       }
-    })
+    }),
   };
 </script>
 

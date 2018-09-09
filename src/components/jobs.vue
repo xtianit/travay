@@ -87,7 +87,7 @@
         <vue-grid-item>
           <vue-button
             class="sponsor-btn--container" accent>
-            <a style="color: white !important;" @click.prevent.stop="e => createJobClickedHandler()"
+            <a style="color: white !important;" @click.prevent.stop="e => createJobClicked()"
                id="remove-hyperlink">Post a Job</a>
           </vue-button>
         </vue-grid-item>
@@ -96,7 +96,7 @@
       <sponsor-modal
         :job="jobToSponsor"
         :show.sync="showSponsoredModal"
-        @sponsorSubmit="amount => sponsorSubmitHandler({
+        @sponsorSubmit="amount => sponsorSubmit({
           amount,
           taskId: this.selectedJobToSponsorId, task: this.jobToSponsor.task,
           task: this.jobToSponsor.task || '',
@@ -153,7 +153,7 @@
                           accent>
                 <a
                   style="color: white !important;"
-                  @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)">Sponsor this Job</a>
+                  @click.prevent.stop="e => sponsorJob(job.taskId)">Sponsor this Job</a>
               </vue-button>
 
             </vue-panel-footer>
@@ -304,14 +304,14 @@
       moment: function () {
         return moment();
       },
-      createJobClickedHandler() {
+      createJobClicked() {
         if (!this.userId) {
           this.openLoginModal();
           return;
         }
         this.$router.push('createJob');
       },
-      sponsorJobClickedHandler(taskId) {
+      sponsorJob(taskId) {
         if (!this.userId) {
           this.openLoginModal();
           return;

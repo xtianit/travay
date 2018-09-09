@@ -1,6 +1,6 @@
 <template>
   <footer id="footer-style">
-    &copy; {{ year }} Travay an Electric Feel company |
+    &copy; {{ year }} Travay an Electric Feel company<br>
     <router-link :to="'/userGuide'">User Guide</router-link> |
     <router-link :to="'/get-started'">Get Started</router-link> |
     <router-link :to="'/code-of-conduct'">Code of Conduct</router-link>

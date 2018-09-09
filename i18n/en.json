@@ -69,7 +69,8 @@
   "App.job.uploadProofOfWorkTitle": "Upload Proof of Work",
   "App.job.proofOfWorkDescription":
     "Based on the requirements of a job, the Job Manager may request proof that work was completed. For example, a picture of a planted tree or that trash was deposited in the correct location.",
-  "App.job.uploadFileButton": "Submit Proof",
+  "App.job.uploadFileButton": "Upload Images",
+  "App.job.uploadProofOfWorkButton": "what does thid do?",
   "App.job.approveWork": "Approve Work",
   "App.job.approveWorkDescription":
     "Approval history will be shown here. Once a job is approved, the job is marked complete and the worker receives their salary. This is not reversible.",

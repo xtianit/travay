@@ -48,7 +48,7 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapMutations} from 'vuex';
+  import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
   import * as types from '../store/types'
   import firebase from 'firebase';
   import db from '../firebaseinit';
@@ -136,13 +136,13 @@
           .auth()
           .signOut()
           .then(res => {
-            console.warn('USER SHOULD BE SIGNED OUT!', res);
+            // console.warn('USER SHOULD BE SIGNED OUT!', res);
             this.logoutUser();
           })
           .catch(error => console.log(error));
       },
       async updateUserData(user) {
-        // const userRef = db.doc(`users/${user.uid}`);
+
         const data = {
           uid: user.uid,
           email: user.email || null,
@@ -152,8 +152,10 @@
           phone: user.phone || null,
           country: user.country || null,
           address: user.address || null,
+          metaMaskAddress: this.$store.state.web3.coinbase || null,
           optInTexts: user.optInTexts || null,
-          subscribeToMailingList: user.subscribeToMailingList || null
+          subscribeToMailingList: user.subscribeToMailingList || null,
+          receivedOneTimeDepositFromEF: false
         };
         try {
           const snapshot = await db
@@ -162,7 +164,8 @@
             .get();
           if (snapshot.docs.length === 0) {
             const user = await db.collection('users').add(data);
-            this.registerUserToEscrowContract();
+            // this.registerUserToEscrowContract();
+            this.saveUserAddress();
           }
           this.user = data;
           this.saveUserInStorage(data);
@@ -170,6 +173,21 @@
         } catch (error) {
           console.error('error while getting user by uid', error);
         }
+      },
+      async saveUserAddress() {
+
+        // const data = {
+        //   metaMaskAddress: this.$store.state.web3.coinbase
+        // };
+        //
+        // const user = await db.collection('users')
+        //   .where("uid", "==", this.userId)
+        //   .get()
+        //   .then(snapshot => {
+        //     snapshot.forEach(function (doc) {
+        //       db.collection("users").doc(doc.id).update(data);
+        //     });
+        //   })
       },
       async registerUserToEscrowContract() {
 

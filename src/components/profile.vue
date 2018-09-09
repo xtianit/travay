@@ -229,7 +229,6 @@
           .get()
           .then(snapshot => {
             snapshot.forEach(function (doc) {
-              // console.log(doc.id, " => ", doc.data());
               db.collection("users").doc(doc.id).update(data);
             });
             console.log(snapshot);

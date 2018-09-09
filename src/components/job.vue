@@ -11,7 +11,7 @@
       <sponsor-modal
         :job="job"
         :show.sync="showSponsoredModal"
-        @sponsorSubmit="amount => sponsorSubmitHandler({
+        @sponsorSubmit="amount => sponsorSubmit({
           amount,
           taskId: this.job.taskId,
           task: this.job.task,
@@ -156,7 +156,7 @@
 
                   <vue-grid-item>
                     <vue-button warn
-                                @click="cancelJobHandler">
+                                @click="cancelJob">
                       {{ $t('App.job.cancleJob' /* Cancel Job */) }}
                     </vue-button>
                   </vue-grid-item>
@@ -232,7 +232,7 @@
                 <vue-panel-footer>
                   <vue-button v-if="job.role" v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container"
                               accent>
-                    <a style="color: white !important;" @click.prevent.stop="e => sponsorJobClickedHandler(job.taskId)"
+                    <a style="color: white !important;" @click.prevent.stop="e => sponsorJob(job.taskId)"
                        id="remove-hyperlink">
                       {{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}
                     </a>
@@ -257,7 +257,9 @@
                     <p>{{ $t('App.job.proofOfWorkDescription' /* Based on the requirements of a job, the Job Manager may
                       request proof that work was completed. For example, a picture of a planted tree or that trash was
                       deposited in the correct location. */)
-                      }}</p><br>
+                      }}
+                    </p>
+                    <br>
                     <div class="job-images">
                       <div
                         v-for="(img, index) in this.job.images"
@@ -292,25 +294,31 @@
                 <!--<vue-panel-footer v-if="job.role">-->
                 <vue-panel-footer>
                   <vue-button v-userRole.worker="{cb: uploadFile, role: job.role}" accent>
-                    <a @click.prevent="uploadImages" style="color: white;">
-                      {{ $t('App.job.uploadFileButton' /* Submit Proof */) }}
+                    <a @click.prevent="uploadImages()" style="color: white;">
+                      {{ $t('App.job.uploadFileButton' /* Upload Images */) }}
+                    </a>
+                  </vue-button>
+                  <br><br>
+                  <vue-button v-userRole.worker="{role: job.role}" accent>
+                    <a @click.prevent="uploadProofOfWork()" style="color: white;">
+                      {{ $t('App.job.uploadProofOfWorkButton' /* Upload Files */) }}
                     </a>
                   </vue-button>
                   <br><br>
                   <vue-button v-userRole.worker="{role: job.role}" warn>
-                    <a @click="markJobCompleteHandler" style="color: white;">
+                    <a @click="markJobComplete" style="color: white;">
                       {{ $t('App.job.markJobComplete' /* Job is Done */) }}
                     </a>
                   </vue-button>
                   <br><br>
                   <vue-button v-userRole.evaluator="{role: job.role}" primary>
-                    <a @click="evaluateJobAsCompletedSucessfullyHandler" style="color: white;">
+                    <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
                   </vue-button>
                   <br><br>
                   <vue-button v-userRole.evaluator="{role: job.role}" warn>
-                    <a @click="evaluateJobAsCompletedUnsucessfullyHandler" style="color: white;">
+                    <a @click="evaluateJobAsCompletedUnsucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsUnsuccessful' /* Disapprove Work */) }}
                     </a>
                   </vue-button>
@@ -336,14 +344,22 @@
                   </vue-grid-item>
                 </vue-panel-body>
                 <vue-panel-footer>
-                  <vue-grid-item v-if="job.role">
+                  <vue-grid-item>
                     <vue-button
-                      v-if="job.role['0'] === userId"
                       @click.prevent.stop="e => onPayout(job.id)"
                       primary>
                       {{ $t('App.job.payoutJobButton' /* Payout Job */) }}
                     </vue-button>
                   </vue-grid-item>
+
+                  <!--<vue-grid-item v-if="job.role">-->
+                    <!--<vue-button-->
+                      <!--v-if="job.role['0'] === userId"-->
+                      <!--@click.prevent.stop="e => onPayout(job.id)"-->
+                      <!--primary>-->
+                      <!--{{ $t('App.job.payoutJobButton' /* Payout Job */) }}-->
+                    <!--</vue-button>-->
+                  <!--</vue-grid-item>-->
                 </vue-panel-footer>
               </vue-panel>
             </vue-grid-item>
@@ -487,8 +503,10 @@
       removeRequirement(index) {
         this.job.deliverable.splice(index, 1);
       },
-      async cancelJobHandler() {
+      async cancelJob() {
         const jobId = this.job.taskId;
+
+        this.cancelJobInEscrow();
         try {
           const job = await db.collection("jobs").doc(jobId);
           const update = await job.update({
@@ -498,7 +516,7 @@
           });
           this.job.status.state = "cancelled";
           this.isEditingJobDetails = false;
-          this.cancelJobInEscrow();
+
           // addNotification({
           //   title: this.$t("App.job.jobCanceledNotificationTitle") /* Success! */,
           //   text: this.$t(
@@ -506,10 +524,16 @@
           //   ) /* This job has been cancelled. */
           // }, INotification);
         } catch (error) {
+          console.log(error)
         }
       },
-      async markJobCompleteHandler() {
+      async markJobComplete() {
         const jobId = this.job.taskId;
+
+        this.isLoading = true;
+
+        this.proofOfWorkToEscrow();
+
         try {
           const job = await db.collection("jobs").doc(jobId);
           const update = await job.update({
@@ -518,6 +542,7 @@
             }
           });
           this.job.status.state = "complete";
+          this.isLoading = false;
           this.isEditingJobDetails = false;
           // addNotification({
           //   title: this.$t(
@@ -528,11 +553,14 @@
           //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
           // }, INotification);
         } catch (error) {
+          console.log(error)
         }
-        this.proofOfWorkToEscrow();
       },
-      async evaluateJobAsCompletedSucessfullyHandler() {
+      async evaluateJobAsCompletedSucessfully() {
         const jobId = this.job.taskId;
+
+        this.evaluateJobToEscrow();
+
         try {
           const job = await db.collection("jobs").doc(jobId);
           const update = await job.update({
@@ -540,8 +568,8 @@
               successfullyCompleted: "true"
             }
           });
+          this.isLoading = false;
           this.isEditingJobDetails = false;
-          this.evaluateJobToEscrow();
           // addNotification({
           //   title: this.$t(
           //     "App.job.jobCompletedNotificationTitle"
@@ -551,10 +579,12 @@
           //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
           // }, INotification);
         } catch (error) {
+          console.log(error)
         }
       },
-      async evaluateJobAsCompletedUnsucessfullyHandler() {
+      async evaluateJobAsCompletedUnsucessfully() {
         const jobId = this.job.taskId;
+
         try {
           const job = await db.collection("jobs").doc(jobId);
           const update = await job.update({
@@ -572,10 +602,16 @@
           //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
           // }, INotification);
         } catch (error) {
+          console.log(error)
         }
       },
       async claimPayout() {
         const jobId = this.job.taskId;
+
+        this.isLoading = true;
+
+        this.workerClaimPayoutInEscrow();
+
         try {
           const job = await db.collection("jobs").doc(jobId);
           const update = await job.update({
@@ -583,6 +619,7 @@
               payout: "yes"
             }
           });
+          this.isLoading = false;
           this.isEditingJobDetails = false;
           // addNotification({
           //   title: this.$t(
@@ -593,8 +630,8 @@
           //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
           // }, INotification);
         } catch (error) {
+          console.log(error)
         }
-        this.workerClaimPayoutInEscrow();
       },
       async fileUploaded(e) {
         const images = await Promise.all(
@@ -612,7 +649,7 @@
         );
         this.images = images;
       },
-      sponsorJobClickedHandler(taskId) {
+      sponsorJob(taskId) {
         if (!this.userId) {
           this.openLoginModal();
           return;
@@ -630,20 +667,20 @@
           }
         });
       },
-      onSubmit() {
-        this.isLoading = true;
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.isLoading = false;
-            // addNotification({
-            //   title: this.$t("App.job.jobSavedNotificationTitle") /* Success */,
-            //   text: this.$t(
-            //     "App.job.jobSavedNotificationText"
-            //   ) /* The job has been saved! */
-            // }, INotification);
-          }, 500);
-        });
-      },
+      // onSubmit() {
+      //   this.isLoading = true;
+      //   this.$nextTick(() => {
+      //     setTimeout(() => {
+      //       this.isLoading = false;
+      //       // addNotification({
+      //       //   title: this.$t("App.job.jobSavedNotificationTitle") /* Success */,
+      //       //   text: this.$t(
+      //       //     "App.job.jobSavedNotificationText"
+      //       //   ) /* The job has been saved! */
+      //       // }, INotification);
+      //     }, 500);
+      //   });
+      // },
       async onClaim(docId) {
         const taskId = this.$route.params.id;
         if (this.hasEmptyFields) {
@@ -694,24 +731,47 @@
       },
       onPayout(docId) {
         const taskId = this.$route.params.id;
-        db
-          .collection("jobs")
-          .doc(docId)
-          .update({});
-        this.$nextTick(() => {
-          // setTimeout(() => {
-          //   this.isLoading = false;
-          //   addNotification({
-          //     title: this.$t(
-          //       "App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */
-          //     ),
-          //     text: this.$t(
-          //       "App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */
-          //     )
-          //   }, INotification);
-          // }, 700);
-        });
-        this.managerApprovesPaymentInEscrow();
+
+        // this.managerApprovesPaymentInEscrow();
+
+        this.isLoading = true;
+
+        try {
+          db
+            .collection("jobs")
+            .doc(docId)
+            .get()
+            .then(snapshots => {
+              const doc = snapshots;
+              const jobData = doc.data();
+              const obj = {doc, user: jobData, payOutsToWorker: []};
+              if (Reflect.has(jobData, "payOutsToWorker")) {
+                obj.payOutsToWorker = jobData.payOutsToWorker;
+              }
+              return obj;
+            })
+            .then(({doc, payOutsToWorker}) => {
+              doc.ref.update({
+                payOutsToWorker: [...payOutsToWorker, new Date()]
+              });
+            });
+          this.isLoading = false;
+          this.$nextTick(() => {
+            // setTimeout(() => {
+            //   this.isLoading = false;
+            //   addNotification({
+            //     title: this.$t(
+            //       "App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */
+            //     ),
+            //     text: this.$t(
+            //       "App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */
+            //     )
+            //   }, INotification);
+            // }, 700);
+          });
+        } catch (error) {
+          console.log(error)
+        }
       },
       async postEditedJob() {
         const jobData = {

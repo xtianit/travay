@@ -1,5 +1,5 @@
 <template>
-  <vue-grid>
+  <vue-grid class="code-of-conduct">
     <vue-grid-row>
       <vue-grid-item>
         <h1>Code of Conduct</h1>
@@ -58,7 +58,8 @@
           <li>Trolling, insulting/derogatory comments, and personal or political attacks</li>
           <li>Public or private harassment</li>
           <li>Publishing others' private information, such as a physical or electronic address, without explicit
-            permission</li>
+            permission
+          </li>
           <li>Other conduct which could reasonably be considered inappropriate in a professional setting</li>
         </ul>
 
@@ -92,4 +93,7 @@
 
 <style scoped>
 
+  .code-of-conduct {
+    margin: 20px;
+  }
 </style>
