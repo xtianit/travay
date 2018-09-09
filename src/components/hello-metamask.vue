@@ -1,18 +1,29 @@
 <template>
   <vue-grid class='metamask-info'>
+
     <vue-grid-row v-if="isInjected">
       <vue-grid-item>
-        <p id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> MetaMask installed</p>
-        <p>Network: <strong>{{ network }}</strong></p>
-        <p>Account: {{ coinbase }}</p>
-        <p>Balance: {{ balance }} Wei // {{ ethBalance }} Eth</p>
+        <p id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> MetaMask {{
+          $t('App.helloMetaMask.installed' /* Installed */) }}</p>
+        <p>{{ $t('App.helloMetaMask.network' /* Network */) }}: <strong>{{ network }}</strong></p>
+        <p>{{ $t('App.helloMetaMask.account' /* Account */) }}: {{ coinbase }}</p>
+        <!--<p>{{ $t('App.helloMetaMask.balance' /* Balance */) }}: {{ balance }} Wei // {{ ethBalance }} Eth</p>-->
       </vue-grid-item>
     </vue-grid-row>
+
     <vue-grid-row v-else id="no-metamask">
       <vue-grid-item>
-        <p><i aria-hidden="true" class="fa fa-times"></i> Please Unlock Metamask</p>
+        <p><i aria-hidden="true" class="fa fa-times"></i>{{ $t('App.helloMetaMask.unlockMetaMask' /* Please Unlock
+          MetaMask */) }}</p>
       </vue-grid-item>
     </vue-grid-row>
+
+    <!--TODO: show a warning if person is not on Main Net-->
+    <!--<vue-grid-row>-->
+        <!--<h4>{{ $t('App.helloMetaMask.unsupportedNetwork' /* This is an unsupported network. Please switch to the-->
+          <!--Main Network. */) }}</h4>-->
+    <!--</vue-grid-row>-->
+
   </vue-grid>
 </template>
 
@@ -40,7 +51,7 @@
         if (state.web3.web3Instance !== null)
           return state.web3.web3Instance().fromWei(state.web3.balance, "ether");
       }
-    }),
+    })
   };
 </script>
 
@@ -55,5 +66,9 @@
 
   #no-metamask {
     color: red;
+  }
+
+  #notOnMainNetwork {
+    color: yellow;
   }
 </style>

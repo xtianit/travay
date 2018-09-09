@@ -18,6 +18,7 @@
       <vue-grid-row>
         <form @submit.prevent="createJob()">
 
+          <!--TODO: apply i18n to placeholder text: {{ $t('App.createJob.JobTitleInForm' /* Job Title */) }}-->
           <vue-grid-row>
             <vue-grid-item>
               <vue-input
@@ -57,7 +58,8 @@
                 validation="required"
                 v-model="requirement"
                 required/>
-              <button accent @click="addRequirement">Add Requirement</button>
+              <button accent @click="addRequirement">{{ $t('App.createJob.requirementButton' /* Add Requirement
+                */) }}</button>
               <br>
             </vue-grid-item>
             <br>
@@ -363,11 +365,12 @@
             const self = this;
 
             if (this.hasEmptyFields) {
-              // addNotification({
-              //   title: 'Oops',
-              //   text: 'Please fill in all the fields.'
-              // }, INotification);
-              // return false;
+              EventBus.$emit('notification.add', {
+                id: 1,
+                title: this.$t("App.createJob.emptyFieldsTitle" /* Oops! */),
+                text: this.$t("App.createJob.emptyFieldsText" /* Please fill in all fields. */)
+              });
+              return false;
             }
 
             const jobId = JobID;
@@ -418,11 +421,13 @@
             this.$nextTick(() => {
               setTimeout(() => {
                 this.isLoading = false;
-                //   addNotification({
-                //     title: 'Yay!',
-                //     text: `Your job is now posted! Click here to see the job.`,
-                //     link: `/job/${jobId}`
-                //   }, INotification);
+
+                EventBus.$emit('notification.add', {
+                  id: 1,
+                  title: this.$t("App.createJob.jobPostedTitle" /* Yay! */),
+                  text: this.$t("App.createJob.jobPostedText" /* Your job is now posted! Click here to see the job. */),
+                  link: `/job/${jobId}`
+                });
               }, 500);
             });
           })

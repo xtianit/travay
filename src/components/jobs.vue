@@ -146,9 +146,7 @@
               </vue-button>
               <br/>
               <br/>
-              <vue-button v-userRole.canSponsor="{
-                role: job.role
-              }"
+              <vue-button v-userRole.canSponsor="{role: job.role}"
                           class="sponsor-btn--container"
                           accent>
                 <a
@@ -374,8 +372,6 @@
           }
         );
       }
-    },
-    mounted() {
     },
     computed: {
       // ...mapGetters('signInModal', ['userId']),

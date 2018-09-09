@@ -1,9 +1,9 @@
 <template>
   <footer id="footer-style">
-    &copy; {{ year }} Travay an Electric Feel company<br>
-    <router-link :to="'/userGuide'">User Guide</router-link> |
-    <router-link :to="'/get-started'">Get Started</router-link> |
-    <router-link :to="'/code-of-conduct'">Code of Conduct</router-link>
+    &copy; {{ year }} Travay an Electric Feel {{ $t('App.footer.company' /* compnay */) }}<br>
+    <router-link :to="'/userGuide'">{{ $t('App.footer.userGuide' /* User Guide */) }}</router-link> |
+    <router-link :to="'/get-started'">{{ $t('App.footer.getStartedGuide' /* Get Started */) }}</router-link> |
+    <router-link :to="'/code-of-conduct'">{{ $t('App.footer.codeOfConduct' /* Code of Conduct */) }}</router-link>
   </footer>
 
   <!--<footer id="sticky-footer">&copy; {{ year }} Travay |-->

@@ -2,17 +2,18 @@
   <vue-grid class="code-of-conduct">
     <vue-grid-row>
       <vue-grid-item>
-        <h1>Code of Conduct</h1>
+        <h1>{{ $t('App.codeOfCode.pageTitle' /* Code of Conduct */) }}</h1>
 
-        <p>We as creators and maintainers of Travay pledge to making participation in our community a harassment-free
+        <p>{{ $t('App.codeOfCode.paragraph1' /* We as creators and maintainers of Travay pledge to making
+          participation in our community a harassment-free
           experience for everyone, regardless of age, body size, disability, ethnicity, gender identity and
           expression, level of experience, nationality, personal appearance, race, religion, or sexual identity and
-          orientation.</p>
+          orientation. */) }}</p>
 
-        <h2>Our Mission</h2>
+        <h2>{{ $t('App.codeOfCode.mission' /* Our Mission */) }}</h2>
 
-        <p>Travay’s mission is to cultivate the talent of everyday citizens for creating a restored community and
-          economic opportunity at scale. Our 3 core values are:</p><br>
+        <p>{{ $t('App.codeOfCode.paragraph2' /* Travay’s mission is to cultivate the talent of everyday citizens for
+          creating a restored community and economic opportunity at scale. Our 3 core values are: */) }}</p><br>
 
         <ol>
           <li>Economic empowerment: Employing citizens in public service roles for financial independence and
@@ -66,7 +67,7 @@
         <h2>Enforcement</h2>
 
         <p>Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project
-          team at [developers@colony.io](mailto:developers@colony.io). All complaints will be reviewed and investigated
+          team at alo@electricfeel.co. All complaints will be reviewed and investigated
           and will result in a response that is deemed necessary and appropriate to the circumstances. The project team
           is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of
           specific enforcement policies may be posted separately.</p><br>

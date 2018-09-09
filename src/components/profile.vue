@@ -216,6 +216,7 @@
       },
       async updateProfile() {
         this.isLoading = true;
+
         const e164 = this.concatenateToE164();
 
         const data = {
@@ -234,7 +235,19 @@
             console.log(snapshot);
             this.isEditingProfile = false;
             this.isLoading = false;
-          })
+          });
+
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.isLoading = false;
+
+            EventBus.$emit('notification.add', {
+              id: 1,
+              title: this.$t("App.profile.updateProfileTitle" /* Success! */),
+              text: this.$t("App.profile.updateProfileText" /* Your profile has been update! */)
+            });
+          }, 700);
+        });
       },
       getJobs() {
         return db
@@ -325,8 +338,8 @@
         if (userData) {
           this.saveUserInStorage(JSON.parse(userData));
         }
-      } catch (err) {
-        console.log('err when trying to get user data from storage', err);
+      } catch (error) {
+        console.log('err when trying to get user data from storage', error);
       }
     }
   };

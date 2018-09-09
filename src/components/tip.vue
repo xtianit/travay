@@ -99,13 +99,24 @@
             from: sender
           });
 
-          // TODO: what to do with result?
           const result = await EscrowInstance.tip(receiver, payment, {
             from: sender
           });
 
           let receiver_balance_after = await DAIInstance.balanceOf(receiver);
           receiver_balance_after = receiver_balance_after.toNumber();
+
+          this.$nextTick(() => {
+            setTimeout(() => {
+              this.isLoading = false;
+
+              EventBus.$emit('notification.add', {
+                id: 1,
+                title: this.$t("App.tip.tipSentTitle" /* Success! */),
+                text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
+              });
+            }, 700);
+          });
 
         } catch (err) {
           console.log(err);

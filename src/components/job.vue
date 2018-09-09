@@ -224,7 +224,6 @@
 
                   <vue-grid-item>
                     <p>{{ $t('App.job.sponsorDescription' /* Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed
                       doeiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}</p>
                   </vue-grid-item>
 
@@ -276,7 +275,7 @@
                       <a @click.prevent="removeImage(index)">X</a>
                       <img :src="image.src"/>
                     </div>
-
+                    <!-- THE CHOOSE IMAGE BUTTON -->
                     <h5>{{ $t('App.job.uploadProofOfWorkTitle' /* Upload Proof of Work */) }}</h5>
                     <span class="input-group-text btn btn-primary btn-file" id="basic-addon2">
                         <input type="file" v-on:change="fileUploaded" accept="image/png, image/jpeg, image/gif"
@@ -295,15 +294,15 @@
                 <vue-panel-footer>
                   <vue-button v-userRole.worker="{cb: uploadFile, role: job.role}" accent>
                     <a @click.prevent="uploadImages()" style="color: white;">
-                      {{ $t('App.job.uploadFileButton' /* Upload Images */) }}
+                      {{ $t('App.job.uploadFileButton' /* Save Uploaded Images */) }}
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.worker="{role: job.role}" accent>
-                    <a @click.prevent="uploadProofOfWork()" style="color: white;">
-                      {{ $t('App.job.uploadProofOfWorkButton' /* Upload Files */) }}
-                    </a>
-                  </vue-button>
+                  <!--<vue-button v-userRole.worker="{role: job.role}" accent>-->
+                  <!--<a @click.prevent="uploadProofOfWork()" style="color: white;">-->
+                  <!--{{ $t('App.job.uploadProofOfWorkButton' /* Upload Files */) }}-->
+                  <!--</a>-->
+                  <!--</vue-button>-->
                   <br><br>
                   <vue-button v-userRole.worker="{role: job.role}" warn>
                     <a @click="markJobComplete" style="color: white;">
@@ -353,12 +352,12 @@
                   </vue-grid-item>
 
                   <!--<vue-grid-item v-if="job.role">-->
-                    <!--<vue-button-->
-                      <!--v-if="job.role['0'] === userId"-->
-                      <!--@click.prevent.stop="e => onPayout(job.id)"-->
-                      <!--primary>-->
-                      <!--{{ $t('App.job.payoutJobButton' /* Payout Job */) }}-->
-                    <!--</vue-button>-->
+                  <!--<vue-button-->
+                  <!--v-if="job.role['0'] === userId"-->
+                  <!--@click.prevent.stop="e => onPayout(job.id)"-->
+                  <!--primary>-->
+                  <!--{{ $t('App.job.payoutJobButton' /* Payout Job */) }}-->
+                  <!--</vue-button>-->
                   <!--</vue-grid-item>-->
                 </vue-panel-footer>
               </vue-panel>
@@ -507,6 +506,7 @@
         const jobId = this.job.taskId;
 
         this.cancelJobInEscrow();
+
         try {
           const job = await db.collection("jobs").doc(jobId);
           const update = await job.update({
@@ -517,12 +517,12 @@
           this.job.status.state = "cancelled";
           this.isEditingJobDetails = false;
 
-          // addNotification({
-          //   title: this.$t("App.job.jobCanceledNotificationTitle") /* Success! */,
-          //   text: this.$t(
-          //     "App.job.jobCanceledNotificationText"
-          //   ) /* This job has been cancelled. */
-          // }, INotification);
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t("App.job.jobCanceledNotificationTitle" /* Success! */),
+            text: this.$t("App.job.jobCanceledNotificationText" /* This job has been cancelled. */)
+          });
+
         } catch (error) {
           console.log(error)
         }
@@ -544,14 +544,13 @@
           this.job.status.state = "complete";
           this.isLoading = false;
           this.isEditingJobDetails = false;
-          // addNotification({
-          //   title: this.$t(
-          //     "App.job.jobCompletedNotificationTitle"
-          //   ) /* Success! */,
-          //   text: this.$t(
-          //     "App.job.jobCompleteNotificationText"
-          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          // }, INotification);
+
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
+            text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
+          });
+
         } catch (error) {
           console.log(error)
         }
@@ -570,14 +569,13 @@
           });
           this.isLoading = false;
           this.isEditingJobDetails = false;
-          // addNotification({
-          //   title: this.$t(
-          //     "App.job.jobCompletedNotificationTitle"
-          //   ) /* Success! */,
-          //   text: this.$t(
-          //     "App.job.jobCompleteNotificationText"
-          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          // }, INotification);
+
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
+            text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
+          });
+
         } catch (error) {
           console.log(error)
         }
@@ -593,14 +591,13 @@
             }
           });
           this.isEditingJobDetails = false;
-          // addNotification({
-          //   title: this.$t(
-          //     "App.job.jobCompletedNotificationTitle"
-          //   ) /* Success! */,
-          //   text: this.$t(
-          //     "App.job.jobCompleteNotificationText"
-          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          // }, INotification);
+
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
+            text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
+          });
+
         } catch (error) {
           console.log(error)
         }
@@ -621,14 +618,17 @@
           });
           this.isLoading = false;
           this.isEditingJobDetails = false;
-          // addNotification({
-          //   title: this.$t(
-          //     "App.job.jobCompletedNotificationTitle"
-          //   ) /* Success! */,
-          //   text: this.$t(
-          //     "App.job.jobCompleteNotificationText"
-          //   ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirmting. */
-          // }, INotification);
+
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t(
+              "App.job.jobCompletedNotificationTitle"
+            ) /* Success! */,
+            text: this.$t(
+              "App.job.jobCompleteNotificationText"
+            ) /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */
+          });
+
         } catch (error) {
           console.log(error)
         }
@@ -667,29 +667,16 @@
           }
         });
       },
-      // onSubmit() {
-      //   this.isLoading = true;
-      //   this.$nextTick(() => {
-      //     setTimeout(() => {
-      //       this.isLoading = false;
-      //       // addNotification({
-      //       //   title: this.$t("App.job.jobSavedNotificationTitle") /* Success */,
-      //       //   text: this.$t(
-      //       //     "App.job.jobSavedNotificationText"
-      //       //   ) /* The job has been saved! */
-      //       // }, INotification);
-      //     }, 500);
-      //   });
-      // },
       async onClaim(docId) {
         const taskId = this.$route.params.id;
+
         if (this.hasEmptyFields) {
-          // addNotification({
-          //   title: this.$t("App.job.jobEmptyFieldNotificationTitle") /* Oops */,
-          //   text: this.$t(
-          //     "App.job.jobEmptyFieldNotificationText"
-          //   ) /* Please complete all fields. */
-          // }, INotification);
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t("App.job.jobEmptyFieldNotificationTitle" /* Oops */),
+            text: this.$t("App.job.jobEmptyFieldNotificationText" /* Please complete all fields. */)
+          });
+
           return false;
         }
         await db
@@ -719,20 +706,20 @@
         this.$nextTick(() => {
           setTimeout(() => {
             this.isLoading = false;
-            // addNotification({
-            //   title: this.$t("App.job.jobClaimedNotificationTitle") /* Yay! */,
-            //   text: this.$t(
-            //     "App.job.jobClaimedNotificationText"
-            //   ) /* Job confirmed successfully! You can start work immediately. */
-            // }, INotification);
-          }, 700);
+
+            EventBus.$emit('notification.add', {
+              id: 1,
+              title: this.$t("App.job.jobClaimedNotificationTitle" /* Yay! */),
+              text: this.$t("App.job.jobClaimedNotificationText" /* Job confirmed successfully! You can start work immediately. */)
+            });
+          });
         });
         this.claimJobInEscrowContract();
       },
       onPayout(docId) {
         const taskId = this.$route.params.id;
 
-        // this.managerApprovesPaymentInEscrow();
+        this.managerApprovesPaymentInEscrow();
 
         this.isLoading = true;
 
@@ -757,17 +744,12 @@
             });
           this.isLoading = false;
           this.$nextTick(() => {
-            // setTimeout(() => {
-            //   this.isLoading = false;
-            //   addNotification({
-            //     title: this.$t(
-            //       "App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */
-            //     ),
-            //     text: this.$t(
-            //       "App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */
-            //     )
-            //   }, INotification);
-            // }, 700);
+
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t("App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */),
+            text: this.$t("App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */)
+          });
           });
         } catch (error) {
           console.log(error)
@@ -794,19 +776,18 @@
           .catch(function (error) {
             console.error("Error updating document: ", error);
           });
-        // this.$nextTick(() => {
-        //   setTimeout(() => {
-        //     this.isLoading = false;
-        //     addNotification({
-        //       title: this.$t(
-        //         "App.job.jobUpdatedNotificationTitle"
-        //       ) /* Success! */,
-        //       text: this.$t(
-        //         "App.job.jobUpdatedNotificationText"
-        //       ) /* Job updated successfully! */
-        //     }, INotification);
-        //   }, 700);
-        // });
+
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.isLoading = false;
+
+            EventBus.$emit('notification.add', {
+              id: 1,
+              title: this.$t("App.job.jobUpdatedNotificationTitle" /* Success! */),
+              text: this.$t("App.job.jobUpdatedNotificationText" /* Job updated successfully! */)
+            });
+          }, 700);
+        });
         this.isEditingJobDetails = false;
       },
       async uploadImages() {
@@ -897,10 +878,11 @@
         DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        const JobID = 0; // TODO: replace with what is in the UI
+        const JobID = this.taskId;
 
         web3.eth.getAccounts(async (err, accounts) => {
-          const worker = accounts[0]; // TODO: replace with what is in the UI
+          const worker = this.job.role["2"];
+
           if (err) {
             throw new {name: "Exception", message: "Accounts are not found"};
           }
@@ -933,7 +915,6 @@
         DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        // TODO: error Invalid number of arguments to Solidity function
         web3.eth.getAccounts(async (err, accounts) => {
           const manager = accounts[0];
           try {
@@ -983,11 +964,10 @@
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
         web3.eth.getAccounts(async (err, accounts) => {
-          const worker = accounts[1]; // TODO: link to UI
-          const JobID = 0;
+          const worker = this.job.role["2"];
+          const JobID = this.taskId;
 
           try {
-            // TODO: result is undefined
             const result = await EscrowInstance.provideProofOfWork(JobID, {
               from: worker
             });
@@ -1016,8 +996,9 @@
         DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        const JobID = 0; // TODO: link to UI
-        // const evaluator = TODO link to UI
+        const JobID = this.taskId;
+        const evaluator = this.job.role["1"];
+
         try {
           const result = await EscrowInstance.confirmProofOfWork(JobID, {
             from: evaluator
@@ -1046,7 +1027,7 @@
         DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        const JobID = 0; // TODO: link to UI
+        const JobID = this.taskId;
 
         try {
           const result = await EscrowInstance.approvePayment(JobID, {
@@ -1079,7 +1060,7 @@
           let worker_balance_before = await DAIInstance.balanceOf(worker);
           worker_balance_before = worker_balance_before.toNumber();
 
-          const JobID = 0; // TODO: link to UI
+          const JobID = this.taskId;
 
           const Job = await EscrowInstance.getJob(JobID);
 
