@@ -5,6 +5,7 @@ import * as types from '@/store/types'
 export const sponsorSubmitMixin = {
   methods: {
     async sponsorSubmit({ amount, taskId, task, job = {} }) {
+
       const data = {
         sponsoredId: uuid.v1(),
         userId: this.$store.getters[types.GET_USER_ID],

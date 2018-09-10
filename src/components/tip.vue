@@ -17,16 +17,6 @@
           <br>
 
           <vue-input
-            name="sender"
-            id="sender"
-            required
-            placeholder="Sender"
-
-            v-model="form.sender"/>
-
-          <br>
-
-          <vue-input
             name="amount"
             id="amount"
             required
@@ -62,7 +52,6 @@
       return {
         isLoading: false,
         form: {
-          sender: this.$store.state.web3.coinbase,
           receiver: "0xa7c2662a534a0ae22e8b0f27d6a099e3b3971c6a",
           amount: "10"
         }
@@ -87,41 +76,42 @@
         DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
         DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-        const payment = this.form.amount * (10 ** 18);
-        const sender = this.form.sender;
-        const receiver = this.form.receiver;
+        web3.eth.getAccounts(async (err, accounts) => {
 
-        try {
-          let receiver_balance_before = await DAIInstance.balanceOf(receiver);
-          receiver_balance_before = receiver_balance_before.toNumber();
+          const payment = this.form.amount * (10 ** 18);
+          const receiver = this.form.receiver;
 
-          await DAIInstance.approve(EscrowInstance.address, payment, {
-            from: sender
-          });
+          try {
+            let receiver_balance_before = await DAIInstance.balanceOf(receiver);
+            receiver_balance_before = receiver_balance_before.toNumber();
 
-          const result = await EscrowInstance.tip(receiver, payment, {
-            from: sender
-          });
+            await DAIInstance.approve(EscrowInstance.address, payment, {
+              from: sender
+            });
 
-          let receiver_balance_after = await DAIInstance.balanceOf(receiver);
-          receiver_balance_after = receiver_balance_after.toNumber();
+            const result = await EscrowInstance.tip(receiver, payment, {
+              from: sender
+            });
 
-          this.$nextTick(() => {
-            setTimeout(() => {
-              this.isLoading = false;
+            let receiver_balance_after = await DAIInstance.balanceOf(receiver);
+            receiver_balance_after = receiver_balance_after.toNumber();
 
-              EventBus.$emit('notification.add', {
-                id: 1,
-                title: this.$t("App.tip.tipSentTitle" /* Success! */),
-                text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
-              });
-            }, 700);
-          });
+            this.$nextTick(() => {
+              setTimeout(() => {
+                this.isLoading = false;
 
-        } catch (err) {
-          console.log(err);
-        }
-        console.log(result);
+                EventBus.$emit('notification.add', {
+                  id: 1,
+                  title: this.$t("App.tip.tipSentTitle" /* Success! */),
+                  text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
+                });
+              }, 700);
+            });
+
+          } catch (err) {
+            console.log(err);
+          }
+        })
       }
     }
   };

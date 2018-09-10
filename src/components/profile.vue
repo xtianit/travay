@@ -95,6 +95,7 @@
       <vue-grid-row>
         <vue-grid-item>
           <vue-accordion multiple>
+            <!-- TODO: get i18n to work in accordion titles -->
             <vue-accordion-item title="Incomplete Jobs">
               <div
                 v-for="(item, index) in incompleteJobs"

@@ -164,7 +164,7 @@
             .get();
           if (snapshot.docs.length === 0) {
             const user = await db.collection('users').add(data);
-            // this.registerUserToEscrowContract();
+            this.registerUserToEscrowContract();
             this.saveUserAddress();
           }
           this.user = data;

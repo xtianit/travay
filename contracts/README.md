@@ -1,5 +1,6 @@
-# EscrowSmartContract
+# Escrow Smart Contract
 
+Build Contracts
 ```
 cd contracts
 
@@ -9,7 +10,7 @@ truffle migrate --network development
 
 ```
 
-## Truffle command line
+## Start Truffle command line
 
 ```
 truffle console --network development
@@ -19,4 +20,23 @@ truffle console --network development
 
 ```
 truffle test --network development
+```
+
+## Find address where contract is deployed in Console
+
+```
+esc.address
+
+```
+
+## Withdraw DAI from Contract in Console
+
+```
+truffle console --network ropsten
+
+Escrow.deployed().then(ins => esc = ins)
+
+web3.eth.getAccounts((err, accounts) => arb = accounts[8])
+
+esc.withdrawDAI(arb, 2000000000000000000,{from:arb})
 ```

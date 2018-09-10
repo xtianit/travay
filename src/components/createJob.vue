@@ -26,7 +26,6 @@
                 id="task"
                 required
                 placeholder="Job Title"
-                validation="required"
                 v-model="form.task"/>
             </vue-grid-item>
           </vue-grid-row>
@@ -38,7 +37,6 @@
                 id="brief"
                 required
                 placeholder="Job Description"
-                validation="required"
                 v-model="form.brief"/>
             </vue-grid-item>
           </vue-grid-row>
@@ -55,11 +53,11 @@
                 name="deliverable"
                 id="deliverable"
                 placeholder="Requirement for Job to be Complete"
-                validation="required"
                 v-model="requirement"
                 required/>
               <button accent @click="addRequirement">{{ $t('App.createJob.requirementButton' /* Add Requirement
-                */) }}</button>
+                */) }}
+              </button>
               <br>
             </vue-grid-item>
             <br>
@@ -85,47 +83,48 @@
                 :first-day-of-week="1"
                 ref="closingDatepicker"
                 :selectedDate="form.closingDate"
-                validation="required"
                 placeholder="Job Closing Date"/>
             </vue-grid-item>
           </vue-grid-row>
 
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-input
-                name="payoutEvaluator"
-                id="payoutEvaluator"
-                required
-                placeholder="Job Reviewer"
-                validation="required"
-                v-model="form.payoutEvaluator"/>
-            </vue-grid-item>
-          </vue-grid-row>
+          <!--<vue-grid-row>-->
+          <!--<vue-grid-item>-->
+          <!--<vue-input-->
+          <!--name="payoutEvaluator"-->
+          <!--id="payoutEvaluator"-->
+          <!--required-->
+          <!--placeholder="Job Reviewer"-->
+          <!--v-model="form.payoutEvaluator"/>-->
+          <!--</vue-grid-item>-->
+          <!--</vue-grid-row>-->
 
           <vue-grid-row>
             <vue-grid-item>
-              <vue-select
+              <vue-input
                 name="termOfEmployment"
                 id="termOfEmployment"
-                :options="termOfEmployment"
-                :value="form.selectedTermOfEmployment"
-                @input="val => selectChange(val, 'selectedTermOfEmployment')"
-                validation="required"/>
+                type="number"
+                required
+                placeholder="Number of Months of Employment"
+                v-model="form.termOfEmployment"/>
               <div>{{ $t('App.createJob.termOfEmploymentExplanation' /* Months of work is also referenced as
                 milestones. The total amount you fund for this job will be divided by the number of milestones or
                 total months of employment. */) }}
               </div>
             </vue-grid-item>
-            <!--<vue-grid-item>-->
-            <!--<vue-select-->
-            <!--name="payFrequency"-->
-            <!--id="payFrequency"-->
-            <!--:options="payFrequency"-->
-            <!--:value="form.selectedPayFrequency"-->
-            <!--@input="val => selectChange(val, 'selectedPayFrequency')"-->
-            <!--validation="required"/>-->
-            <!--</vue-grid-item>-->
           </vue-grid-row>
+
+
+          <!--<vue-grid-row>-->
+          <!--<vue-grid-item>-->
+          <!--<vue-select-->
+          <!--name="payFrequency"-->
+          <!--id="payFrequency"-->
+          <!--:options="payFrequency"-->
+          <!--:value="form.selectedPayFrequency"-->
+          <!--@input="val => selectChange(val, 'selectedPayFrequency')"-->
+          <!--</vue-grid-item>-->
+          <!--</vue-grid-row>-->
           <br>
           <br>
           <vue-grid-row>
@@ -136,8 +135,7 @@
                 type="number"
                 required
                 placeholder="Total Funding (aka Salary) for Job in USD"
-                v-model="form.salary"
-                validation="required"/>
+                v-model="form.salary"/>
               <div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be
                 deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.
                 (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in
@@ -155,8 +153,7 @@
                 required
                 placeholder="Job Category"
                 v-model="form.domain"
-                :options="domainOptions"
-                validation="required"/>
+                :options="domainOptions"/>
             </vue-grid-item>
             <vue-grid-item>
               <vue-select
@@ -165,8 +162,7 @@
                 required
                 placeholder="Top Desired Skill"
                 v-model="form.skill"
-                :options="skillOptions"
-                validation="required"/>
+                :options="skillOptions"/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -177,7 +173,6 @@
                 id="country"
                 v-model="form.country"
                 :options="countryOptions"
-                validation="required"
                 required
                 :disabled="form.addressDisabled"/>
             </vue-grid-item>
@@ -190,8 +185,7 @@
                 id="cityOfWork"
                 required
                 placeholder="City where work is to be performed"
-                v-model="form.cityOfWork"
-                validation="required"/>
+                v-model="form.cityOfWork"/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -255,62 +249,20 @@
     data() {
       return {
         form: {
-          taskId: '',
+          taskId: 0,
           task: 'Weekly Trash Pickup',
           brief: 'Pickup and deposit trash for ten homes.',
           deliverable: [],
           datePosted: '',
           payoutEvaluator: 'Dexter Morgan',
-          salary: '20',
+          salary: '1',
+          termOfEmployment: '1',
           cityOfWork: 'Port-au-Prince',
           isTaskIdDisabled: true,
-          // closingDate: '',
           state: state,
           isDatePostedDisabled: true,
           acceptTerms: false,
-          selectedPayFrequency: '',
-          selectedTermOfEmployment: ''
         },
-        payFrequency: [
-          {
-            label: 'Select Pay Frequency',
-            value: 'none'
-          },
-          {
-            label: 'Weekly',
-            value: '52'
-          },
-          {
-            label: 'Bi-weekly',
-            value: '26'
-          },
-          {
-            label: 'Monthly',
-            value: '12'
-          }
-        ],
-        termOfEmployment: [
-          {
-            label: 'Select How Many Months of Work',
-            value: 'none'
-          },
-          {
-            label: '1-month',
-            value: '1'
-          },
-          {
-            label: '3-months',
-            value: '3'
-          },
-          {
-            label: '6-months',
-            value: '6'
-          },
-          {
-            label: '12-months',
-            value: '12'
-          }
-        ],
         countryOptions: [
           {label: 'Choose a Country', value: null},
           {label: 'Haiti', value: 'haiti'},
@@ -339,15 +291,6 @@
         console.log('Closing Date Chosen', value);
         this.$set(this.form, 'closingDate', value)
       },
-      selectChange(value, field) {
-        this.$set(this.form, field, value);
-      },
-      getPayFrequencyLabel(selectedValue) {
-        const selected = this.payFrequency.find(
-          item => item.value === selectedValue
-        );
-        return selected ? Reflect.get(selected, 'label') : '';
-      },
       addRequirement() {
         if (this.requirement) this.form.deliverable.push(this.requirement);
         this.requirement = '';
@@ -359,9 +302,12 @@
 
         this.isLoading = true;
 
+        const {form} = this;
+
+        console.log(form.termOfEmployment);
+
         this.createJobInEscrow()
           .then(JobID => {
-            const form = this.form;
             const self = this;
 
             if (this.hasEmptyFields) {
@@ -373,21 +319,18 @@
               return false;
             }
 
-            const jobId = JobID;
+            const jobId = JobID.toString();
 
             let jobData = {
               salary: {
-                'full-time-rate': form.salary,
-                'pay-frequency': {
-                  label: this.getPayFrequencyLabel(form.selectedPayFrequency),
-                  duration: form.selectedPayFrequency
-                }
+                'full-time-rate': form.salary
               },
               brief: form.brief,
               'date-posted': new Date(),
               deliverable: form.deliverable,
               skill: form.skill,
               domain: form.domain,
+              termOfEmployment: form.termOfEmployment,
               payouts: {
                 evaluator: 0,
                 manager: 0,
@@ -403,7 +346,6 @@
               task: form.task,
               taskId: jobId,
               country: form.country,
-              'terms-of-employment': form.selectedTermOfEmployment,
               status: {
                 state: 'incomplete'
               }
@@ -461,14 +403,17 @@
 
           const description = this.form.brief;
           const salary = this.form.salary * (10 ** 18);
+          const noOfTotalPayments = this.form.termOfEmployment;
 
           web3.eth.getAccounts(async (err, accounts) => {
             const manager = accounts[0];
+            console.log(EscrowInstance.address, DAIInstance.address);
             try {
               await DAIInstance.approve(EscrowInstance.address, salary, {
                 from: manager
               });
-              const result = await EscrowInstance.createJob(description, salary, 5, {
+
+              const result = await EscrowInstance.createJob(description, salary, noOfTotalPayments, {
                 from: manager
               });
               console.log(result);

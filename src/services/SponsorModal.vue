@@ -39,7 +39,8 @@
     },
     data() {
       return {
-        sponsorAmount: ''
+        sponsorAmount: '',
+        taskId: "",
       };
     },
     computed: {},
@@ -73,12 +74,18 @@
           DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
           DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          const JobID = this.taskId;
+          const JobID = this.job.taskId;
           const payment = this.sponsorAmount * (10 ** 18);
 
           web3.eth.getAccounts(async (err, accounts) => {
             const sponsor = accounts[0];
             try {
+
+              // TODO: sponsor modal doesn't find JobId
+
+              console.log('payment', payment);
+              console.log('JobID', JobID);
+              console.log(typeof JobID);
 
               await DAIInstance.approve(EscrowInstance.address, payment, {from: sponsor});
 
