@@ -31,11 +31,11 @@
         </template>
 
         <template v-else fill>
-          <br>
-          <br>
-          <br>
           <vue-grid-row>
             <vue-grid-item>
+              <br>
+              <br>
+              <br>
               <vue-button @click="signOut">
                 <i class="fab fa-sign-out"></i>
                 {{ $t('App.signInModal.googleSignOut' /* Sign Out with Google */) }}
