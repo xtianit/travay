@@ -42,7 +42,7 @@
         <ol>
           <li>{{ $t('App.getStarted.install' /* Install */) }} <a
             href="https://play.google.com/store/apps/details?id=org.mozilla.firefox&hl=fr" target="_blank">Firefox</a>
-            {{ $t('App.getStarted.browser' /* browser */) }}.
+            {{ $t('App.getStarted.browser' /* browser */) }}
           </li>
           <li>{{ $t('App.getStarted.step2' /* Log into Travay with your Gmail Account. Don't have one? Sign up */) }} <a
             href="https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2FManageAccount&hl=fr&flowName=GlifWebSignIn&flowEntry=SignUp"

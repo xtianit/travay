@@ -13,8 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "heroku-postbuild": "npm run build"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.4",

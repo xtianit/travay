@@ -7,7 +7,7 @@ import App from './App'
 import router from './router'
 import {store} from './store/'
 import VueI18n from 'vue-i18n'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
@@ -18,7 +18,7 @@ import frlocale from '../i18n/fr.json';
 
 Vue.directive('userRole', userRole);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+// Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueI18n);
 

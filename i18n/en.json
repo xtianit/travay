@@ -148,7 +148,7 @@
   "App.getStarted.title": "Quickly Get Started",
   "App.getStarted.jobWorkersTitle": "Job Workers",
   "App.getStarted.install": "Install",
-  "App.getStarted.browser": "browser",
+  "App.getStarted.browser": "browser (if on a mobile phone).",
   "App.getStarted.step2": "Log into Travay with your Gmail Account. Don't have one? Sign up",
   "App.getStarted.here": "here",
   "App.getStarted.extension": "extension",

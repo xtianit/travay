@@ -6,50 +6,49 @@
       <ul :class="$style.nav">
         <li>
           <router-link :to="'/jobs'">
-          <i class="fas fa-book" />
+            <i class="far fa-building"></i>
           <small>{{ $t('App.nav.jobs' /* Jobs */) }}</small>
           </router-link>
         </li>
         <li v-if="userId">
           <router-link :to="'/createJob'">
-            <i class="fas fa-book" />
+            <i class="fal fa-file-import"></i>
             <small>{{ $t('App.nav.createJob' /* Create a Job */) }}</small>
           </router-link>
         </li>
         <li v-if="userId">
           <router-link to="/tip">
-            <i class="fas fa-user"/>
+            <i class="far fa-dollar-sign"></i>
             <small>{{ $t('App.nav.tip' /* Tip */) }}</small>
           </router-link>
         </li>
         <li v-if="userId">
           <router-link to="/profile">
-            <i class="fas fa-user"/>
+            <i class="fal fa-user-circle"></i>
             <small>{{ $t('App.nav.profile' /* Profile */) }}</small>
           </router-link>
         </li>
         <li>
           <a @click="signInClicked">
-            <i class="fas fa-user-plus"/>
-            <!--<small>{{ userId ? "Signout" : "Signin" }}</small>-->
-            <small>{{ userId ? $t('App.nav.signout') : $t('App.nav.signin' /* Signin */) }}</small>
+            <i class="fal fa-user-plus"></i>
+            <small>{{ userId ? $t('App.nav.signout') : $t('App.nav.signin' /* Sign in */) }}</small>
           </a>
         </li>
         <li>
           <a @click="localeSwitch('ht')">
-            <i class="fas fa-flag"/>
+            <i class="far fa-flag"></i>
             <small>{{ $t('App.nav.kreyol' /* Haitian Creole */) }}</small>
           </a>
         </li>
         <!--<li>-->
         <!--<a @click="localeSwitch('fr')">-->
-        <!--<i class="fas fa-flag"/>-->
+        <!--<i class="far fa-flag"></i>-->
         <!--<small>{{ $t('App.nav.french' /* French */) }}</small>-->
         <!--</a>-->
         <!--</li>-->
         <li>
           <a @click="localeSwitch('en')">
-            <i class="fas fa-flag"/>
+            <i class="far fa-flag"></i>
             <small>{{ $t('App.nav.english' /* English */) }}</small>
           </a>
         </li>

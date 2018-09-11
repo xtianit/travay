@@ -6,7 +6,8 @@
 
         <vue-grid-row>
           <vue-grid-item fill>
-            <h1>{{modalHeading}}</h1>
+            <!--TODO: Unable to use i18n here-->
+            <!--<h1>{{modalHeading}}</h1>-->
           </vue-grid-item>
         </vue-grid-row>
 
@@ -30,16 +31,19 @@
         </template>
 
         <template v-else fill>
+          <br>
+          <br>
           <vue-grid-row>
             <vue-grid-item>
-              <p>
-                {{ $t('App.signInModal.signOutWarning' /* Remember to also sign out of MetaMask, to prevent phishing.
-                Learn more about phishing here: https://fr.wikipedia.org/wiki/Hame%C3%A7onnage. */) }}</p>
-              <br>
               <vue-button @click="signOut">
                 <i class="fab fa-sign-out"></i>
                 {{ $t('App.signInModal.googleSignOut' /* Sign Out with Google */) }}
               </vue-button>
+              <br>
+              <br>
+              <p>
+                {{ $t('App.signInModal.signOutWarning' /* Remember to also sign out of MetaMask, to prevent phishing.
+                Learn more about phishing here: https://fr.wikipedia.org/wiki/Hame%C3%A7onnage. */) }}</p>
             </vue-grid-item>
           </vue-grid-row>
         </template>
