@@ -17,6 +17,12 @@
           </router-link>
         </li>
         <li v-if="userId">
+          <router-link to="/tip">
+            <i class="fas fa-user"/>
+            <small>{{ $t('App.nav.tip' /* Tip */) }}</small>
+          </router-link>
+        </li>
+        <li v-if="userId">
           <router-link to="/profile">
             <i class="fas fa-user"/>
             <small>{{ $t('App.nav.profile' /* Profile */) }}</small>

@@ -88,7 +88,7 @@
           <vue-button
             class="sponsor-btn--container" accent>
             <a style="color: white !important;" @click.prevent.stop="e => createJobClicked()"
-               id="remove-hyperlink">Post a Job</a>
+               id="remove-hyperlink">{{ $t('App.jobs.postAJobButton' /* Post a Job */) }}</a>
           </vue-button>
         </vue-grid-item>
       </vue-grid-row>
@@ -111,10 +111,10 @@
             <vue-panel-body>
               <ul>
                 <li>
-                  Job: {{job.task}}<br>
-                  Description: {{job.brief}}<br>
-                  Domain: {{job.domain}}<br>
-                  Top Desired Skill: {{job.skill}}
+                  {{job.task}}<br>
+                  {{ $t('App.job.jobDescription' /* Description */) }}: {{job.brief}}<br>
+                  {{ $t('App.job.jobDomain' /* Domain */) }}: {{job.domain}}<br>
+                  {{ $t('App.job.jobSkill' /* Desired Skill */) }}: {{job.skill}}
                   <br>
                   <br>
                   <!--Full time rate: ${{job.salary['full-time-rate']}}<br>-->
@@ -135,13 +135,14 @@
                   <!--<input id="oneyear" type="checkbox" name="oneyear" v-model="job['terms-of-employment']"-->
                          <!--true-value="12" disabled/>-->
                   <!--<label for="oneyear">1 year</label>-->
-                  Date Posted: {{ job['date-posted'] | moment }}<br>
+                  {{ $t('App.job.datePosted' /* Date Posted */) }}: {{ job['date-posted'] | moment }}<br>
                 </li>
               </ul>
             </vue-panel-body>
             <vue-panel-footer>
               <vue-button primary>
-                <router-link :to="`/job/${job.taskId}`" style="color:white; text-decoration: none;">Learn More
+                <router-link :to="`/job/${job.taskId}`" style="color:white; text-decoration: none;">{{
+                  $t('App.jobs.learnMoreButton' /* LEARN MORE */) }}
                 </router-link>
               </vue-button>
               <br/>

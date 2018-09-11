@@ -95,8 +95,8 @@
       <vue-grid-row>
         <vue-grid-item>
           <vue-accordion multiple>
-            <!-- TODO: get i18n to work in accordion titles -->
             <vue-accordion-item title="Incomplete Jobs">
+              {{ $t('App.profile.incompleteJobs' /* List of all jobs that are still open. */) }}
               <div
                 v-for="(item, index) in incompleteJobs"
                 :key="item.taskId + index">
@@ -105,6 +105,7 @@
             </vue-accordion-item>
 
             <vue-accordion-item title="Completed Jobs">
+              {{ $t('App.profile.completedJobs' /* List of all jobs that have all been completed and closed. */) }}
               <div
                 v-for="(item, index) in completedJobs"
                 :key="item.taskId + index">
@@ -113,6 +114,7 @@
             </vue-accordion-item>
 
             <vue-accordion-item title="Canceled Jobs">
+              {{ $t('App.profile.canceledJobs' /* List of all jobs that have all been canceled. */) }}
               <div
                 v-for="(item, index) in canceledJobs"
                 :key="item.taskId + index">
@@ -121,6 +123,7 @@
             </vue-accordion-item>
 
             <vue-accordion-item title="Jobs You're Managing">
+              {{ $t('App.profile.managingJobs' /* List of all jobs you are managing. */) }}
               <div
                 v-for="(item, index) in managingJobs"
                 :key="item.taskId + index">
@@ -128,8 +131,8 @@
               </div>
             </vue-accordion-item>
 
-            <vue-accordion-item
-              title="Jobs You're Evaluating">
+            <vue-accordion-item title="Jobs You're Evaluating">
+              {{ $t('App.profile.evaluatingJobs' /* List of all jobs you are listed as the Evaluator. */) }}
               <div
                 v-for="(item, index) in evaluatingJobs"
                 :key="item.taskId + index">
@@ -141,6 +144,7 @@
             </vue-accordion-item>
 
             <vue-accordion-item title="Jobs You've Sponsored">
+              {{ $t('App.profile.sponsoringJobs' /* List of all jobs you've sponsored. */) }}
               <div
                 v-for="(item, index) in sponsored"
                 :key="item.sponsoredId + index">

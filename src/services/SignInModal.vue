@@ -14,7 +14,8 @@
           <vue-grid-row>
             <vue-grid-item>
               <vue-button @click="signInWithGoogle">
-                <i class="fab fa-google"></i> Google
+                <i class="fab fa-google"></i>
+                {{ $t('App.signInModal.googleSignIn' /* Sign In with Google */) }}
               </vue-button>
             </vue-grid-item>
             <br>
@@ -31,12 +32,13 @@
         <template v-else fill>
           <vue-grid-row>
             <vue-grid-item>
-
-              <p warn>Remember to also sign out of MetaMask, to prevent phishing for example:
-                https://medium.com/metamask/new-phishing-strategy-becoming-common-1b1123837168.</p>
-              <p>What is Phishing?: https://en.wikipedia.org/wiki/Phishing</p>
+              <p>
+                {{ $t('App.signInModal.signOutWarning' /* Remember to also sign out of MetaMask, to prevent phishing.
+                Learn more about phishing here: https://fr.wikipedia.org/wiki/Hame%C3%A7onnage. */) }}</p>
+              <br>
               <vue-button @click="signOut">
-                <i class="fab fa-sign-out"></i> Sign Out
+                <i class="fab fa-sign-out"></i>
+                {{ $t('App.signInModal.googleSignOut' /* Sign Out with Google */) }}
               </vue-button>
             </vue-grid-item>
           </vue-grid-row>
@@ -191,35 +193,35 @@
       },
       async registerUserToEscrowContract() {
 
-          const Escrow = truffleContract(EscrowContract);
-          const DAI = truffleContract(DAIContract);
+        const Escrow = truffleContract(EscrowContract);
+        const DAI = truffleContract(DAIContract);
 
-          window.Escrow = Escrow;
-          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        window.Escrow = Escrow;
+        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-          const EscrowInstance = await Escrow.deployed();
-          const DAIInstance = await DAI.deployed();
+        const EscrowInstance = await Escrow.deployed();
+        const DAIInstance = await DAI.deployed();
 
-          window.EscrowInstance = EscrowInstance;
-          const pool = EscrowInstance.address;
+        window.EscrowInstance = EscrowInstance;
+        const pool = EscrowInstance.address;
 
-          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          web3.eth.getAccounts(async (error, accounts) => {
-            if (error) {
-              throw new {name: "Exception", message: "Accounts are not found"};
-            }
+        web3.eth.getAccounts(async (error, accounts) => {
+          if (error) {
+            throw new {name: "Exception", message: "Accounts are not found"};
+          }
 
-            const registeringUser = accounts[0];
+          const registeringUser = accounts[0];
 
-            const result = await EscrowInstance.register({from: registeringUser});
+          const result = await EscrowInstance.register({from: registeringUser});
 
-            console.log(result)
+          console.log(result)
 
-          })
+        })
       }
     },
     computed: {
@@ -228,7 +230,7 @@
         isOpen: types.IS_SIGNIN_MODAL_OPEN
       }),
       modalHeading() {
-        return this.userId ? 'Sign Out' : 'Please Sign In';
+        return this.userId ? 'Sign Out' : 'Sign In';
       }
     }
   };
