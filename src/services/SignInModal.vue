@@ -33,6 +33,7 @@
         <template v-else fill>
           <br>
           <br>
+          <br>
           <vue-grid-row>
             <vue-grid-item>
               <vue-button @click="signOut">
