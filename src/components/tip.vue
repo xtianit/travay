@@ -19,7 +19,7 @@
             validation="required"
             v-model="form.receiver"/>
           <p><em>{{ $t('App.tip.receiverDescription' /* Paste in the ethereum address of the person who should receive
-            your DAI. */) }}</em></p>
+            your DAI. Remember this is irreversible so make sure you have the right address. */) }}</em></p>
 
           <br>
 

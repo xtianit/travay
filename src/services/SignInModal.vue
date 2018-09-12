@@ -14,6 +14,9 @@
         <template v-if="!userId" fill>
           <vue-grid-row>
             <vue-grid-item>
+              <br>
+              <br>
+              <br>
               <vue-button @click="signInWithGoogle">
                 <i class="fab fa-google"></i>
                 {{ $t('App.signInModal.googleSignIn' /* Sign In with Google */) }}

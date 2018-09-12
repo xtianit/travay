@@ -180,15 +180,15 @@
               </vue-grid-item>
 
               <template v-if="!claimed">
-                <vue-grid-item>
-                  <vue-checkbox v-userRole.signedIn.canClaim="{role: job.role}"
-                                name="acceptTerms"
-                                id="acceptTerms"
-                                v-model="form.acceptTerms"
-                                label=""
-                                validation="required"/>
-                  {{ $t('App.job.claimDisclaimer' /* Claiming this position is to accept the job requirements, Travay
-                  Terms, Privacy Policy and Code of Conduct. */) }}
+                <vue-grid-item v-userRole.signedIn.canClaim="{role: job.role}">
+                  <vue-checkbox
+                    name="acceptTerms"
+                    id="acceptTerms"
+                    v-model="form.acceptTerms"
+                    label=""
+                    validation="required"/>
+                  {{ $t('App.job.claimDisclaimer' /* Claiming this position is to accept the job requirements, and terms
+                  and conditions, and code of conduct of Travay. */) }}
                 </vue-grid-item>
                 <br>
 
@@ -199,7 +199,7 @@
                   </vue-button>
                   <br>
                   <br>
-                  <vue-button v-userRole.signedIn.canClaim="{role: job.role}"
+                  <vue-button v-userRole.signedIn.worker="{role: job.role}"
                               primary @click.prevent.stop="e => claimPayout(job.id)">
                     {{ $t('App.job.claimPayout' /* Claim Payout */) }}
                   </vue-button>
@@ -270,7 +270,7 @@
                   </vue-grid-item>
 
                   <!--<vue-grid-item v-if="job.role" v-userRole.signedIn.worker="{cb: uploadFile, role: job.role}">-->
-                  <vue-grid-item>
+                  <vue-grid-item v-userRole.worker="{role: job.role}">
                     <div v-for="(image, index) in this.images" :key="index">
                       <a @click.prevent="removeImage(index)">X</a>
                       <img :src="image"/>

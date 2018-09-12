@@ -18,15 +18,14 @@
       <vue-grid-row>
         <form @submit.prevent="createJob()">
 
-          <!--TODO: apply i18n to placeholder text: {{ $t('App.createJob.JobTitleInForm' /* Job Title */) }}-->
           <vue-grid-row>
             <vue-grid-item>
               <vue-input
                 name="task"
                 id="task"
-                required
                 placeholder="Job Title"
-                v-model="form.task"/>
+                v-model="form.task"
+                required/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -35,9 +34,9 @@
               <vue-input
                 name="brief"
                 id="brief"
-                required
                 placeholder="Job Description"
-                v-model="form.brief"/>
+                v-model="form.brief"
+                required/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -55,8 +54,7 @@
                 placeholder="Requirement for Job to be Complete"
                 v-model="requirement"
                 required/>
-              <button accent @click="addRequirement">{{ $t('App.createJob.requirementButton' /* Add Requirement
-                */) }}
+              <button accent @click="addRequirement">{{ $t('App.createJob.requirementButton' /* Add Requirement */) }}
               </button>
               <br>
             </vue-grid-item>
@@ -76,16 +74,16 @@
           <br>
           <br>
 
-          <vue-grid-row>
-            <vue-grid-item class="vueGridItem">
-              <vue-date-picker
-                @change="calendarChange"
-                :first-day-of-week="1"
-                ref="closingDatepicker"
-                :selectedDate="form.closingDate"
-                placeholder="Job Closing Date"/>
-            </vue-grid-item>
-          </vue-grid-row>
+          <!--<vue-grid-row>-->
+            <!--<vue-grid-item class="vueGridItem">-->
+              <!--<vue-date-picker-->
+                <!--@change="calendarChange"-->
+                <!--:first-day-of-week="1"-->
+                <!--ref="closingDatepicker"-->
+                <!--:selectedDate="form.closingDate"-->
+                <!--placeholder="Job Closing Date"/>-->
+            <!--</vue-grid-item>-->
+          <!--</vue-grid-row>-->
 
           <!--<vue-grid-row>-->
           <!--<vue-grid-item>-->
@@ -104,9 +102,9 @@
                 name="termOfEmployment"
                 id="termOfEmployment"
                 type="number"
-                required
                 placeholder="Number of Months of Employment"
-                v-model="form.termOfEmployment"/>
+                v-model="form.termOfEmployment"
+                required/>
               <div>{{ $t('App.createJob.termOfEmploymentExplanation' /* Months of work is also referenced as
                 milestones. The total amount you fund for this job will be divided by the number of milestones or
                 total months of employment. */) }}
@@ -133,11 +131,11 @@
                 name="salary"
                 id="salary"
                 type="number"
-                required
-                placeholder="Total Funding (aka Salary) for Job in USD"
-                v-model="form.salary"/>
+                placeholder="Total Funding (Salary) for Job in USD"
+                v-model="form.salary"
+                required/>
               <div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be
-                deducted and paid to the worker evenly based on the pay frequency (aka pay period) you've selected.
+                deducted and paid to the worker evenly based on the total months you have typed above.
                 (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in
                 total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.
               </div>
@@ -150,19 +148,19 @@
               <vue-select
                 name="domain"
                 id="domain"
-                required
                 placeholder="Job Category"
                 v-model="form.domain"
-                :options="domainOptions"/>
+                :options="domainOptions"
+                required/>
             </vue-grid-item>
             <vue-grid-item>
               <vue-select
                 name="skill"
                 id="skill"
-                required
                 placeholder="Top Desired Skill"
                 v-model="form.skill"
-                :options="skillOptions"/>
+                :options="skillOptions"
+                required/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -173,8 +171,8 @@
                 id="country"
                 v-model="form.country"
                 :options="countryOptions"
-                required
-                :disabled="form.addressDisabled"/>
+                :disabled="form.addressDisabled"
+                required/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -183,9 +181,9 @@
               <vue-input
                 name="cityOfWork"
                 id="cityOfWork"
-                required
                 placeholder="City where work is to be performed"
-                v-model="form.cityOfWork"/>
+                v-model="form.cityOfWork"
+                required/>
             </vue-grid-item>
           </vue-grid-row>
 
@@ -250,14 +248,14 @@
       return {
         form: {
           taskId: 0,
-          task: 'Weekly Trash Pickup',
-          brief: 'Pickup and deposit trash for ten homes.',
+          task: '',
+          brief: '',
           deliverable: [],
           datePosted: '',
-          payoutEvaluator: 'Dexter Morgan',
-          salary: '1',
-          termOfEmployment: '1',
-          cityOfWork: 'Port-au-Prince',
+          payoutEvaluator: '',
+          salary: '',
+          termOfEmployment: '',
+          cityOfWork: '',
           isTaskIdDisabled: true,
           state: state,
           isDatePostedDisabled: true,
@@ -270,15 +268,16 @@
         ],
         skillOptions: [
           {label: 'Choose Top Desired Skill', value: null},
+          {label: 'Administrative', value: 'administrative'},
+          {label: 'Engineering', value: 'engineering'},
           {label: 'Labor', value: 'labor'},
-          {label: 'Teaching', value: 'teaching'},
-          {label: 'Engineering', value: 'engineering'}
+          {label: 'Teaching', value: 'teaching'}
         ],
         domainOptions: [
           {label: 'Choose a Job Category', value: null},
-          {label: 'Environment', value: 'environment'},
           {label: 'Community', value: 'community'},
-          {label: 'Education', value: 'education'}
+          {label: 'Education', value: 'education'},
+          {label: 'Environment', value: 'environment'}
         ],
         isLoading: false,
         requirement: '',
@@ -286,9 +285,7 @@
       };
     },
     methods: {
-      ...mapActions('createJob', []),
       calendarChange(value) {
-        console.log('Closing Date Chosen', value);
         this.$set(this.form, 'closingDate', value)
       },
       addRequirement() {
@@ -300,24 +297,24 @@
       },
       createJob() {
 
-        this.isLoading = true;
-
         const {form} = this;
 
-        console.log(form.termOfEmployment);
+        if (this.hasEmptyFields) {
+          EventBus.$emit('notification.add', {
+            id: 1,
+            title: this.$t("App.createJob.emptyFieldsTitle" /* Oops! */),
+            text: this.$t("App.createJob.emptyFieldsText" /* Please fill in all fields. */)
+          });
+          return false;
+        }
 
         this.createJobInEscrow()
-          .then(JobID => {
-            const self = this;
 
-            if (this.hasEmptyFields) {
-              EventBus.$emit('notification.add', {
-                id: 1,
-                title: this.$t("App.createJob.emptyFieldsTitle" /* Oops! */),
-                text: this.$t("App.createJob.emptyFieldsText" /* Please fill in all fields. */)
-              });
-              return false;
-            }
+          .then(JobID => {
+
+            this.isLoading = true;
+
+            const self = this;
 
             const jobId = JobID.toString();
 
