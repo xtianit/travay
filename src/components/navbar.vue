@@ -2,6 +2,7 @@
   <div>
     <vue-notification-stack/>
     <sign-in-modal/>
+    <switch-to-main-net-modal/>
     <vue-nav-bar imageUrl="static/logo.png">
       <ul :class="$style.nav">
         <li>
@@ -60,13 +61,15 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import SignInModal from '../services/SignInModal';
+  import SwitchToMainNetModal from '../services/SwitchToMainNetModal';
   import * as types from '../store/types';
   import { doChangeLocale }  from '../util/i18n';
 
   export default {
     name: 'navbar',
     components: {
-      SignInModal
+      SignInModal,
+      SwitchToMainNetModal
     },
     computed: {
       //...mapGetters('signInModal', ['userId'])

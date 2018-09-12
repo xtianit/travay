@@ -15,7 +15,7 @@ const hide = vnode => {
 };
 
 export const userRole = {
-  bind(el, binding, vnode) {
+  update(el, binding, vnode) {
     const userId = store.getters[types.GET_USER_ID];
     const { value, modifiers } = binding;
     if (value.role) {
