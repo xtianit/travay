@@ -3,7 +3,7 @@
     <vue-grid-row>
       <vue-grid-item>
         <h1>Travay</h1>
-        <p>{{ $t('App.core.description')}}</p>
+        <p>{{ $t('App.core.description' /* The Long-Term Jobs Market of Haiti */)}}</p>
       </vue-grid-item>
     </vue-grid-row>
     <vue-grid-row>
@@ -44,12 +44,12 @@
             href="https://play.google.com/store/apps/details?id=org.mozilla.firefox&hl=fr" target="_blank">Firefox</a>
             {{ $t('App.getStarted.browser' /* browser */) }}
           </li>
+          <li>{{ $t('App.getStarted.install' /* Install */) }} <a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask"
+                                                                  target="_blank">MetaMask</a> Firefox {{ $t('App.getStarted.extension' /* extension */) }}.
+          </li>
           <li>{{ $t('App.getStarted.step2' /* Log into Travay with your Gmail Account. Don't have one? Sign up */) }} <a
             href="https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2FManageAccount&hl=fr&flowName=GlifWebSignIn&flowEntry=SignUp"
             target="_blank">{{ $t('App.getStarted.here' /* here */) }}</a>.
-          </li>
-          <li>{{ $t('App.getStarted.install' /* Install */) }} <a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask"
-                                                                  target="_blank">MetaMask</a> Firefox {{ $t('App.getStarted.extension' /* extension */) }}.
           </li>
           <li>
             {{ $t('App.getStarted.startJob' /* Pick a job and start work immediately! */) }}

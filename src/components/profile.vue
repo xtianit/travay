@@ -38,20 +38,12 @@
 
                   <vue-grid-row>
                     <vue-grid-item>
-                      <vue-input type="text" name="country" id="country" placeholder="Country Code" required
+                      <vue-input type="text" name="country" id="country" placeholder="Country Code" readonly
                                  v-model="form.country"/>
                     </vue-grid-item>
                     <vue-grid-item>
-                      <vue-input type="text" name="area" id="area" placeholder="Area Code" required
-                                 v-model="form.area"/>
-                    </vue-grid-item>
-                    <vue-grid-item>
-                      <vue-input type="text" name="prefix" id="prefix" placeholder="Prefix" required
-                                 v-model="form.prefix"/>
-                    </vue-grid-item>
-                    <vue-grid-item>
-                      <vue-input type="text" name="line" id="line" placeholder="Line" required
-                                 v-model="form.line"/>
+                      <vue-input type="text" name="number" id="number" placeholder="Number" required
+                                 v-model="form.number"/>
                     </vue-grid-item>
                   </vue-grid-row>
 
@@ -198,9 +190,7 @@
         canceledJobs: [],
         form: {
           country: '509',
-          area: '00',
-          prefix: '11',
-          line: '5555',
+          number: '',
           optInTexts: true,
           subscribeToMailingList: true
         },
@@ -216,7 +206,8 @@
         saveUserInStorage: types.SAVE_USER_IN_STORAGE
       }),
       concatenateToE164() {
-        const phone = this.form.country + this.form.area + this.form.prefix + this.form.line;
+        // const phone = this.form.country + this.form.area + this.form.prefix + this.form.line;
+        const phone = this.form.country + this.form.number;
         return `+${phone}`
       },
       async updateProfile() {
