@@ -155,7 +155,6 @@
   "App.getStarted.startJob": "Pick a job and start work immediately!",
   "App.getStarted.jobPosters": "Job Posters",
   "App.getStarted.fundMetaMask": "Fund your MetaMask account with DAI by clicking",
-  "App.getStarted.exchangeEtherToDAI": "to exchange Ether for DAI",
   "App.getStarted.thingsToRememberTitle": "Things to Remember",
   "App.getStarted.thingsToRememberText": "You have to use Firefox browser in order for MetaMask to work. MetaMask is your secure identity vault, providing a user interface to manage your identities on different sites and sign blockchain transactions. Remember to NEVER share or loose your password or seed phrase from Metamask.",
   "components.autocomplete.emptyMessage": "No options found for %s",

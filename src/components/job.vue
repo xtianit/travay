@@ -331,7 +331,7 @@
           <vue-grid-row>
             <vue-grid-item>
               <vue-panel>
-                <vue-panel-body>
+                <vue-panel-body v-userRole.manager="{role: job.role}">
                   <h3>{{ $t('App.job.approveWork' /* Approve Work */) }}</h3>
 
                   <vue-grid-item>
@@ -340,7 +340,7 @@
                       */) }}</p>
                   </vue-grid-item>
                 </vue-panel-body>
-                <vue-panel-footer>
+                <vue-panel-footer v-userRole.manager="{role: job.role}">
                   <vue-grid-item>
                     <vue-button
                       @click.prevent.stop="e => onPayout(job.id)"

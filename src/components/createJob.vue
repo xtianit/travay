@@ -372,6 +372,18 @@
                 });
               }, 500);
             });
+
+            /**
+             * Dispatch a view using the screen name
+             * params object should contain
+             *
+             * @param category
+             * @param action
+             * @param label
+             * @param value
+             */
+
+            // this.$ma.trackEvent({category: 'Click', action: 'Homepage Click', label: 'Great', value: ''})
           })
           .catch(error => console.log(error));
       },
@@ -422,8 +434,6 @@
                 result.logs[0].args.JobID.toNumber()
               );
               resolve(result.logs[0].args.JobID.toNumber())
-
-              // TODO: convert big number: https://ethereum.stackexchange.com/questions/29597/how-to-convert-bignumber-to-number-in-truffle-framework
 
             } catch (error) {
               reject(error);

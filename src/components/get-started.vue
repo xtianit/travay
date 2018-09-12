@@ -45,8 +45,7 @@
           <li>
             {{ $t('App.getStarted.fundMetaMask' /* Fund your MetaMask account with DAI by clicking */) }} <a
             href="https://kyber.network/swap/eth_dai" target="_blank">
-            {{ $t('App.getStarted.here' /* here */) }}</a> {{ $t('App.getStarted.exchangeEtherToDAI' /* to exchange
-            Ether for DAI */) }}
+            {{ $t('App.getStarted.here' /* here */) }}</a>.
           </li>
         </ol>
 

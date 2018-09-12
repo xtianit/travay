@@ -155,7 +155,6 @@
   "App.getStarted.startJob": "Chwazi yon travay epi yo kòmanse travay imedyatman!",
   "App.getStarted.jobPosters": "Administratè yo",
   "App.getStarted.fundMetaMask": "Fon kont MetaMask ou a ak DAI pa klike",
-  "App.getStarted.exchangeEtherToDAI": "pou echanj etè pou DAI",
   "App.getStarted.thingsToRememberTitle": "Bagay sa yo sonje",
   "App.getStarted.thingsToRememberText": "Ou gen yo sèvi ak Firefox navigatè yo nan lòd pou MetaMask nan travay. MetaMask se vout sekirite idantite ou, bay yon koòdone itilizatè nan jere idantite ou sou sit diferan ak tranzaksyon siy blòkchan. Sonje pou pa janm pataje oswa lage modpas ou oswa fraz pitit pitit soti nan Metamask.",
   "components.autocomplete.emptyMessage": "Pa gen opsyon yo te jwenn pou %s",

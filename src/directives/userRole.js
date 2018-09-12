@@ -15,13 +15,14 @@ const hide = vnode => {
 };
 
 export const userRole = {
-  bind(el, binding, vnode) {
+  update(el, binding, vnode) {
     const userId = store.getters[types.GET_USER_ID];
     const { value, modifiers } = binding;
     if (value.role) {
+
       // Manager only
       if (Reflect.has(modifiers, 'manager')) {
-        if (value.role[0] === userId) hide(vnode);
+        if (value.role[0] !== userId) hide(vnode);
       }
 
       // Evaluator only

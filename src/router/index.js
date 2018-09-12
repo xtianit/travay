@@ -11,6 +11,7 @@ import Privacy from '@/components/privacy'
 import CodeOfConduct from '@/components/code-of-conduct'
 import SetUpMetaMask from '@/components/set-up-metamask'
 import Tip from '@/components/tip'
+import GetFunds from '@/components/get-funds'
 
 Vue.use(Router);
 
@@ -71,6 +72,11 @@ export default new Router({
       path: '/tip',
       name: 'tip',
       component: Tip
+    },
+    {
+      path: '/get-funds',
+      name: 'get-funds',
+      component: GetFunds
     }
   ]
 })
