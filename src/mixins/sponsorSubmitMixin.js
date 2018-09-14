@@ -22,7 +22,8 @@ export const sponsorSubmitMixin = {
           .collection('jobs')
           .doc(taskId)
           .update({
-            sponsoredAmount: totalAmount
+            sponsoredAmount: totalAmount,
+            "role.3": [...3, this.userId]
           });
         if (Reflect.has(this, 'job')) {
           this.job.sponsoredAmount = totalAmount;

@@ -863,7 +863,7 @@
             }
 
             try {
-              await EscrowInstance.register({from: worker});
+              // await EscrowInstance.register({from: worker});
               const result = await EscrowInstance.claimJob(JobID, {from: worker});
               console.log(result);
               resolve(result);

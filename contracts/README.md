@@ -48,6 +48,6 @@ web3.eth.getAccounts((err, accounts) => account1 = accounts[0])
 
 DAI.deployed().then(ins => daiInstance = ins)
 
-daiInstance.transfer('#address', #amount, {from: account1})
+daiInstance.transfer('<address>', <amount plus 18 zeros>, {from: account1})
 ```
 
