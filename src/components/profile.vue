@@ -4,7 +4,7 @@
     <vue-grid>
       <vue-grid-row>
         <vue-grid-item fill>
-          <h1>Profile</h1>
+          <h1>{{ $t('App.profile.pageTitle' /* Profile */) }}</h1>
         </vue-grid-item>
       </vue-grid-row>
 

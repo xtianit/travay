@@ -252,7 +252,7 @@
           brief: '',
           deliverable: [],
           datePosted: '',
-          payoutEvaluator: '',
+          // payoutEvaluator: '',
           salary: '',
           termOfEmployment: '',
           cityOfWork: '',
@@ -328,11 +328,11 @@
               skill: form.skill,
               domain: form.domain,
               termOfEmployment: form.termOfEmployment,
-              payouts: {
-                evaluator: 0,
-                manager: 0,
-                worker: 0
-              },
+              // payouts: {
+              //   evaluator: 0,
+              //   manager: 0,
+              //   worker: 0
+              // },
               role: {
                 '0': this.userId,
                 '1': [],
@@ -357,19 +357,18 @@
               .catch(function (error) {
                 console.error('Error adding new job: ', error);
               });
-            this.$nextTick(() => {
-              setTimeout(() => {
-                this.isLoading = false;
-
-                EventBus.$emit('notification.add', {
-                  id: 1,
-                  title: this.$t("App.createJob.jobPostedTitle" /* Yay! */),
-                  text: this.$t("App.createJob.jobPostedText" /* Your job is now posted! Click here to see the job. */),
-                  link: `/job/${jobId}`
-                });
-              }, 500);
-            });
-
+            if (this.hasEmptyFields) {
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  EventBus.$emit('notification.add', {
+                    id: 1,
+                    title: this.$t("App.createJob.jobPostedTitle" /* Yay! */),
+                    text: this.$t("App.createJob.jobPostedText" /* Your job is now posted! Click here to see the job. */),
+                    link: `/job/${jobId}`
+                  });
+                }, 500);
+              });
+            }
             /**
              * Dispatch a view using the screen name
              * params object should contain
@@ -385,6 +384,7 @@
           .catch(error => console.log(error));
       },
       clearForm() {
+        this.isLoading = false;
         Object.keys(this.form).forEach(key => {
           this.form[key] = '';
         });

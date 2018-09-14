@@ -54,6 +54,7 @@
   "App.tip.amountDescription": "Enter how much you would like to send in USD.",
   "App.job.editProfileIcon": "Editing Profile",
   "App.job.notEditingProfileIcon": "Edit Profile",
+  "App.profile.pageTitle": "Profile",
   "App.profile.updateProfileTitle": "Success!",
   "App.profile.updateProfileText": "Your profile has been update!",
   "App.profile.updateProfileButton": "Update Profile",

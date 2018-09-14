@@ -40,3 +40,14 @@ web3.eth.getAccounts((err, accounts) => arb = accounts[8])
 
 esc.withdrawDAI(arb, 2000000000000000000,{from:arb})
 ```
+
+## Transfer DAI to an address in Console
+
+```
+web3.eth.getAccounts((err, accounts) => account1 = accounts[0])
+
+DAI.deployed().then(ins => daiInstance = ins)
+
+daiInstance.transfer('#address', #amount, {from: account1})
+```
+

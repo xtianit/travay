@@ -152,7 +152,7 @@
                           accent>
                 <a
                   style="color: white !important;"
-                  @click.prevent.stop="e => sponsorJob(job.taskId)">Sponsor this Job</a>
+                  @click.prevent.stop="e => sponsorJob(job.taskId)">{{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}</a>
               </vue-button>
 
             </vue-panel-footer>

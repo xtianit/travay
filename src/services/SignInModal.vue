@@ -174,7 +174,6 @@
             .get();
           if (snapshot.docs.length === 0) {
             const user = await db.collection('users').add(data);
-            this.registerUserToEscrowContract();
             this.saveUserAddress();
             this.$router.push('/get-started');
           }
@@ -198,38 +197,6 @@
               db.collection("users").doc(doc.id).update(data);
             });
           })
-      },
-      async registerUserToEscrowContract() {
-
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
-
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
-
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
-
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-
-        web3.eth.getAccounts(async (error, accounts) => {
-          if (error) {
-            throw new {name: "Exception", message: "Accounts are not found"};
-          }
-
-          const registeringUser = accounts[0];
-
-          const result = await EscrowInstance.register({from: registeringUser});
-
-          console.log(result)
-
-        })
       }
     },
     computed: {
