@@ -34,24 +34,6 @@ contract("Escrow Contract", accounts => {
     }
   });
 
-  it("Register User", async () => {
-    const EscrowInstance = await Escrow.deployed();
-
-    try {
-      const result = await EscrowInstance.register({ from: accounts[0] });
-
-      assert.equal(
-        result.logs[0].args.address_Registered,
-        accounts[0],
-        `Registered address should be ${accounts[0]}`
-      );
-
-      const userExists = await EscrowInstance.registeredUsers(accounts[0]);
-      assert(userExists, "Address is not registered");
-    } catch (err) {
-      assert(false, err);
-    }
-  });
 
   it("Create Job with registered user", async () => {
     const manager = accounts[0];
@@ -82,32 +64,6 @@ contract("Escrow Contract", accounts => {
     }
   });
 
-  it("Create Job with unregistered user", async () => {
-    const manager = accounts[1];
-    const EscrowInstance = await Escrow.deployed();
-    const DAIInstance = await DAI.deployed();
-
-    const salary = 100 * 10 ** 18;
-    try {
-      await DAIInstance.transfer(manager, salary, { from: accounts[0] });
-
-      await DAIInstance.approve(EscrowInstance.address, salary, {
-        from: manager
-      });
-    } catch (err) {
-      assert(false, err);
-    }
-    const description = "Need an Ethereum developer";
-
-    try {
-      const result = await EscrowInstance.createJob(description, salary, 5, {
-        from: manager
-      });
-      assert(false);
-    } catch (e) {
-      assert(true);
-    }
-  });
 
   it("Create Job with salary zero", async () => {
     const manager = accounts[0];
@@ -137,7 +93,7 @@ contract("Escrow Contract", accounts => {
     }
   });
 
-  it("Claim job by an unegistered worker", async () => {
+  it("Claim job by an worker", async () => {
     const worker = accounts[1];
     const EscrowInstance = await Escrow.deployed();
     const DAIInstance = await DAI.deployed();
@@ -167,24 +123,8 @@ contract("Escrow Contract", accounts => {
     }
   });
 
-  it("Claim job by a registered worker", async () => {
-    const worker = accounts[1];
-    const EscrowInstance = await Escrow.deployed();
-    const DAIInstance = await DAI.deployed();
 
-    const JobID = 0;
-
-    try {
-      await EscrowInstance.register({ from: worker });
-      const result = await EscrowInstance.claimJob(JobID, { from: worker });
-
-      assert.equal(result.logs[0].args.worker, worker);
-    } catch (err) {
-      assert(false, err);
-    }
-  });
-
-  it("Claim Job as an unregistered evaluator", async () => {
+  it("Claim Job as an evaluator", async () => {
     const evaluator = accounts[2];
     const EscrowInstance = await Escrow.deployed();
     const DAIInstance = await DAI.deployed();
@@ -199,24 +139,7 @@ contract("Escrow Contract", accounts => {
     }
   });
 
-  it("Claim Job as a registered evaluator", async () => {
-    const evaluator = accounts[2];
-    const EscrowInstance = await Escrow.deployed();
-    const DAIInstance = await DAI.deployed();
-
-    const JobID = 0;
-
-    try {
-      await EscrowInstance.register({ from: evaluator });
-
-      const result = await EscrowInstance.setEvaluator(JobID, {
-        from: evaluator
-      });
-      assert.equal(result.logs[0].args.evaluator, evaluator);
-    } catch (err) {
-      assert(false, err);
-    }
-  });
+ 
 
   it("Cancel Job by the manager", async () => {
     const manager = accounts[0];
@@ -511,7 +434,6 @@ contract("Escrow Contract", accounts => {
       );
       escrow_balance_before = escrow_balance_before.toNumber();
 
-      await EscrowInstance.register({ from: sponsor });
       const result = await EscrowInstance.sponsorDAI(JobID, payment, {
         from: sponsor
       });

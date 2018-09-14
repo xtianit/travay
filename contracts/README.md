@@ -1,6 +1,6 @@
 # Escrow Smart Contract
 
-Build Contracts
+## Build Contracts
 ```
 cd contracts
 

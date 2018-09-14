@@ -25,9 +25,9 @@
               <p>
                 <a @click.prevent.stop="e => {}">
                   <i class="fa edit-icon" :class="isEditingProfile ? 'fa-times' : 'fa-edit'"
-                     @click="isEditingProfile = !isEditingProfile"></i>
-                  {{ !isEditingProfile ? $t('App.job.notEditingProfileIcon' /* Edit Profile */) :
-                  $t('App.job.editProfileIcon' /* Editing Profile */)}}
+                     @click="isEditingProfile = !isEditingProfile"><br><br>{{ !isEditingProfile ?
+                    $t('App.job.notEditingProfileIcon' /* Edit Profile */) :
+                    $t('App.job.editProfileIcon' /* Editing Profile */)}}</i>
                 </a>
               </p>
 

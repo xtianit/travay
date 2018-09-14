@@ -88,6 +88,10 @@
       localeSwitch(locale) {
         doChangeLocale(locale);
         this.navBarClose();
+        mixpanel.track(
+          "Locale Switched",
+          {"language": "page-navbar"}
+        );
       },
       navBarClose() {
         EventBus.$emit('navbar.close');

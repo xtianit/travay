@@ -186,19 +186,18 @@
         }
       },
       async saveUserAddress() {
+        const data = {
+          metaMaskAddress: this.$store.state.web3.coinbase
+        };
 
-        // const data = {
-        //   metaMaskAddress: this.$store.state.web3.coinbase
-        // };
-        //
-        // const user = await db.collection('users')
-        //   .where("uid", "==", this.userId)
-        //   .get()
-        //   .then(snapshot => {
-        //     snapshot.forEach(function (doc) {
-        //       db.collection("users").doc(doc.id).update(data);
-        //     });
-        //   })
+        const user = await db.collection('users')
+          .where("uid", "==", this.userId)
+          .get()
+          .then(snapshot => {
+            snapshot.forEach(function (doc) {
+              db.collection("users").doc(doc.id).update(data);
+            });
+          })
       },
       async registerUserToEscrowContract() {
 
