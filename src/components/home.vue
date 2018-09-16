@@ -47,7 +47,8 @@
           <li>{{ $t('App.getStarted.install' /* Install */) }} <a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask"
                                                                   target="_blank">MetaMask</a> Firefox {{ $t('App.getStarted.extension' /* extension */) }}.
           </li>
-          <li>{{ $t('App.getStarted.step2' /* Log into Travay with your Gmail Account. Don't have one? Sign up */) }} <a
+          <li>{{ $t('App.getStarted.step2' /* Log into Travay with your Gmail Account. Don't have one? Sign up
+            */) }} <a
             href="https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2FManageAccount&hl=fr&flowName=GlifWebSignIn&flowEntry=SignUp"
             target="_blank">{{ $t('App.getStarted.here' /* here */) }}</a>.
           </li>
@@ -55,6 +56,7 @@
             {{ $t('App.getStarted.startJob' /* Pick a job and start work immediately! */) }}
           </li>
         </ol>
+        <p>{{ $t('App.getStarted.note' /* Note: Travay is only available with Android and Firefox. */) }}</p>
       </vue-grid-item>
     </vue-grid-row>
     <br>

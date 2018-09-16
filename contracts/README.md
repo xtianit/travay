@@ -22,13 +22,6 @@ truffle console --network development
 truffle test --network development
 ```
 
-## Find address where contract is deployed in Console
-
-```
-esc.address
-
-```
-
 ## Withdraw DAI from Contract in Console
 
 ```
@@ -44,10 +37,15 @@ esc.withdrawDAI(arb, 2000000000000000000,{from:arb})
 ## Transfer DAI to an address in Console
 
 ```
+truffle console --network ropsten
+
 web3.eth.getAccounts((err, accounts) => account1 = accounts[0])
 
 DAI.deployed().then(ins => daiInstance = ins)
 
-daiInstance.transfer('<address>', <amount plus 18 zeros>, {from: account1})
+daiInstance.transfer('<account>', <amount>000000000000000000, {from: account1})
 ```
+
+daiInstance.transfer("0xb06cef6b14dd249f5a0977f645436cc4f4095325", 20000000000000000000, {from: account1})
+
 

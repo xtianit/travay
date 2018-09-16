@@ -38,7 +38,7 @@ export const userRole = {
 
       // Sponsor only
       if (Reflect.has(modifiers, 'sponsor')) {
-        if (value.role[3] !== userId) hide(vnode);
+        if (!value.role[2].includes(userId)) hide(vnode);
       }
 
       // Signed in users only

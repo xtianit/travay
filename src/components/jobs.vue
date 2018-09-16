@@ -92,7 +92,9 @@
           </vue-button>
         </vue-grid-item>
       </vue-grid-row>
+
       <br>
+
       <sponsor-modal
         :job="jobToSponsor"
         :show.sync="showSponsoredModal"
@@ -102,6 +104,8 @@
           task: this.jobToSponsor.task || '',
           job: this.jobToSponsor
           })"></sponsor-modal>
+
+
       <vue-grid-row>
         <vue-grid-item>
           <hr>

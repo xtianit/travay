@@ -228,8 +228,8 @@
                   </vue-grid-item>
 
                 </vue-panel-body>
-                <vue-panel-footer>
-                  <vue-button v-if="job.role" v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container"
+                <vue-panel-footer v-if="job.role">
+                  <vue-button v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container"
                               accent>
                     <a style="color: white !important;" @click.prevent.stop="e => sponsorJob(job.taskId)"
                        id="remove-hyperlink">
