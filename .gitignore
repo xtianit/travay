@@ -10,7 +10,6 @@ storybook-static
 .env
 sendgrid.env
 /contracts/truffle.js
-/contracts/truffle-ropsten.js
 
 # Editor directories and files
 .idea

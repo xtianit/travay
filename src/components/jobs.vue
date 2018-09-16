@@ -211,6 +211,7 @@
         skill: '',
         domain: '',
         keyword: '',
+        isNavigating: false,
         types: [
           {
             id: 'salary',

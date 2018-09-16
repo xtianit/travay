@@ -46,6 +46,12 @@ DAI.deployed().then(ins => daiInstance = ins)
 daiInstance.transfer('<account>', <amount>000000000000000000, {from: account1})
 ```
 
-daiInstance.transfer("0xb06cef6b14dd249f5a0977f645436cc4f4095325", 20000000000000000000, {from: account1})
+## In MetaMask Always Import Accounts in this Order
 
-
+```
+0. Owner
+1. Manager
+2. Worker
+3. Evaluator
+4. Sponsor
+```
