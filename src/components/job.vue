@@ -314,11 +314,11 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.evaluator="{role: job.role}" warn>
-                    <a @click="evaluateJobAsCompletedUnsucessfully()" style="color: white;">
-                      {{ $t('App.job.evaluateJobAsUnsuccessful' /* Disapprove Work */) }}
-                    </a>
-                  </vue-button>
+                  <!--<vue-button v-userRole.evaluator="{role: job.role}" warn>-->
+                    <!--<a @click="evaluateJobAsCompletedUnsucessfully()" style="color: white;">-->
+                      <!--{{ $t('App.job.evaluateJobAsUnsuccessful' /* Disapprove Work */) }}-->
+                    <!--</a>-->
+                  <!--</vue-button>-->
                 </vue-panel-footer>
               </vue-panel>
             </vue-grid-item>
@@ -590,10 +590,12 @@
           });
           this.isEditingJobDetails = false;
 
+          // TODO update toaster and determine how to handle this
           EventBus.$emit('notification.add', {
             id: 1,
-            title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
-            text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
+            title: this.$t("App.job.jobUnCompletedNotificationTitle" /* Update Complete */),
+            text: this.$t("App.job.jobUnCompleteNotificationText"
+              /* This job has been marked as not completed successfully.. */)
           });
         } catch (error) {
           console.log(error)

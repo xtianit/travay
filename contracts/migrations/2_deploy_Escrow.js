@@ -25,7 +25,6 @@ module.exports = (deployer, network, accounts) => {
   });
 };
 
-
 // Main Net Deployment
 // module.exports = (deployer, network, accounts) => {
 //   console.log(accounts[0]);

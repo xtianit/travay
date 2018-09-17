@@ -1,19 +1,15 @@
 # Escrow Smart Contract
 
+Contract: https://etherscan.io/address/0xfa1909f6fe2120e3aa4a63883776250ba5042b60#code
+
 ## Build Contracts
 ```
 cd contracts
 
 rm -rf build
 
-truffle migrate --network development
+truffle migrate --network <development, ropsten, etc>
 
-```
-
-## Start Truffle command line
-
-```
-truffle console --network development
 ```
 
 ## Run tests
@@ -44,14 +40,4 @@ web3.eth.getAccounts((err, accounts) => account1 = accounts[0])
 DAI.deployed().then(ins => daiInstance = ins)
 
 daiInstance.transfer('<account>', <amount>000000000000000000, {from: account1})
-```
-
-## In MetaMask Always Import Accounts in this Order
-
-```
-0. Owner
-1. Manager
-2. Worker
-3. Evaluator
-4. Sponsor
 ```
