@@ -42,44 +42,16 @@
 
                   <template v-if="isEditingJobDetails">
 
-                    {{ $t('App.job.jobDescription' /* Description */) }}:<br/>
+                    <p><em>{{ $t('App.job.isEditingInstructions' /* After a job is posted you can only update the
+                      Description and Requirements. */) }}</em></p><br>
+
+                    <strong>{{ $t('App.job.jobDescription' /* Description */) }}</strong>:<br>
                     <input
                       id="job-description"
                       type="text"
-                      v-model="job.brief"/> <br/>
+                      v-model="job.brief"/> <br><br>
 
-                    {{ $t('App.job.jobDomain' /* Domain */) }}:<br/>
-                    <input
-                      id="domain"
-                      type="text"
-                      v-model="job.domain"/><br>
-
-                    {{ $t('App.job.jobSkill' /* Desired Skill */) }}:<br/>
-                    <input
-                      id="skill"
-                      type="text"
-                      v-model="job.skill"/> <br/>
-
-                    {{ $t('App.job.salaryIsEditing' /* Salary cannot be changed after job is posted. */) }}<br>
-
-                    {{ $t('App.job.payFrequencyIsEditing' /* Pay frequency cannot be changed after job is posted. */) }}<br>
-
-                    {{ $t('App.job.termOfEmploymentIsEditing' /* Term of Employment cannot be changed after job is
-                    posted. */) }}<br><br>
-
-                    <!-- Pay frequency:
-                    <input id="weekly" true-value="weekly" type="checkbox" name="weekly" v-model="job.salary['pay-frequency'].label" :disabled="!isJobManager"/>
-                    <label for="weekly">Weekly</label>
-                    <input id="bi-weekly" type="checkbox" true-value="bi-weekly" name="bi-weekly" v-model="job.salary['pay-frequency'].label" :disabled="!isJobManager"/>
-                    <label for="bi-weekly">Bi-weekly</label>
-                    <input id="monthly" true-value="monthly" type="checkbox" name="monthly" v-model="job.salary['pay-frequency'].label" :disabled="!isJobManager"/>
-                    <label for="monthly">Monthly</label><br> -->
-
-                    <!-- Term of employment:
-                    <input id="sixmonth" type="checkbox" name="sixmonth" v-model="job['terms-of-employment']" true-value="6" :disabled="!isJobManager"/>
-                    <label for="sixmonth">6 month</label>
-                    <input id="oneyear" type="checkbox" name="oneyear" v-model="job['terms-of-employment']" true-value="12" :disabled="!isJobManager"/>
-                    <label for="oneyear">1 year</label> -->
+                    <strong>{{ $t('App.job.jobRequirements' /* Requirements */) }}</strong>:<br>
 
                     <em>{{ $t('App.job.requirementInstructions' /* Please add your requirements in order for the job to
                       be considered as complete. Add one requirement, then click Add Requirement, to add additional
@@ -315,9 +287,9 @@
                   </vue-button>
                   <br><br>
                   <!--<vue-button v-userRole.evaluator="{role: job.role}" warn>-->
-                    <!--<a @click="evaluateJobAsCompletedUnsucessfully()" style="color: white;">-->
-                      <!--{{ $t('App.job.evaluateJobAsUnsuccessful' /* Disapprove Work */) }}-->
-                    <!--</a>-->
+                  <!--<a @click="evaluateJobAsCompletedUnsucessfully()" style="color: white;">-->
+                  <!--{{ $t('App.job.evaluateJobAsUnsuccessful' /* Disapprove Work */) }}-->
+                  <!--</a>-->
                   <!--</vue-button>-->
                 </vue-panel-footer>
               </vue-panel>
