@@ -5,7 +5,9 @@
       <vue-grid-item>
         <p id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> MetaMask {{
           $t('App.helloMetaMask.installed' /* Installed */) }}</p>
-        <p>{{ $t('App.helloMetaMask.network' /* Network */) }}: <strong>{{ network }}</strong></p>
+        <p v-if="network !== 'Main Net'"> {{
+          $t('App.helloMetaMask.notMainNet') /* Not Main Net */}}</p>
+        <p v-else></p>
         <p>{{ $t('App.helloMetaMask.account' /* Account */) }}: {{ coinbase }}</p>
         <!--<p>{{ $t('App.helloMetaMask.balance' /* Balance */) }}: {{ balance }} Wei // {{ ethBalance }} Eth</p>-->
       </vue-grid-item>

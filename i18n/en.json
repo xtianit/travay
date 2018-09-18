@@ -17,6 +17,7 @@
   "App.helloMetaMask.network": "Network",
   "App.helloMetaMask.account": "Account",
   "App.helloMetaMask.balance": "Balance",
+  "App.helloMetaMask.notMainNet": "You are not currently on the Main Network, please switch to the Main Network to use this application",
   "App.helloMetaMask.unlockMetaMask": "Please Unlock MetaMask",
   "App.home.earn": "Earn Stable Income",
   "App.home.sameDayJobs": "Same Day Jobs Marketplace",
