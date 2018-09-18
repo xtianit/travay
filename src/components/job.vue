@@ -360,14 +360,15 @@
   // create job
   // tip
   // sponsor
-  //
+
   // # Not working
   // cancel job
   // claim job
   // claim payout
+  // proof of work submitted
   // approve work / evaluate job
   // payout job
-  // proof of work submitted
+
 
   const firebaseStorage = firebase.storage();
 
@@ -521,6 +522,7 @@
             const update = job.update({
               milestonesCompleted: [...milestoneCompleted, new Date()]
             });
+
             this.job.status.state = "complete";
             this.isLoading = false;
             this.isEditingJobDetails = false;
@@ -708,14 +710,13 @@
                 });
               });
             this.$nextTick(() => {
-
               EventBus.$emit('notification.add', {
                 id: 1,
                 title: this.$t("App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */),
                 text: this.$t("App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */)
               });
               this.isLoading = false;
-            })
+            }, 700)
               .catch(error => console.log(error));
           })
       },
@@ -831,7 +832,8 @@
           const JobID = this.taskId;
 
           web3.eth.getAccounts(async (err, accounts) => {
-            const worker = accounts[0]; // account logged into MetaMask
+
+            const worker = accounts[0]; // account that is logged into MetaMask
 
             if (err) {
               throw new {name: "Exception", message: "Accounts are not found"};
@@ -924,6 +926,7 @@
           DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
           web3.eth.getAccounts(async (err, accounts) => {
+
             const worker = this.job.role["2"];
             const JobID = this.taskId;
 
@@ -962,7 +965,6 @@
           web3.eth.getAccounts(async (err, accounts) => {
 
             const JobID = this.taskId;
-
             const evaluator = accounts[0]; // Person logged into MetaMask
 
             try {
@@ -1002,14 +1004,19 @@
 
           const JobID = this.taskId;
 
-          try {
-            const result = await EscrowInstance.approvePayment(JobID, {
-              from: manager
-            });
+          web3.eth.getAccounts(async (err, accounts) => {
 
-          } catch (error) {
-            reject(error);
-          }
+            const manager = accounts[0];
+
+            try {
+              const result = await EscrowInstance.approvePayment(JobID, {
+                from: manager
+              });
+
+            } catch (error) {
+              reject(error);
+            }
+          })
         })
       },
       async workerClaimPayoutInEscrow() {
@@ -1036,7 +1043,6 @@
           web3.eth.getAccounts(async (error, accounts) => {
 
             const worker = accounts[0];
-
             const JobID = this.job.taskId;
 
             console.log(this.jobId);
