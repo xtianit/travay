@@ -11,7 +11,8 @@ export const sponsorSubmitMixin = {
         userId: this.$store.getters[types.GET_USER_ID],
         amount,
         taskId: taskId,
-        task: task
+        task: task,
+        date: new Date()
       };
       console.log('data for sponsored', data);
       try {

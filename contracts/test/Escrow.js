@@ -73,7 +73,7 @@ contract("Escrow Contract", accounts => {
     const salary = 0;
 
     try {
-      await DAIInstance.transfer(manager, salary, { from: accounts[0] });
+      await DAIInstance.transfer(manager, salary, {from: accounts[0]});
 
       await DAIInstance.approve(EscrowInstance.address, salary, {
         from: manager
@@ -101,7 +101,7 @@ contract("Escrow Contract", accounts => {
     const JobID = 0;
 
     try {
-      const result = await EscrowInstance.claimJob(JobID, { from: worker });
+      const result = await EscrowInstance.claimJob(JobID, {from: worker});
       assert(false);
     } catch (err) {
       assert(true);
@@ -116,7 +116,7 @@ contract("Escrow Contract", accounts => {
     const JobID = -1;
 
     try {
-      await EscrowInstance.claimJob(JobID, { from: worker });
+      await EscrowInstance.claimJob(JobID, {from: worker});
       assert(false);
     } catch (err) {
       assert(true);
@@ -132,14 +132,12 @@ contract("Escrow Contract", accounts => {
     const JobID = 0;
 
     try {
-      await EscrowInstance.setEvaluator(JobID, { from: evaluator });
+      await EscrowInstance.setEvaluator(JobID, {from: evaluator});
       assert(false);
     } catch (err) {
       assert(true);
     }
   });
-
- 
 
   it("Cancel Job by the manager", async () => {
     const manager = accounts[0];
@@ -159,10 +157,10 @@ contract("Escrow Contract", accounts => {
       });
       const description = "Need an Ethereum developer";
 
-      await EscrowInstance.createJob(description, salary, 5, { from: manager });
+      await EscrowInstance.createJob(description, salary, 5, {from: manager});
 
       const JobID = 1;
-      const result = await EscrowInstance.cancelJob(JobID, { from: manager });
+      const result = await EscrowInstance.cancelJob(JobID, {from: manager});
       assert.equal(result.logs[0].args.JobID, JobID);
 
       let balance_manager_after = await DAIInstance.balanceOf(manager);
@@ -201,7 +199,7 @@ contract("Escrow Contract", accounts => {
       });
       const description = "Need an Ethereum developer";
 
-      await EscrowInstance.createJob(description, salary, 5, { from: manager });
+      await EscrowInstance.createJob(description, salary, 5, {from: manager});
 
       const JobID = 2;
       const result = await EscrowInstance.cancelJob(JobID, {
@@ -295,7 +293,7 @@ contract("Escrow Contract", accounts => {
       const Job = await EscrowInstance.getJob(JobID);
       const payment = Job[7].toNumber();
 
-      const result = await EscrowInstance.claimPayment(JobID, { from: worker });
+      const result = await EscrowInstance.claimPayment(JobID, {from: worker});
       assert.equal(payment, result.logs[0].args.amount);
 
       let worker_balance_after = await DAIInstance.balanceOf(worker);
@@ -341,7 +339,7 @@ contract("Escrow Contract", accounts => {
           from: manager
         });
 
-        await EscrowInstance.claimPayment(JobID, { from: worker });
+        await EscrowInstance.claimPayment(JobID, {from: worker});
       }
 
       const Job = await EscrowInstance.getJob(JobID);
@@ -423,7 +421,7 @@ contract("Escrow Contract", accounts => {
     const JobID = 0;
     const payment = 10 * decimalConversion;
     try {
-      await DAIInstance.transfer(sponsor, payment, { from: pool });
+      await DAIInstance.transfer(sponsor, payment, {from: pool});
 
       await DAIInstance.approve(EscrowInstance.address, payment, {
         from: sponsor

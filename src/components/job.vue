@@ -46,6 +46,7 @@
                       Description and Requirements. */) }}</em></p><br>
 
                     <strong>{{ $t('App.job.jobDescription' /* Description */) }}</strong>:<br>
+
                     <input
                       id="job-description"
                       type="text"
@@ -98,9 +99,9 @@
 
                     <!--{{ $t('App.job.jobPayFrequency' /* Pay Frequency */) }}: {{job.salary['pay-frequency'].label}}<br>-->
 
-                    {{ $t('App.job.termsOfEmployment' /* Terms of Employment (Months) */) }}: {{
-                    job['terms-of-employment']
-                    }}<br><br>
+                    {{ $t('App.job.termOfEmployment' /* Terms of Employment (Months) */) }}: {{
+                    job.termOfEmployment }}
+                    <br><br>
 
                     {{ $t('App.job.requirements' /* Requirements */) }}:<br>
                     <p v-for="(item, index) in job.deliverable" :key="index">
@@ -128,7 +129,7 @@
 
                   <vue-grid-item>
                     <vue-button warn
-                                @click="cancelJob">
+                                @click="cancelJob()">
                       {{ $t('App.job.cancleJob' /* Cancel Job */) }}
                     </vue-button>
                   </vue-grid-item>
@@ -280,7 +281,7 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.evaluator="{role: job.role}" primary>
+                  <vue-button v-userRole.manager="{role: job.role}" primary>
                     <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
@@ -355,6 +356,19 @@
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
 
+  // # Done
+  // create job
+  // tip
+  // sponsor
+  //
+  // # Not working
+  // cancel job
+  // claim job
+  // claim payout
+  // approve work / evaluate job
+  // payout job
+  // proof of work submitted
+
   const firebaseStorage = firebase.storage();
 
   export default {
@@ -396,7 +410,8 @@
         images: [],
         requirement: "",
         requirements: [],
-        claimed: false
+        claimed: false,
+        termOfEmployment: 0
       };
     },
     created() {
@@ -472,83 +487,75 @@
       removeRequirement(index) {
         this.job.deliverable.splice(index, 1);
       },
-      async cancelJob() {
+      cancelJob() {
         const jobId = this.job.taskId;
 
-        this.cancelJobInEscrow();
+        this.cancelJobInEscrow()
+          .then(JobID => {
+            const job = db.collection("jobs").doc(jobId);
+            const update = job.update({
+              status: {
+                state: "cancelled",
+                dateCanceled: new Date()
+              }
+            });
+            // this.job.status.state = "cancelled";
+            this.isEditingJobDetails = false;
 
-        try {
-          const job = await db.collection("jobs").doc(jobId);
-          const update = await job.update({
-            status: {
-              state: "cancelled"
-            }
-          });
-          this.job.status.state = "cancelled";
-          this.isEditingJobDetails = false;
-
-          EventBus.$emit('notification.add', {
-            id: 1,
-            title: this.$t("App.job.jobCanceledNotificationTitle" /* Success! */),
-            text: this.$t("App.job.jobCanceledNotificationText" /* This job has been cancelled. */)
-          });
-
-        } catch (error) {
-          console.log(error)
-        }
+            EventBus.$emit('notification.add', {
+              id: 1,
+              title: this.$t("App.job.jobCanceledNotificationTitle" /* Success! */),
+              text: this.$t("App.job.jobCanceledNotificationText" /* This job has been cancelled. */)
+            });
+          })
+          .catch(error => console.log(error));
       },
-      async markJobComplete() {
+      markJobComplete() {
         const jobId = this.job.taskId;
 
         this.isLoading = true;
 
-        this.proofOfWorkToEscrow();
+        this.proofOfWorkToEscrow
+          .then(JobID => {
+            const job = db.collection("jobs").doc(jobId);
+            const update = job.update({
+              milestonesCompleted: [...milestoneCompleted, new Date()]
+            });
+            this.job.status.state = "complete";
+            this.isLoading = false;
+            this.isEditingJobDetails = false;
 
-        try {
-          const job = await db.collection("jobs").doc(jobId);
-          const update = await job.update({
-            status: {
-              state: "complete"
-            }
-          });
-          this.job.status.state = "complete";
-          this.isLoading = false;
-          this.isEditingJobDetails = false;
-
-          EventBus.$emit('notification.add', {
-            id: 1,
-            title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
-            text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
-          });
-
-        } catch (error) {
-          console.log(error)
-        }
+            EventBus.$emit('notification.add', {
+              id: 1,
+              title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
+              text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
+            });
+          })
+          .catch(error => console.log(error));
       },
-      async evaluateJobAsCompletedSucessfully() {
+      evaluateJobAsCompletedSucessfully() {
         const jobId = this.job.taskId;
 
-        this.evaluateJobToEscrow();
+        this.evaluateJobToEscrow()
+          .then(JobID => {
 
-        try {
-          const job = await db.collection("jobs").doc(jobId);
-          const update = await job.update({
-            status: {
-              successfullyCompleted: "true"
-            }
-          });
-          this.isLoading = false;
-          this.isEditingJobDetails = false;
+            const job = db.collection("jobs").doc(jobId);
 
-          EventBus.$emit('notification.add', {
-            id: 1,
-            title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
-            text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
-          });
+            const update = job.update({
+              status: {
+                successfullyCompleted: "true"
+              }
+            });
+            this.isLoading = false;
+            this.isEditingJobDetails = false;
 
-        } catch (error) {
-          console.log(error)
-        }
+            EventBus.$emit('notification.add', {
+              id: 1,
+              title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
+              text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
+            });
+          })
+          .catch(error => console.log(error));
       },
       async evaluateJobAsCompletedUnsucessfully() {
         const jobId = this.job.taskId;
@@ -573,33 +580,31 @@
           console.log(error)
         }
       },
-      async claimPayout() {
-        const jobId = this.job.taskId;
+      claimPayout() {
 
         this.isLoading = true;
 
-        this.workerClaimPayoutInEscrow();
+        this.workerClaimPayoutInEscrow()
+          .then(worker => {
 
-        try {
-          const job = await db.collection("jobs").doc(jobId);
-          const update = await job.update({
-            status: {
-              payout: "yes"
-            }
-          });
-          this.isLoading = false;
-          this.isEditingJobDetails = false;
+            const job = db.collection("jobs").doc(jobId);
 
-          EventBus.$emit('notification.add', {
-            id: 1,
-            title: this.$t(
-              "App.job.jobCompletedNotificationTitle" /* Success! */),
-            text: this.$t(
-              "App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
-          });
-        } catch (error) {
-          console.log(error)
-        }
+            const update = job.update({
+              payOutsClaimed: [...payOutsClaimed, new Date()]
+            });
+            this.isLoading = false;
+            this.isEditingJobDetails = false;
+
+            EventBus.$emit('notification.add', {
+              id: 1,
+              title: this.$t(
+                "App.job.jobCompletedNotificationTitle" /* Success! */),
+              text: this.$t(
+                "App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
+            });
+          })
+          .catch(error => console.log(error));
+        this.isLoading = false;
       },
       sponsorJob(taskId) {
         if (!this.userId) {
@@ -632,7 +637,7 @@
         }
 
         this.claimJobInEscrowContract()
-          .then(res => {
+          .then(response => {
             try {
               db
                 .collection("jobs")
@@ -667,7 +672,7 @@
                     title: this.$t("App.job.jobClaimedNotificationTitle" /* Yay! */),
                     text: this.$t("App.job.jobClaimedNotificationText" /* Job confirmed successfully! You can start work immediately. */)
                   });
-                });
+                }, 700);
               });
             } catch (err) {
               console.log('err when adding job in firebase', err);
@@ -680,48 +685,44 @@
       onPayout(docId) {
         const taskId = this.$route.params.id;
 
-        this.managerApprovesPaymentInEscrow();
-
         this.isLoading = true;
 
-        try {
-          db
-            .collection("jobs")
-            .doc(docId)
-            .get()
-            .then(snapshots => {
-              const doc = snapshots;
-              const jobData = doc.data();
-              const obj = {doc, user: jobData, payOutsToWorker: []};
-              if (Reflect.has(jobData, "payOutsToWorker")) {
-                obj.payOutsToWorker = jobData.payOutsToWorker;
-              }
-              return obj;
-            })
-            .then(({doc, payOutsToWorker}) => {
-              doc.ref.update({
-                payOutsToWorker: [...payOutsToWorker, new Date()]
+        this.managerApprovesPaymentInEscrow()
+          .then(JobID => {
+            db
+              .collection("jobs")
+              .doc(docId)
+              .get()
+              .then(snapshots => {
+                const doc = snapshots;
+                const jobData = doc.data();
+                const obj = {doc, user: jobData, payOutsToWorker: []};
+                if (Reflect.has(jobData, "payOutsToWorker")) {
+                  obj.payOutsToWorker = jobData.payOutsToWorker;
+                }
+                return obj;
+              })
+              .then(({doc, payOutsToWorker}) => {
+                doc.ref.update({
+                  payOutsToWorker: [...payOutsToWorker, new Date()]
+                });
               });
-            });
-          this.isLoading = false;
-          this.$nextTick(() => {
+            this.$nextTick(() => {
 
-            EventBus.$emit('notification.add', {
-              id: 1,
-              title: this.$t("App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */),
-              text: this.$t("App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */)
-            });
-          });
-        } catch (error) {
-          console.log(error)
-        }
+              EventBus.$emit('notification.add', {
+                id: 1,
+                title: this.$t("App.job.jobPayoutNotificationTitle" /* Your worker thanks you! */),
+                text: this.$t("App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */)
+              });
+              this.isLoading = false;
+            })
+              .catch(error => console.log(error));
+          })
       },
       async postEditedJob() {
         const jobData = {
-          brief: this.job.brief,
+          description: this.job.brief,
           deliverable: this.job.deliverable,
-          skill: this.job.skill,
-          domain: this.job.domain
         };
         const jobRef = await db
           .collection("jobs")
@@ -732,10 +733,10 @@
             ...jobData
           })
           .then(function () {
-            console.log("Document successfully updated!");
+            console.log("Record successfully updated!");
           })
           .catch(function (error) {
-            console.error("Error updating document: ", error);
+            console.error("Error updating record: ", error);
           });
 
         this.$nextTick(() => {
@@ -837,202 +838,227 @@
             }
 
             try {
-              // await EscrowInstance.register({from: worker});
               const result = await EscrowInstance.claimJob(JobID, {from: worker});
               console.log(result);
               resolve(result);
             } catch (error) {
-              console.log(error);
               reject(error);
             }
           })
         })
       },
       async cancelJobInEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
 
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        return new Promise(async (resolve, reject) => {
 
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-        web3.eth.getAccounts(async (err, accounts) => {
-          const manager = accounts[0];
-          try {
-            let balance_manager_before = await DAIInstance.balanceOf(manager);
-            balance_manager_before =
-              balance_manager_before.toNumber() / (10 ** 18);
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-            const salary = this.salary * (10 ** 18);
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-            const twoPecentOfSalary = (salary * (1 / 50)) / (10 ** 18);
-            await DAIInstance.approve(EscrowInstance.address, salary, {
-              from: manager
-            });
-            const description = this.brief;
+          const JobID = this.job.taskId;
 
-            await EscrowInstance.createJob(description, salary, 5, {from: manager});
+          web3.eth.getAccounts(async (err, accounts) => {
 
-            const JobID = 1;
-            const result = await EscrowInstance.cancelJob(JobID, {from: manager});
+            const manager = accounts[0];
 
-            let balance_manager_after = await DAIInstance.balanceOf(manager);
-            balance_manager_after =
-              balance_manager_after.toNumber() / (10 ** 18);
+            try {
+              console.log('JobID', JobID);
+              console.log(typeof JobID);
 
-            const Job = await EscrowInstance.getJob(JobID);
-          } catch (err) {
-            console.log(err);
-          }
+              let balance_manager_before = await DAIInstance.balanceOf(manager);
+              balance_manager_before = balance_manager_before.toNumber() / (10 ** 18);
+
+              const salary = this.job.salary * (10 ** 18);
+
+              const twoPecentOfSalary = (salary * (1 / 50)) / (10 ** 18);
+              await DAIInstance.approve(EscrowInstance.address, salary, {
+                from: manager
+              });
+              const description = this.job.brief;
+
+              await EscrowInstance.createJob(description, salary, this.job.termOfEmployment, {from: manager});
+
+              const result = await EscrowInstance.cancelJob(JobID, {from: manager});
+
+              let balance_manager_after = await DAIInstance.balanceOf(manager);
+              balance_manager_after = balance_manager_after.toNumber() / (10 ** 18);
+
+            } catch (error) {
+              reject(error);
+            }
+          })
         })
       },
       async proofOfWorkToEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
 
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        return new Promise(async (resolve, reject) => {
 
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-        web3.eth.getAccounts(async (err, accounts) => {
-          const worker = this.job.role["2"];
-          const JobID = this.taskId;
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-          try {
-            const result = await EscrowInstance.provideProofOfWork(JobID, {
-              from: worker
-            });
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          } catch (err) {
-            console.log(err);
-          }
-        });
-        console.log(result)
+          web3.eth.getAccounts(async (err, accounts) => {
+            const worker = this.job.role["2"];
+            const JobID = this.taskId;
+
+            try {
+              const result = await EscrowInstance.provideProofOfWork(JobID, {
+                from: worker
+              });
+
+            } catch (error) {
+              reject(error);
+            }
+          });
+        })
       },
       async evaluateJobToEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
 
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        return new Promise(async (resolve, reject) => {
 
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-        web3.eth.getAccounts(async (err, accounts) => {
-          // TODO: get job ID
-          // const JobID = this.taskId;
-          const JobID = "12";
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-          const evaluator = accounts[0]; // person logged into metamask
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          try {
-            console.log("JobID", JobID);
-            console.log(typeof JobID);
+          web3.eth.getAccounts(async (err, accounts) => {
 
-            const result = await EscrowInstance.confirmProofOfWork(JobID, {
-              from: evaluator
-            });
+            const JobID = this.taskId;
 
-          } catch (err) {
-            console.log(err);
-          }
+            const evaluator = accounts[0]; // Person logged into MetaMask
+
+            try {
+              console.log("JobID", JobID);
+              console.log(typeof JobID);
+
+              const result = await EscrowInstance.confirmProofOfWork(JobID, {
+                from: evaluator
+              });
+
+            } catch (error) {
+              reject(error);
+            }
+          })
         })
       },
       async managerApprovesPaymentInEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
 
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        return new Promise(async (resolve, reject) => {
 
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-        const JobID = this.taskId;
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-        try {
-          const result = await EscrowInstance.approvePayment(JobID, {
-            from: manager
-          });
-
-        } catch (err) {
-          console.log(err);
-        }
-      },
-      async workerClaimPayoutInEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
-
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
-
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
-
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-
-        try {
-          let worker_balance_before = await DAIInstance.balanceOf(worker);
-          worker_balance_before = worker_balance_before.toNumber();
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
           const JobID = this.taskId;
 
-          const Job = await EscrowInstance.getJob(JobID);
+          try {
+            const result = await EscrowInstance.approvePayment(JobID, {
+              from: manager
+            });
 
-          const result = await EscrowInstance.claimPayment(JobID, {from: worker});
+          } catch (error) {
+            reject(error);
+          }
+        })
+      },
+      async workerClaimPayoutInEscrow() {
 
-          let worker_balance_after = await DAIInstance.balanceOf(worker);
-          worker_balance_after = worker_balance_after.toNumber();
+        return new Promise(async (resolve, reject) => {
 
-        } catch (err) {
-          console.log(err);
-        }
-        console.log(result);
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
+
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
+
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
+
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+
+          web3.eth.getAccounts(async (error, accounts) => {
+
+            const worker = accounts[0];
+
+            const JobID = this.job.taskId;
+
+            console.log(this.jobId);
+            console.log(this.JobID);
+
+            try {
+              let worker_balance_before = await DAIInstance.balanceOf(worker);
+              worker_balance_before = worker_balance_before.toNumber();
+
+              const Job = await EscrowInstance.getJob(JobID);
+
+              const result = await EscrowInstance.claimPayment(JobID, {from: worker});
+
+              let worker_balance_after = await DAIInstance.balanceOf(worker);
+              worker_balance_after = worker_balance_after.toNumber();
+
+            } catch (error) {
+              reject(error);
+            }
+          })
+        })
       }
-
     }
   };
 </script>

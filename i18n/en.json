@@ -83,7 +83,7 @@
   "App.job.jobFullTimeRate": "Full-Time-Rate",
   "App.job.jobSponsoredAmount": "Sponsored Amount",
   "App.job.jobPayFrequency": "Pay Frequency",
-  "App.job.termsOfEmployment": "Terms of Employment (Months)",
+  "App.job.termOfEmployment": "Term of Employment (Months)",
   "App.job.requirements": "Requirements",
   "App.job.postChangesButton": "Post Changes",
   "App.job.cancleJob": "Cancel Job",

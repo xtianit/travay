@@ -118,9 +118,8 @@
                   {{job.task}}<br>
                   {{ $t('App.job.jobDescription' /* Description */) }}: {{job.brief}}<br>
                   {{ $t('App.job.jobDomain' /* Domain */) }}: {{job.domain}}<br>
-                  {{ $t('App.job.jobSkill' /* Desired Skill */) }}: {{job.skill}}
-                  <br>
-                  <br>
+                  {{ $t('App.job.jobSkill' /* Desired Skill */) }}: {{job.skill}}<br>
+                  {{ $t('App.job.termOfEmployment' /* Desired Skill */) }}: {{job.termOfEmployment}}<br>
                   <!--Full time rate: ${{job.salary['full-time-rate']}}<br>-->
                   <!--Pay frequency:-->
                   <!--<input id="weekly" true-value="weekly" type="checkbox" name="weekly"-->
