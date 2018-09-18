@@ -4,7 +4,7 @@
     <vue-grid>
       <vue-grid-row>
         <vue-grid-item fill>
-          <h1>Profile</h1>
+          <h1>{{ $t('App.profile.pageTitle' /* Profile */) }}</h1>
         </vue-grid-item>
       </vue-grid-row>
 
@@ -25,9 +25,9 @@
               <p>
                 <a @click.prevent.stop="e => {}">
                   <i class="fa edit-icon" :class="isEditingProfile ? 'fa-times' : 'fa-edit'"
-                     @click="isEditingProfile = !isEditingProfile"></i>
-                  {{ !isEditingProfile ? $t('App.job.notEditingProfileIcon' /* Edit Profile */) :
-                  $t('App.job.editProfileIcon' /* Editing Profile */)}}
+                     @click="isEditingProfile = !isEditingProfile"><br><br>{{ !isEditingProfile ?
+                    $t('App.job.notEditingProfileIcon' /* Edit Profile */) :
+                    $t('App.job.editProfileIcon' /* Editing Profile */)}}</i>
                 </a>
               </p>
 
@@ -38,20 +38,12 @@
 
                   <vue-grid-row>
                     <vue-grid-item>
-                      <vue-input type="text" name="country" id="country" placeholder="Country Code" required
+                      <vue-input type="text" name="country" id="country" placeholder="Country Code" readonly
                                  v-model="form.country"/>
                     </vue-grid-item>
                     <vue-grid-item>
-                      <vue-input type="text" name="area" id="area" placeholder="Area Code" required
-                                 v-model="form.area"/>
-                    </vue-grid-item>
-                    <vue-grid-item>
-                      <vue-input type="text" name="prefix" id="prefix" placeholder="Prefix" required
-                                 v-model="form.prefix"/>
-                    </vue-grid-item>
-                    <vue-grid-item>
-                      <vue-input type="text" name="line" id="line" placeholder="Line" required
-                                 v-model="form.line"/>
+                      <vue-input type="text" name="number" id="number" placeholder="Number" required
+                                 v-model="form.number"/>
                     </vue-grid-item>
                   </vue-grid-row>
 
@@ -164,7 +156,7 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import firebase from 'firebase';
-  import db from '../firebaseinit';
+  import db from '../firebaseinit-dev';
   import * as types from '../store/types'
   import {store} from '../store';
   import SignInModal from '../services/SignInModal';
@@ -198,9 +190,7 @@
         canceledJobs: [],
         form: {
           country: '509',
-          area: '00',
-          prefix: '11',
-          line: '5555',
+          number: '',
           optInTexts: true,
           subscribeToMailingList: true
         },
@@ -216,7 +206,8 @@
         saveUserInStorage: types.SAVE_USER_IN_STORAGE
       }),
       concatenateToE164() {
-        const phone = this.form.country + this.form.area + this.form.prefix + this.form.line;
+        // const phone = this.form.country + this.form.area + this.form.prefix + this.form.line;
+        const phone = this.form.country + this.form.number;
         return `+${phone}`
       },
       async updateProfile() {
