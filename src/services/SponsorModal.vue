@@ -12,6 +12,14 @@
         v-model="sponsorAmount"/>
 
       <vue-button primary @click.prevent.stop="sponsorJob">Sponsor</vue-button>
+
+      <br>
+      <br>
+      <!--TODO: fix: modal overlay remains after navigating to new page-->
+      <!--<p>You will need DAI to Sponsor a Job. You can get some <router-link :to="'/get-funds'">{{-->
+        <!--$t('App.footer.getStartedGuide' /* Get Started */) }}</router-link>.-->
+      <!--</p>-->
+
     </vue-modal>
   </div>
 </template>
@@ -46,12 +54,14 @@
     computed: {},
     methods: {
       sponsorJob() {
+        this.isLoading = true;
         this.sponsorAmountToEscrow()
           .then(result => {
             this.$emit('sponsorSubmit', this.sponsorAmount);
             this.sponsorAmount = '';
           })
           .catch(error => console.log(error));
+        this.isLoading = false;
       },
       async sponsorAmountToEscrow() {
 
@@ -80,8 +90,6 @@
           web3.eth.getAccounts(async (err, accounts) => {
             const sponsor = accounts[0];
             try {
-
-              // TODO: sponsor modal doesn't find JobId
 
               console.log('payment', payment);
               console.log('JobID', JobID);

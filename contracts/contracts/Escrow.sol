@@ -94,7 +94,6 @@ contract Escrow{
     mapping(address => uint[]) public JobsByManager;        // all the jobs held by a manager
     mapping(address => uint[]) public JobsByWorker;         // all the jobs held by a worker
 
-    mapping(address => bool) public registeredUsers;        // list of all the registered users
 
     ERC20 public DAI;
 
@@ -105,32 +104,13 @@ contract Escrow{
     constructor(address _DAI, address _arbitrator) public{
         DAI = ERC20(_DAI);
         arbitrator = _arbitrator;
-        registeredUsers[arbitrator] = true;
     }
 
-    modifier onlyRegisteredUser(){
-        require(registeredUsers[msg.sender]);  // only execute function if the sender is a registered address
-        _;
-    }
-
+    
     modifier onlyArbitrator{
         require(msg.sender == arbitrator);
         _;
     }
-
-
-    event Register(address address_Registered);  // list of all the registered users
-
-    /// @notice this function registers a user
-    /// @dev sends 2 DAI to the registering user
-    function register() public {
-        require(registeredUsers[msg.sender] == false);
-
-        registeredUsers[msg.sender] = true;
-
-        emit Register(msg.sender);
-    }
-
 
     event JobCreated(address manager, uint salary, uint noOfTotalPayments, uint JobID, string description);
 
@@ -138,7 +118,7 @@ contract Escrow{
     /// @dev Uses transferFrom on the DAI token contract
     /// @param _salary is the amount of salary deposited by the manager
     /// @param _noOfTotalPayments is the number of total payments iterations set by the manager
-    function createJob(string _description, uint _salary, uint _noOfTotalPayments) public onlyRegisteredUser {
+    function createJob(string _description, uint _salary, uint _noOfTotalPayments) public {
         require(_salary > 0);
         require(_noOfTotalPayments > 0);
 
@@ -154,7 +134,7 @@ contract Escrow{
         emit JobCreated(msg.sender, finalSalary, _noOfTotalPayments, jobCount, _description);
         jobCount++;
 
-        DAI.transferFrom(msg.sender, address(this), _salary);
+        DAI.transferFrom(msg.sender, address(this), _salary);  
 
     }
 
@@ -164,7 +144,7 @@ contract Escrow{
     /// @notice this function lets the worker claim the job
     /// @dev Uses transferFrom on the DAI token contract
     /// @param _JobID is the ID of the job to be claimed by the worker
-    function claimJob(uint _JobID) public onlyRegisteredUser {
+    function claimJob(uint _JobID) public {
         require(_JobID >= 0);
 
         Job storage job = Jobs[_JobID];
@@ -180,7 +160,7 @@ contract Escrow{
         JobsByWorker[msg.sender].push(_JobID);
         emit JobClaimed(msg.sender, _JobID);
 
-
+        
     }
 
 
@@ -188,7 +168,7 @@ contract Escrow{
 
     /// @notice this function lets a registered address become an evaluator for a job
     /// @param _JobID is the ID of the job for which the sender wants to become an evaluator
-    function setEvaluator(uint _JobID) public onlyRegisteredUser{
+    function setEvaluator(uint _JobID) public {
         require(_JobID >= 0);
 
         Job storage job = Jobs[_JobID];
@@ -207,7 +187,7 @@ contract Escrow{
     /// @notice this function lets the manager or arbitrator cancel the job
     /// @dev Uses transfer on the DAI token contract to return DAI from escrow to manager
     /// @param _JobID is the ID of the job to be cancelled
-    function cancelJob(uint _JobID) public onlyRegisteredUser {
+    function cancelJob(uint _JobID) public {
         require(_JobID >= 0);
 
         Job storage job = Jobs[_JobID];
@@ -219,7 +199,7 @@ contract Escrow{
         }
 
         job.status = JobStatus.Cancelled;
-        uint returnAmount = job.salaryDeposited;
+        uint returnAmount = job.salaryDeposited; 
 
         emit JobCancelled(_JobID);
         DAI.transfer(job.manager, returnAmount);
@@ -231,7 +211,7 @@ contract Escrow{
     /// @notice this function lets the worker claim the approved payment
     /// @dev Uses transfer on the DAI token contract to send DAI from escrow to worker
     /// @param _JobID is the ID of the job from which the worker intends to claim the DAI tokens
-    function claimPayment(uint _JobID) public onlyRegisteredUser {
+    function claimPayment(uint _JobID) public {
         require(_JobID >= 0);
 
         Job storage job = Jobs[_JobID];
@@ -245,7 +225,7 @@ contract Escrow{
 
         emit PaymentClaimed(msg.sender, payment, _JobID);
         DAI.transfer(msg.sender, payment);
-
+        
     }
 
 
@@ -253,7 +233,7 @@ contract Escrow{
 
     /// @notice this function lets the manager to approve payment
     /// @param _JobID is the ID of the job for which the payment is approved
-    function approvePayment(uint _JobID) public onlyRegisteredUser {
+    function approvePayment(uint _JobID) public {
         require(_JobID >= 0);
 
         Job storage job = Jobs[_JobID];
@@ -285,7 +265,7 @@ contract Escrow{
     /// @dev Uses transferFrom on the DAI token contract to send DAI from manager to evaluator
     /// @param _JobID is the ID of the job for which the evaluator is to be paid
     /// @param _payment is the amount of DAI tokens to be paid to evaluator
-    function payToEvaluator(uint _JobID, uint _payment) public onlyRegisteredUser {
+    function payToEvaluator(uint _JobID, uint _payment) public {
         require(_JobID >= 0);
         require(_payment > 0);
 
@@ -305,9 +285,9 @@ contract Escrow{
 
     event ProofOfWorkConfirmed(uint JobID, address evaluator, bool proofVerified);
 
-    /// @notice this function lets the evaluator confirm the proof of work provided by worker
+    /// @notice this function lets the evaluator confirm the proof of work provided by worker 
     /// @param _JobID is the ID of the job for which the evaluator confirms proof of work
-    function confirmProofOfWork(uint _JobID) public onlyRegisteredUser {
+    function confirmProofOfWork(uint _JobID) public {
         require(_JobID >= 0);
 
         Job storage job = Jobs[_JobID];
@@ -323,7 +303,7 @@ contract Escrow{
 
     /// @notice this function lets the worker provide proof of work
     /// @param _JobID is the ID of the job for which worker provides proof
-    function provideProofOfWork(uint _JobID) public onlyRegisteredUser {
+    function provideProofOfWork(uint _JobID) public {
         require(_JobID >= 0);
 
         Job storage job = Jobs[_JobID];
@@ -341,7 +321,7 @@ contract Escrow{
     /// @dev Uses transferFrom on the DAI token contract to send DAI from sender's address to receiver's address
     /// @param _to is the address of the receiver receiving the DAI tokens
     /// @param _amount is the amount of DAI tokens to be paid to receiving address
-    function tip(address _to, uint _amount) public onlyRegisteredUser {
+    function tip(address _to, uint _amount) public {
         require(_to != 0x0);
         require(_amount > 0);
         require(DAI.allowance(msg.sender, address(this)) >= _amount);
@@ -352,12 +332,12 @@ contract Escrow{
 
 
     event DAISponsored(uint JobID, uint amount, address sponsor);
-
+    
     /// @notice this function lets any registered address send DAI tokens to any Job as sponsored tokens
     /// @dev Uses transferFrom on the DAI token contract to send DAI from sender's address to Escrow
     /// @param _JobID is the ID of the job for which the sponsor contributes DAI
     /// @param _amount is the amount of DAI tokens to be sponsored to the Job
-    function sponsorDAI(uint _JobID, uint _amount) public onlyRegisteredUser {
+    function sponsorDAI(uint _JobID, uint _amount) public {
         require(_JobID >= 0);
         require(_amount > 0);
 
@@ -371,7 +351,7 @@ contract Escrow{
         job.sponsoredTokens = job.sponsoredTokens + _amount;
 
         emit DAISponsored(_JobID, _amount, msg.sender);
-
+        
         require(DAI.allowance(msg.sender, address(this)) >= _amount);
         DAI.transferFrom(msg.sender, address(this), _amount);
     }
@@ -379,14 +359,14 @@ contract Escrow{
 
     event DAIWithdrawn(address receiver, uint amount);
 
-    /// @notice this function lets arbitrator withdraw DAI to the provided address
+    /// @notice this function lets arbitrator withdraw DAI to the provided address 
     /// @dev Uses transfer on the DAI token contract to send DAI from Escrow to the provided address
     /// @param _receiver is the receiving the withdrawn DAI tokens
     /// @param _amount is the amount of DAI tokens to be withdrawn
     function withdrawDAI(address _receiver, uint _amount) public onlyArbitrator {
         require(_receiver != 0x0);
         require(_amount > 0);
-
+        
         require(DAI.balanceOf(address(this)) >= _amount);
 
         DAI.transfer(_receiver, _amount);
@@ -426,17 +406,18 @@ contract Escrow{
         Job storage job = Jobs[_JobID];
         _description = job.description;
         _manager = job.manager;
-        _salaryDeposited = job.salaryDeposited;
-        _worker = job.worker;
-        _status = uint(job.status);
-        _noOfTotalPayments = job.noOfTotalPayments;
-        _noOfPaymentsMade = job.noOfPaymentsMade;
-        _paymentAvailableForWorker = job.paymentAvailableForWorker;
-        _totalPaidToWorker = job.totalPaidToWorker;
-        _evaluator = job.evaluator;
-        _proofOfLastWorkVerified = job.proofOfLastWorkVerified;
-        _sponsoredTokens = job.sponsoredTokens;
+        _salaryDeposited = job.salaryDeposited;             
+        _worker = job.worker;                   
+        _status = uint(job.status);                 
+        _noOfTotalPayments = job.noOfTotalPayments;           
+        _noOfPaymentsMade = job.noOfPaymentsMade;           
+        _paymentAvailableForWorker = job.paymentAvailableForWorker;   
+        _totalPaidToWorker = job.totalPaidToWorker;           
+        _evaluator = job.evaluator;               
+        _proofOfLastWorkVerified = job.proofOfLastWorkVerified;     
+        _sponsoredTokens = job.sponsoredTokens;             
         _sponsorsCount = job.sponsorsCount;
     }
 
 }
+

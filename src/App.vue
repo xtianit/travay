@@ -22,7 +22,7 @@
   export default {
   name: 'App',
   beforeCreate () {
-    console.log('registerWeb3 Action dispatched from app.vue');
+    // console.log('registerWeb3 Action dispatched from app.vue');
     this.$store.dispatch('registerWeb3');
   },
   components: {
@@ -43,7 +43,6 @@
     localeSwitch(locale) {
       doChangeLocale(locale)
         .catch((error) => console.log(error));
-
       this.navBarClose();
     },
     navBarClose() {
