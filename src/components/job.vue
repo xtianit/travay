@@ -130,7 +130,7 @@
                   <vue-grid-item>
                     <vue-button warn
                                 @click="cancelJob()">
-                      {{ $t('App.job.cancleJob' /* Cancel Job */) }}
+                      {{ $t('App.job.cancelJob' /* Cancel Job */) }}
                     </vue-button>
                   </vue-grid-item>
                 </vue-grid-row>
@@ -280,11 +280,10 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <p>Evaluator</p>
+                  <h3>{{ $t('App.job.evaluation' /* Evaluation */) }}</h3>
                   <vue-button v-userRole.signedIn="{role: job.role}" primary>
                     <a @click="setEvaluator()" style="color: white;">
-                      Set Evaluator
-                      <!--{{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}-->
+                      {{ $t('App.job.becomeEvaluatorForJob' /* Become the Evaluator */) }}
                     </a>
                   </vue-button>
                   <br><br>
