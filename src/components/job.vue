@@ -196,8 +196,7 @@
                   <h3>{{ $t('App.job.sponsorJobButton' /* Sponsor Job */) }}</h3>
 
                   <vue-grid-item>
-                    <p>{{ $t('App.job.sponsorDescription' /* Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      doeiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}</p>
+                    <p>{{ $t('App.job.sponsorDescription' /* Job sponsorship is where anyone in the world can donate and contribute to the workplace ecosystem. Choosing to sponsor ensures transparency in funds donated and incentives job workers to continue to perform and accept jobs. */) }}</p>
                   </vue-grid-item>
 
                 </vue-panel-body>

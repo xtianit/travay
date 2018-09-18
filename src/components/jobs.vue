@@ -321,7 +321,6 @@
         }
         this.selectedJobToSponsorId = taskId;
         this.showSponsoredModal = true;
-        console.log('should show sponsored modal', this.showSponsoredModal)
       },
       sort(jobs) {
         const result = jobs.sort(function (a, b) {
