@@ -3,9 +3,10 @@
     <vue-modal :show="show" @close="closeNetworkModal">
       <vue-button warn @click="closeNetworkModal">X</vue-button>
 
-      <h1>Switch to Main Network</h1>
+      <h2>{{ $t('App.job.mainNetModalTitle' /* Switch to Main Network */) }}</h2>
 
-      <p>Please go to MetaMask and switch to the Main Network to process your transaction.</p>
+      <p>{{ $t('App.job.mainNetModalDescription' /* Please go to MetaMask and switch to the "Main Network" to process
+        your transaction. */) }}</p>
 
     </vue-modal>
   </div>
