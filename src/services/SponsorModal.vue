@@ -2,6 +2,7 @@
   <div :class="$style.sponsorModal">
     <vue-modal :show="show" @close="$emit('update:show', false)">
       <vue-button warn @click="$emit('update:show', false)">X</vue-button>
+
       <vue-input
         name="sponsorAmount"
         id="sponsorAmount"
@@ -12,6 +13,11 @@
         v-model="sponsorAmount"/>
 
       <vue-button primary @click.prevent.stop="sponsorJob">Sponsor</vue-button>
+
+      <br>
+      <br>
+
+      <p>{{ $t('App.job.sponsorDescription' /* Job sponsorship is where anyone in the world can donate and contribute to the workplace ecosystem. Choosing to sponsor ensures transparency in funds donated and incentives job workers to continue to perform and accept jobs. */) }}</p>
 
       <br>
       <br>

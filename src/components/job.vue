@@ -130,7 +130,7 @@
                   <vue-grid-item>
                     <vue-button warn
                                 @click="cancelJob()">
-                      {{ $t('App.job.cancleJob' /* Cancel Job */) }}
+                      {{ $t('App.job.cancelJob' /* Cancel Job */) }}
                     </vue-button>
                   </vue-grid-item>
                 </vue-grid-row>
@@ -196,8 +196,7 @@
                   <h3>{{ $t('App.job.sponsorJobButton' /* Sponsor Job */) }}</h3>
 
                   <vue-grid-item>
-                    <p>{{ $t('App.job.sponsorDescription' /* Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      doeiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}</p>
+                    <p>{{ $t('App.job.sponsorDescription' /* Job sponsorship is where anyone in the world can donate and contribute to the workplace ecosystem. Choosing to sponsor ensures transparency in funds donated and incentives job workers to continue to perform and accept jobs. */) }}</p>
                   </vue-grid-item>
 
                 </vue-panel-body>
@@ -281,12 +280,18 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.manager="{role: job.role}" primary>
+                  <h3>{{ $t('App.job.evaluation' /* Evaluation */) }}</h3>
+                  <vue-button v-userRole.signedIn="{role: job.role}" primary>
+                    <a @click="setEvaluator()" style="color: white;">
+                      {{ $t('App.job.becomeEvaluatorForJob' /* Become the Evaluator */) }}
+                    </a>
+                  </vue-button>
+                  <br><br>
+                  <vue-button v-userRole.signedIn="{role: job.role}" primary>
                     <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
                   </vue-button>
-                  <br><br>
                   <!--<vue-button v-userRole.evaluator="{role: job.role}" warn>-->
                   <!--<a @click="evaluateJobAsCompletedUnsucessfully()" style="color: white;">-->
                   <!--{{ $t('App.job.evaluateJobAsUnsuccessful' /* Disapprove Work */) }}-->
@@ -356,20 +361,6 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
-
-  // # Done
-  // create job
-  // tip
-  // sponsor
-
-  // # Not working
-  // cancel job
-  // claim job
-  // claim payout
-  // proof of work submitted
-  // approve work / evaluate job
-  // payout job
-
 
   const firebaseStorage = firebase.storage();
 
@@ -495,6 +486,7 @@
 
         this.cancelJobInEscrow()
           .then(JobID => {
+            console.log('job is being canceled')
             const job = db.collection("jobs").doc(jobId);
             const update = job.update({
               status: {
@@ -513,16 +505,25 @@
           })
           .catch(error => console.log(error));
       },
+      setEvaluator() {
+
+        this.setEvaluatorInEscrow()
+          .then(JobID => {
+            // TODO record this in firebase
+          })
+          .catch(error => console.log(error));
+      },
       markJobComplete() {
         const jobId = this.job.taskId;
 
         this.isLoading = true;
 
-        this.proofOfWorkToEscrow
+        this.proofOfWorkToEscrow()
           .then(JobID => {
             const job = db.collection("jobs").doc(jobId);
             const update = job.update({
-              milestonesCompleted: [...milestoneCompleted, new Date()]
+              // TODO solve undefined error
+              // milestonesCompleted: [...milestoneCompleted, new Date()]
             });
 
             this.job.status.state = "complete";
@@ -562,39 +563,40 @@
           .catch(error => console.log(error));
       },
       async evaluateJobAsCompletedUnsucessfully() {
-        const jobId = this.job.taskId;
-
-        try {
-          const job = await db.collection("jobs").doc(jobId);
-          const update = await job.update({
-            status: {
-              successfullyCompleted: "false"
-            }
-          });
-          this.isEditingJobDetails = false;
-
-          // TODO update toaster and determine how to handle this
-          EventBus.$emit('notification.add', {
-            id: 1,
-            title: this.$t("App.job.jobUnCompletedNotificationTitle" /* Update Complete */),
-            text: this.$t("App.job.jobUnCompleteNotificationText"
-              /* This job has been marked as not completed successfully.. */)
-          });
-        } catch (error) {
-          console.log(error)
-        }
+        // const jobId = this.job.taskId;
+        //
+        // try {
+        //   const job = await db.collection("jobs").doc(jobId);
+        //   const update = await job.update({
+        //     status: {
+        //       successfullyCompleted: "false"
+        //     }
+        //   });
+        //   this.isEditingJobDetails = false;
+        //
+        //   // TODO update toaster and determine how to handle this
+        //   EventBus.$emit('notification.add', {
+        //     id: 1,
+        //     title: this.$t("App.job.jobUnCompletedNotificationTitle" /* Update Complete */),
+        //     text: this.$t("App.job.jobUnCompleteNotificationText"
+        //       /* This job has been marked as not completed successfully.. */)
+        //   });
+        // } catch (error) {
+        //   console.log(error)
+        // }
       },
       claimPayout() {
 
         this.isLoading = true;
 
         this.workerClaimPayoutInEscrow()
-          .then(worker => {
+          .then(JobID => {
 
-            const job = db.collection("jobs").doc(jobId);
+            const job = db.collection("jobs").doc(JobID);
 
             const update = job.update({
-              payOutsClaimed: [...payOutsClaimed, new Date()]
+              // TODO resolve undefined error
+              // payOutsClaimed: [...payOutsClaimed, new Date()]
             });
             this.isLoading = false;
             this.isEditingJobDetails = false;
@@ -721,7 +723,7 @@
                 text: this.$t("App.job.jobPayoutNotificationTitleText" /* Payout Complete. Your account is being debited. */)
               });
               this.isLoading = false;
-            }, 700)
+            })
               .catch(error => console.log(error));
           })
       },
@@ -834,13 +836,13 @@
           DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
           DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          const JobID = this.taskId;
+          const JobID = this.job.taskId;
 
-          web3.eth.getAccounts(async (err, accounts) => {
+          web3.eth.getAccounts(async (error, accounts) => {
 
             const worker = accounts[0]; // account that is logged into MetaMask
 
-            if (err) {
+            if (error) {
               throw new {name: "Exception", message: "Accounts are not found"};
             }
 
@@ -877,7 +879,7 @@
 
           const JobID = this.job.taskId;
 
-          web3.eth.getAccounts(async (err, accounts) => {
+          web3.eth.getAccounts(async (error, accounts) => {
 
             const manager = accounts[0];
 
@@ -885,24 +887,48 @@
               console.log('JobID', JobID);
               console.log(typeof JobID);
 
-              let balance_manager_before = await DAIInstance.balanceOf(manager);
-              balance_manager_before = balance_manager_before.toNumber() / (10 ** 18);
-
-              const salary = this.job.salary * (10 ** 18);
-
-              const twoPecentOfSalary = (salary * (1 / 50)) / (10 ** 18);
-              await DAIInstance.approve(EscrowInstance.address, salary, {
-                from: manager
-              });
-              const description = this.job.brief;
-
-              await EscrowInstance.createJob(description, salary, this.job.termOfEmployment, {from: manager});
-
               const result = await EscrowInstance.cancelJob(JobID, {from: manager});
+              resolve(result.logs[0].args.JobID)
+            } catch (error) {
+              reject(error);
+            }
+          })
+        })
+      },
+      async setEvaluatorInEscrow() {
 
-              let balance_manager_after = await DAIInstance.balanceOf(manager);
-              balance_manager_after = balance_manager_after.toNumber() / (10 ** 18);
+        return new Promise(async (resolve, reject) => {
 
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
+
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
+
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
+
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+
+          const JobID = this.job.taskId;
+
+          web3.eth.getAccounts(async (error, accounts) => {
+
+            const evaluator = accounts[0]; // account that is logged into MetaMask
+
+            if (error) {
+              throw new {name: "Exception", message: "Accounts are not found"};
+            }
+
+            try {
+              await EscrowInstance.setEvaluator(JobID, {from: evaluator});
+              resolve(JobID);
             } catch (error) {
               reject(error);
             }
@@ -932,14 +958,14 @@
 
           web3.eth.getAccounts(async (err, accounts) => {
 
-            const worker = this.job.role["2"];
-            const JobID = this.taskId;
+            const worker = accounts[0];
+            const JobID = this.job.taskId;
 
             try {
               const result = await EscrowInstance.provideProofOfWork(JobID, {
                 from: worker
               });
-
+            resolve(JobID)
             } catch (error) {
               reject(error);
             }
@@ -969,7 +995,7 @@
 
           web3.eth.getAccounts(async (err, accounts) => {
 
-            const JobID = this.taskId;
+            const JobID = this.job.taskId;
             const evaluator = accounts[0]; // Person logged into MetaMask
 
             try {
@@ -979,7 +1005,7 @@
               const result = await EscrowInstance.confirmProofOfWork(JobID, {
                 from: evaluator
               });
-
+            resolve(JobID)
             } catch (error) {
               reject(error);
             }
@@ -1007,7 +1033,7 @@
           DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
           DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          const JobID = this.taskId;
+          const JobID = this.job.taskId;
 
           web3.eth.getAccounts(async (err, accounts) => {
 
@@ -1017,7 +1043,7 @@
               const result = await EscrowInstance.approvePayment(JobID, {
                 from: manager
               });
-
+              resolve(JobID)
             } catch (error) {
               reject(error);
             }
@@ -1050,20 +1076,15 @@
             const worker = accounts[0];
             const JobID = this.job.taskId;
 
-            console.log(this.jobId);
-            console.log(this.JobID);
+            console.log(JobID);
 
             try {
-              let worker_balance_before = await DAIInstance.balanceOf(worker);
-              worker_balance_before = worker_balance_before.toNumber();
 
               const Job = await EscrowInstance.getJob(JobID);
 
               const result = await EscrowInstance.claimPayment(JobID, {from: worker});
 
-              let worker_balance_after = await DAIInstance.balanceOf(worker);
-              worker_balance_after = worker_balance_after.toNumber();
-
+              resolve(JobID)
             } catch (error) {
               reject(error);
             }

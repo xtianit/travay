@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.switchToMainNetModal">
-    <vue-modal :show="show" @close="$emit('update:show', false)">
-      <vue-button warn @click="$emit('update:show', false)">X</vue-button>
+    <vue-modal :show="show" @close="closeNetworkModal">
+      <vue-button warn @click="closeNetworkModal">X</vue-button>
 
       <h1>Switch to Main Network</h1>
 
