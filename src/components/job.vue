@@ -347,7 +347,8 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapMutations} from 'vuex';
+  import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
+  import {NETWORKS} from "../util/constants/networks";
   import axios from "axios";
   import firebase from "firebase";
   import db from "../firebaseinit-dev";
@@ -461,6 +462,7 @@
       //...mapActions("signInModal", ["openLoginModal", "closeLoginModal"]),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,
+        openNetworkModal: types.OPEN_NETWORK_MODAL,
         closeLoginModal: types.CLOSE_LOGIN_MODAL
       }),
       removeImage(i) {
@@ -629,7 +631,10 @@
         });
       },
       claimJob(docId) {
-
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
         if (this.hasEmptyFields) {
           EventBus.$emit('notification.add', {
             id: 1,
