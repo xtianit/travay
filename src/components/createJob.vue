@@ -217,7 +217,7 @@
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import {uuid} from 'vue-uuid';
   import firebase from 'firebase';
-  import db from '../firebaseinit-dev';
+  import db from '../firebaseinit';
   import {AssertionError} from 'assert';
   import {any} from 'bluebird';
   import {store} from '../store';
