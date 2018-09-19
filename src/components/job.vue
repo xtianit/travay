@@ -281,13 +281,19 @@
                   </vue-button>
                   <br><br>
                   <h3>{{ $t('App.job.evaluation' /* Evaluation */) }}</h3>
-                  <vue-button v-userRole.signedIn="{role: job.role}" primary>
+                  <br>
+                  <p>{{ $t('App.job.evaluationDescription' /* After a job is claimed an evaluator must be assigned.
+                    If assigned as an evaluator the below area will show additional information. An evaluator
+                    confirms the completion of work. */)
+                    }}</p>
+                  <br>
+                  <vue-button v-userRole.signedIn.canBecomeEvaluator="{role: job.role}" primary>
                     <a @click="setEvaluator()" style="color: white;">
                       {{ $t('App.job.becomeEvaluatorForJob' /* Become the Evaluator */) }}
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.signedIn="{role: job.role}" primary>
+                  <vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>
                     <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>

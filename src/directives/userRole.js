@@ -75,6 +75,20 @@ export const userRole = {
         )
           hide(vnode);
       }
+
+      // Only if user did not claim the job && is not the evaluator && job doesn't have an evaluator
+      if (Reflect.has(modifiers, 'canBecomeEvaluator')) {
+        if (
+          !value.role[0].includes(userId)  &&
+          !value.role[1].includes(userId) &&
+          !value.role[3].includes(userId) && value.role[1] === ""
+        ) {
+          console.log('NOT HIDING');
+        } else {
+          hide(vnode);
+        }
+      }
+
     }
   }
 };

@@ -69,6 +69,7 @@
   "App.profile.evaluatingJobs": "List of all jobs you are listed as the Evaluator.",
   "App.profile.sponsoringJobs": "List of all jobs you've sponsored.",
   "App.job.evaluation": "Evaluation",
+  "App.job.evaluationDescription": "After a job is claimed an evaluator must be assigned. If assigned as an evaluator the below area will show additional information. An evaluator confirms the completion of work.",
   "App.job.claim": "Claim",
   "App.job.claimPayout": "Claim Payout",
   "App.jobs.learnMoreButton": "LEARN MORE",
