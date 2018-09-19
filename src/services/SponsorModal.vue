@@ -2,6 +2,7 @@
   <div :class="$style.sponsorModal">
     <vue-modal :show="show" @close="$emit('update:show', false)">
       <vue-button warn @click="$emit('update:show', false)">X</vue-button>
+
       <vue-input
         name="sponsorAmount"
         id="sponsorAmount"
@@ -12,6 +13,19 @@
         v-model="sponsorAmount"/>
 
       <vue-button primary @click.prevent.stop="sponsorJob">Sponsor</vue-button>
+
+      <br>
+      <br>
+
+      <p>{{ $t('App.job.sponsorDescription' /* Job sponsorship is where anyone in the world can donate and contribute to the workplace ecosystem. Choosing to sponsor ensures transparency in funds donated and incentives job workers to continue to perform and accept jobs. */) }}</p>
+
+      <br>
+      <br>
+      <!--TODO: fix: modal overlay remains after navigating to new page-->
+      <!--<p>You will need DAI to Sponsor a Job. You can get some <router-link :to="'/get-funds'">{{-->
+        <!--$t('App.footer.getStartedGuide' /* Get Started */) }}</router-link>.-->
+      <!--</p>-->
+
     </vue-modal>
   </div>
 </template>
@@ -46,12 +60,14 @@
     computed: {},
     methods: {
       sponsorJob() {
+        this.isLoading = true;
         this.sponsorAmountToEscrow()
           .then(result => {
             this.$emit('sponsorSubmit', this.sponsorAmount);
             this.sponsorAmount = '';
           })
           .catch(error => console.log(error));
+        this.isLoading = false;
       },
       async sponsorAmountToEscrow() {
 
@@ -80,8 +96,6 @@
           web3.eth.getAccounts(async (err, accounts) => {
             const sponsor = accounts[0];
             try {
-
-              // TODO: sponsor modal doesn't find JobId
 
               console.log('payment', payment);
               console.log('JobID', JobID);

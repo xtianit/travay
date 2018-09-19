@@ -92,7 +92,9 @@
           </vue-button>
         </vue-grid-item>
       </vue-grid-row>
+
       <br>
+
       <sponsor-modal
         :job="jobToSponsor"
         :show.sync="showSponsoredModal"
@@ -102,6 +104,8 @@
           task: this.jobToSponsor.task || '',
           job: this.jobToSponsor
           })"></sponsor-modal>
+
+
       <vue-grid-row>
         <vue-grid-item>
           <hr>
@@ -114,9 +118,8 @@
                   {{job.task}}<br>
                   {{ $t('App.job.jobDescription' /* Description */) }}: {{job.brief}}<br>
                   {{ $t('App.job.jobDomain' /* Domain */) }}: {{job.domain}}<br>
-                  {{ $t('App.job.jobSkill' /* Desired Skill */) }}: {{job.skill}}
-                  <br>
-                  <br>
+                  {{ $t('App.job.jobSkill' /* Desired Skill */) }}: {{job.skill}}<br>
+                  {{ $t('App.job.termOfEmployment' /* Desired Skill */) }}: {{job.termOfEmployment}}<br>
                   <!--Full time rate: ${{job.salary['full-time-rate']}}<br>-->
                   <!--Pay frequency:-->
                   <!--<input id="weekly" true-value="weekly" type="checkbox" name="weekly"-->
@@ -152,7 +155,7 @@
                           accent>
                 <a
                   style="color: white !important;"
-                  @click.prevent.stop="e => sponsorJob(job.taskId)">Sponsor this Job</a>
+                  @click.prevent.stop="e => sponsorJob(job.taskId)">{{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}</a>
               </vue-button>
 
             </vue-panel-footer>
@@ -207,6 +210,7 @@
         skill: '',
         domain: '',
         keyword: '',
+        isNavigating: false,
         types: [
           {
             id: 'salary',
@@ -317,7 +321,6 @@
         }
         this.selectedJobToSponsorId = taskId;
         this.showSponsoredModal = true;
-        console.log('should show sponsored modal', this.showSponsoredModal)
       },
       sort(jobs) {
         const result = jobs.sort(function (a, b) {

@@ -246,13 +246,14 @@
     },
     data() {
       return {
+        fullPage: false,
         form: {
           taskId: 0,
           task: '',
           brief: '',
           deliverable: [],
           datePosted: '',
-          payoutEvaluator: '',
+          // payoutEvaluator: '',
           salary: '',
           termOfEmployment: '',
           cityOfWork: '',
@@ -309,10 +310,7 @@
         }
 
         this.createJobInEscrow()
-
           .then(JobID => {
-
-            this.isLoading = true;
 
             const self = this;
 
@@ -328,11 +326,11 @@
               skill: form.skill,
               domain: form.domain,
               termOfEmployment: form.termOfEmployment,
-              payouts: {
-                evaluator: 0,
-                manager: 0,
-                worker: 0
-              },
+              // payouts: {
+              //   evaluator: 0,
+              //   manager: 0,
+              //   worker: 0
+              // },
               role: {
                 '0': this.userId,
                 '1': [],
@@ -357,30 +355,18 @@
               .catch(function (error) {
                 console.error('Error adding new job: ', error);
               });
-            this.$nextTick(() => {
-              setTimeout(() => {
-                this.isLoading = false;
-
-                EventBus.$emit('notification.add', {
-                  id: 1,
-                  title: this.$t("App.createJob.jobPostedTitle" /* Yay! */),
-                  text: this.$t("App.createJob.jobPostedText" /* Your job is now posted! Click here to see the job. */),
-                  link: `/job/${jobId}`
-                });
-              }, 500);
-            });
-
-            /**
-             * Dispatch a view using the screen name
-             * params object should contain
-             *
-             * @param category
-             * @param action
-             * @param label
-             * @param value
-             */
-
-            // this.$ma.trackEvent({category: 'Click', action: 'Homepage Click', label: 'Great', value: ''})
+            if (this.hasEmptyFields) {
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  EventBus.$emit('notification.add', {
+                    id: 1,
+                    title: this.$t("App.createJob.jobPostedTitle" /* Yay! */),
+                    text: this.$t("App.createJob.jobPostedText" /* Your job is now posted! Click here to see the job. */),
+                    link: `/job/${jobId}`
+                  });
+                }, 700);
+              });
+            }
           })
           .catch(error => console.log(error));
       },
@@ -410,13 +396,16 @@
           DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
           DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-          const description = this.form.brief;
+          const description = this.form.task;
           const salary = this.form.salary * (10 ** 18);
           const noOfTotalPayments = this.form.termOfEmployment;
 
-          web3.eth.getAccounts(async (err, accounts) => {
+          web3.eth.getAccounts(async (error, accounts) => {
+
             const manager = accounts[0];
+
             console.log(EscrowInstance.address, DAIInstance.address);
+
             try {
               await DAIInstance.approve(EscrowInstance.address, salary, {
                 from: manager
@@ -437,7 +426,6 @@
             }
           })
         })
-
       }
     },
     computed: {

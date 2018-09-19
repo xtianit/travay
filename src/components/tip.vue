@@ -62,67 +62,79 @@
       return {
         isLoading: false,
         form: {
-          receiver: "0xa7c2662a534a0ae22e8b0f27d6a099e3b3971c6a",
-          amount: "10"
+          receiver: "",
+          amount: ""
         }
       };
     },
     methods: {
       async makeTipEscrow() {
-        const Escrow = truffleContract(EscrowContract);
-        const DAI = truffleContract(DAIContract);
 
-        window.Escrow = Escrow;
-        Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        const self = this;
 
-        const EscrowInstance = await Escrow.deployed();
-        const DAIInstance = await DAI.deployed();
+        return new Promise(async (resolve, reject) => {
 
-        window.EscrowInstance = EscrowInstance;
-        const pool = EscrowInstance.address;
+          const Escrow = truffleContract(EscrowContract);
+          const DAI = truffleContract(DAIContract);
 
-        DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-        DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          window.Escrow = Escrow;
+          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
 
-        web3.eth.getAccounts(async (err, accounts) => {
+          const EscrowInstance = await Escrow.deployed();
+          const DAIInstance = await DAI.deployed();
 
-          const payment = this.form.amount * (10 ** 18);
-          const receiver = this.form.receiver;
+          window.EscrowInstance = EscrowInstance;
+          const pool = EscrowInstance.address;
 
-          try {
-            let receiver_balance_before = await DAIInstance.balanceOf(receiver);
-            receiver_balance_before = receiver_balance_before.toNumber();
+          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
 
-            await DAIInstance.approve(EscrowInstance.address, payment, {
-              from: sender
-            });
+          web3.eth.getAccounts(async (error, accounts) => {
 
-            const result = await EscrowInstance.tip(receiver, payment, {
-              from: sender
-            });
+            const payment = this.form.amount * (10 ** 18);
+            const receiver = this.form.receiver;
+            const sender = accounts[0];
 
-            let receiver_balance_after = await DAIInstance.balanceOf(receiver);
-            receiver_balance_after = receiver_balance_after.toNumber();
+            try {
+              let receiver_balance_before = await DAIInstance.balanceOf(receiver);
+              receiver_balance_before = receiver_balance_before.toNumber();
 
-            this.$nextTick(() => {
-              setTimeout(() => {
-                this.isLoading = false;
+              await DAIInstance.approve(EscrowInstance.address, payment, {
+                from: sender
+              });
 
-                EventBus.$emit('notification.add', {
-                  id: 1,
-                  title: this.$t("App.tip.tipSentTitle" /* Success! */),
-                  text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
-                });
-              }, 700);
-            });
+              const result = await EscrowInstance.tip(receiver, payment, {
+                from: sender
+              });
 
-          } catch (err) {
-            console.log(err);
-          }
+              let receiver_balance_after = await DAIInstance.balanceOf(receiver);
+              receiver_balance_after = receiver_balance_after.toNumber();
+
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  this.isLoading = false;
+
+                  EventBus.$emit('notification.add', {
+                    id: 1,
+                    title: this.$t("App.tip.tipSentTitle" /* Success! */),
+                    text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
+                  });
+                }, 800);
+              });
+              self.clearForm();
+            } catch (error) {
+              reject(error);
+            }
+          })
         })
-      }
+      },
+      clearForm() {
+        Object.keys(this.form).forEach(key => {
+          this.form[key] = '';
+        });
+      },
     }
   };
 </script>

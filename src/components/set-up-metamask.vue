@@ -14,23 +14,23 @@
         <h2>Setting up MetaMask</h2>
         <p>Click the MetaMask icon in your browser and this screen will appear:</p>
         <br>
-        <img src="../../static/metamask-1.png" alt="MetaMask initial screen" height="1344" width="946">
+        <img src="../../static/images/metamask-1.png" alt="MetaMask initial screen" height="1344" width="946">
         <br>
         <br>
         <p>Next, you'll receive 12 words. You must write them down before continuing.</p>
         <br>
-        <img src="../../static/metamask-2.png" alt="MetaMask initial screen" height="1340" width="954">
+        <img src="../../static/images/metamask-2.png" alt="MetaMask initial screen" height="1340" width="954">
         <br>
         <p>You'll see the menu that shows "Main Network"</p>
         <p>Remember that you need to be on the "Main Network" in order to process real transactions with real money
           and value. If you switch to any other network you will not be able to do real transactions.</p>
         <br>
-        <img src="../../static/metamask-3.png" alt="MetaMask initial screen" height="1326" width="952">
+        <img src="../../static/images/metamask-3.png" alt="MetaMask initial screen" height="1326" width="952">
         <br>
         <p>You are now all set!</p>
         <p>And this is what your transaction history page will look like:</p>
         <br>
-        <img src="../../static/metamask-4.png" alt="MetaMask initial screen" height="1344" width="964">
+        <img src="../../static/images/metamask-4.png" alt="MetaMask initial screen" height="1344" width="964">
         <br>
         <h2>Attribution</h2>
         <p>This set up guide was adapted from <a
