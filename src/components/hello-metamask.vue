@@ -60,6 +60,7 @@
 <style scoped>
   .metamask-info {
     text-align: center;
+    margin-top: 50px;
   }
 
   #has-metamask {
@@ -68,9 +69,5 @@
 
   #no-metamask {
     color: red;
-  }
-
-  #notOnMainNetwork {
-    color: yellow;
   }
 </style>

@@ -218,7 +218,7 @@
   import {uuid} from 'vue-uuid';
   import firebase from 'firebase';
   import db from '../firebaseinit';
-  import {AssertionError} from 'assert';
+//  import {AssertionError} from 'assert';
   import {any} from 'bluebird';
   import {store} from '../store';
   import * as types from '../store/types'
