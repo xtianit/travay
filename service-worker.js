@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["dist/static/css/app.cee82160f46ae5cb03858fafab38d603.css","c5a4df14a43a5ef4748171ddd4923623"],["dist/static/js/app.11034f8ff16c37be15e1.js","6545d35e2de2eff90032c08f5861f505"],["dist/static/js/manifest.2ae2e69a05c33dfc65f8.js","323055c248c0cbf6e12cf4b27d6dfd9b"],["index.html","ce93897677a91023b69272d2808594e7"],["static/manifest.json","64287e00e274d8ae6f7cff5b41268c78"]];
+var precacheConfig = [["dist/static/css/app.5623cee391e153a4a6169d4790d7859e.css","fa54db6cd1c5f1074e06ebdea77c3040"],["dist/static/js/app.d31305e1c38c83bca211.js","f533dcdedee9f35dd981d7781b5904b2"],["dist/static/js/manifest.2ae2e69a05c33dfc65f8.js","323055c248c0cbf6e12cf4b27d6dfd9b"],["index.html","c69975d95931327b5c07d4e0fcbd4344"],["static/manifest.json","64287e00e274d8ae6f7cff5b41268c78"]];
 var cacheName = 'sw-precache-v3-travay-app-' + (self.registration ? self.registration.scope : '');
 
 

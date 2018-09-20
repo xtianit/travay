@@ -51,7 +51,7 @@ const dateTimeFormats = {
 
 // Create VueI18n instance with options
 export const i18n = new VueI18n({
-  locale: 'ht', // set locale
+  locale: 'en', // set locale
   messages, // set locale messages
   dateTimeFormats
 });
