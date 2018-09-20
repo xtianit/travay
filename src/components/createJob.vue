@@ -263,7 +263,7 @@
           acceptTerms: false,
         },
         countryOptions: [
-          {label: 'Choose a Country', value: null},
+          // {label: 'Choose a Country', value: null},
           {label: 'Haiti', value: 'haiti'},
           {label: 'USA', value: 'us'}
         ],
@@ -339,6 +339,7 @@
               },
               sponsoredAmount: 0,
               task: form.task,
+              cityOfWork: form.cityOfWork,
               taskId: jobId,
               country: form.country,
               status: {

@@ -86,30 +86,32 @@
                   </template>
 
                   <template v-else>
-                    {{ $t('App.job.jobDescription' /* Description */) }}: {{job.brief}}<br>
+                    <strong>{{ $t('App.job.jobDescription' /* Description */) }}:</strong> {{job.brief}}<br><br>
 
-                    {{ $t('App.job.jobDomain' /* Domain */) }}: {{job.domain}}<br>
+                    <strong>{{ $t('App.job.jobDomain' /* Domain */) }}:</strong>  {{job.domain}}<br><br>
 
-                    {{ $t('App.job.jobSkill' /* Desired Skill */) }}: {{job.skill}}<br>
+                    <strong>{{ $t('App.job.jobSkill' /* Desired Skill */) }}:</strong>  {{job.skill}}<br><br>
 
-                    {{ $t('App.job.jobFullTimeRate' /* Full-Time Rate */) }}:
-                    ${{job.salary['full-time-rate']}}<br>
+                    <strong>{{ $t('App.job.jobFullTimeRate' /* Full-Time Rate */) }}:</strong>
+                    ${{job.salary['full-time-rate']}}<br><br>
 
-                    {{ $t('App.job.jobSponsoredAmount' /* Sponsored Amount */) }}: ${{ job.sponsoredAmount }}<br>
+                    <strong>{{ $t('App.job.jobSponsoredAmount' /* Sponsored Amount */) }}:</strong>  ${{ job.sponsoredAmount }}<br><br>
 
                     <!--{{ $t('App.job.jobPayFrequency' /* Pay Frequency */) }}: {{job.salary['pay-frequency'].label}}<br>-->
 
-                    {{ $t('App.job.termOfEmployment' /* Terms of Employment (Months) */) }}: {{
-                    job.termOfEmployment }}
+                    <strong>{{ $t('App.job.termOfEmployment' /* Terms of Employment (Months) */) }}:</strong>  {{
+                    job.termOfEmployment }}<br><br>
+
+                    <strong>{{ $t('App.job.cityOfWork' /* City of Work */) }}:</strong>  {{ job.cityOfWork }}
                     <br><br>
 
-                    {{ $t('App.job.requirements' /* Requirements */) }}:<br>
+                    <strong>{{ $t('App.job.requirements' /* Requirements */) }}:</strong><br><br>
                     <p v-for="(item, index) in job.deliverable" :key="index">
                       + {{item}}
                     </p>
                   </template>
                   <br>
-                  {{ $t('App.job.datePosted' /* Date Posted */) }}: {{ job['date-posted'] | moment }}<br>
+                  <strong>{{ $t('App.job.datePosted' /* Date Posted */) }}:</strong> {{ job['date-posted'] | moment }}<br>
                 </li>
               </ul>
             </vue-panel-body>
