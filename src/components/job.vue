@@ -92,7 +92,7 @@
 
                     <strong>{{ $t('App.job.jobSkill' /* Desired Skill */) }}:</strong> {{job.skill}}<br><br>
 
-                    <strong>{{ $t('App.job.jobSalary' /* Full-Time Rate */) }}:</strong>
+                    <strong>{{ $t('App.job.jobSalary' /* Salary (USD) */) }}:</strong>
                     ${{job.salary['full-time-rate']}}<br><br>
 
                     <strong>{{ $t('App.job.jobSponsoredAmount' /* Sponsored Amount */) }}:</strong> ${{
