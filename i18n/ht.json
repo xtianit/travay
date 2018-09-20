@@ -17,7 +17,7 @@
   "App.signInModal.googleSignOut": "Siyen soti ak Google",
   "App.helloMetaMask.installed": "Enstale",
   "App.helloMetaMask.network": "Rezo",
-  "App.helloMetaMask.account": "Kont",
+  "App.helloMetaMask.account": "Kont Ethereum",
   "App.helloMetaMask.balance": "Balans",
   "App.helloMetaMask.notMainNet": "Ou pa kounye a sou Rezo a Main, tanpri chanje nan Rezo a Main yo sèvi ak aplikasyon sa a.",
   "App.helloMetaMask.unlockMetaMask": "Tanpri Debloke MetaMask",
