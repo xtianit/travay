@@ -122,7 +122,7 @@
                   <strong>{{ $t('App.job.termOfEmployment' /* Desired Skill */) }}:</strong>
                   {{job.termOfEmployment}}<br><br>
                   <strong>{{ $t('App.job.cityOfWork' /* City of Work */) }}:</strong> {{ job.cityOfWork }}<br><br>
-                  <strong>{{ $t('App.job.jobFullTimeRate' /* Full-Time Rate */) }}:</strong>
+                  <strong>{{ $t('App.job.jobSalary' /* Salary (USD) */) }}:</strong>
                   ${{job.salary['full-time-rate']}}<br><br>
                   <!--Pay frequency:-->
                   <!--<input id="weekly" true-value="weekly" type="checkbox" name="weekly"-->
