@@ -70,6 +70,12 @@
     methods: {
       async makeTipEscrow() {
 
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         const self = this;
 
         return new Promise(async (resolve, reject) => {

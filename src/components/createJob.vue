@@ -215,10 +215,10 @@
 
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
+  import {NETWORKS} from "../util/constants/networks";
   import {uuid} from 'vue-uuid';
   import firebase from 'firebase';
   import db from '../firebaseinit-dev';
-//  import {AssertionError} from 'assert';
   import {any} from 'bluebird';
   import {store} from '../store';
   import * as types from '../store/types'
@@ -297,6 +297,12 @@
         this.form.deliverable.splice(i, 1);
       },
       createJob() {
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
 
         const {form} = this;
 

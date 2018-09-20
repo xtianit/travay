@@ -88,21 +88,22 @@
                   <template v-else>
                     <strong>{{ $t('App.job.jobDescription' /* Description */) }}:</strong> {{job.brief}}<br><br>
 
-                    <strong>{{ $t('App.job.jobDomain' /* Domain */) }}:</strong>  {{job.domain}}<br><br>
+                    <strong>{{ $t('App.job.jobDomain' /* Domain */) }}:</strong> {{job.domain}}<br><br>
 
-                    <strong>{{ $t('App.job.jobSkill' /* Desired Skill */) }}:</strong>  {{job.skill}}<br><br>
+                    <strong>{{ $t('App.job.jobSkill' /* Desired Skill */) }}:</strong> {{job.skill}}<br><br>
 
-                    <strong>{{ $t('App.job.jobFullTimeRate' /* Full-Time Rate */) }}:</strong>
+                    <strong>{{ $t('App.job.jobSalary' /* Full-Time Rate */) }}:</strong>
                     ${{job.salary['full-time-rate']}}<br><br>
 
-                    <strong>{{ $t('App.job.jobSponsoredAmount' /* Sponsored Amount */) }}:</strong>  ${{ job.sponsoredAmount }}<br><br>
+                    <strong>{{ $t('App.job.jobSponsoredAmount' /* Sponsored Amount */) }}:</strong> ${{
+                    job.sponsoredAmount }}<br><br>
 
                     <!--{{ $t('App.job.jobPayFrequency' /* Pay Frequency */) }}: {{job.salary['pay-frequency'].label}}<br>-->
 
-                    <strong>{{ $t('App.job.termOfEmployment' /* Terms of Employment (Months) */) }}:</strong>  {{
+                    <strong>{{ $t('App.job.termOfEmployment' /* Terms of Employment (Months) */) }}:</strong> {{
                     job.termOfEmployment }}<br><br>
 
-                    <strong>{{ $t('App.job.cityOfWork' /* City of Work */) }}:</strong>  {{ job.cityOfWork }}
+                    <strong>{{ $t('App.job.cityOfWork' /* City of Work */) }}:</strong> {{ job.cityOfWork }}
                     <br><br>
 
                     <strong>{{ $t('App.job.requirements' /* Requirements */) }}:</strong><br><br>
@@ -111,7 +112,8 @@
                     </p>
                   </template>
                   <br>
-                  <strong>{{ $t('App.job.datePosted' /* Date Posted */) }}:</strong> {{ job['date-posted'] | moment }}<br>
+                  <strong>{{ $t('App.job.datePosted' /* Date Posted */) }}:</strong> {{ job['date-posted'] | moment
+                  }}<br>
                 </li>
               </ul>
             </vue-panel-body>
@@ -198,7 +200,9 @@
                   <h3>{{ $t('App.job.sponsorJobButton' /* Sponsor Job */) }}</h3>
 
                   <vue-grid-item>
-                    <p>{{ $t('App.job.sponsorDescription' /* Job sponsorship is where anyone in the world can donate and contribute to the workplace ecosystem. Choosing to sponsor ensures transparency in funds donated and incentives job workers to continue to perform and accept jobs. */) }}</p>
+                    <p>{{ $t('App.job.sponsorDescription' /* Job sponsorship is where anyone in the world can donate and
+                      contribute to the workplace ecosystem. Choosing to sponsor ensures transparency in funds donated
+                      and incentives job workers to continue to perform and accept jobs. */) }}</p>
                   </vue-grid-item>
 
                 </vue-panel-body>
@@ -490,11 +494,18 @@
         this.job.deliverable.splice(index, 1);
       },
       cancelJob() {
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         const jobId = this.job.taskId;
 
         this.cancelJobInEscrow()
           .then(JobID => {
-            console.log('job is being canceled')
+            console.log('job is being canceled');
             const job = db.collection("jobs").doc(jobId);
             const update = job.update({
               status: {
@@ -515,6 +526,12 @@
       },
       setEvaluator() {
 
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         this.setEvaluatorInEscrow()
           .then(JobID => {
             // TODO record this in firebase
@@ -522,6 +539,13 @@
           .catch(error => console.log(error));
       },
       markJobComplete() {
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         const jobId = this.job.taskId;
 
         this.isLoading = true;
@@ -547,6 +571,13 @@
           .catch(error => console.log(error));
       },
       evaluateJobAsCompletedSucessfully() {
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         const jobId = this.job.taskId;
 
         this.evaluateJobToEscrow()
@@ -595,6 +626,12 @@
       },
       claimPayout() {
 
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         this.isLoading = true;
 
         this.workerClaimPayoutInEscrow()
@@ -639,10 +676,13 @@
         });
       },
       claimJob(docId) {
-        if (this.$store.state.web3.networkId !== "1") {
-          this.openNetworkModal();
-          return;
-        }
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         if (this.hasEmptyFields) {
           EventBus.$emit('notification.add', {
             id: 1,
@@ -700,6 +740,13 @@
           });
       },
       onPayout(docId) {
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         const taskId = this.$route.params.id;
 
         this.isLoading = true;
@@ -973,7 +1020,7 @@
               const result = await EscrowInstance.provideProofOfWork(JobID, {
                 from: worker
               });
-            resolve(JobID)
+              resolve(JobID)
             } catch (error) {
               reject(error);
             }
@@ -1013,7 +1060,7 @@
               const result = await EscrowInstance.confirmProofOfWork(JobID, {
                 from: evaluator
               });
-            resolve(JobID)
+              resolve(JobID)
             } catch (error) {
               reject(error);
             }

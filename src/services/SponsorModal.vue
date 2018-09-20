@@ -32,6 +32,7 @@
 
 <script>
   import {store} from '../store';
+  import {NETWORKS} from "../util/constants/networks";
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
@@ -60,6 +61,13 @@
     computed: {},
     methods: {
       sponsorJob() {
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         this.isLoading = true;
         this.sponsorAmountToEscrow()
           .then(result => {

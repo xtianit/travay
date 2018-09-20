@@ -86,7 +86,7 @@
   "App.job.requirementInstructions": "Add one requirement, then click Add Requirement, to add additional requirements.",
   "App.job.jobRequirements": "Requirements",
   "App.job.addRequirement": "Add Requirement",
-  "App.job.jobFullTimeRate": "Full-Time-Rate (USD)",
+  "App.job.jobSalary": "Salary (USD)",
   "App.job.jobSponsoredAmount": "Sponsored Amount",
   "App.job.jobPayFrequency": "Pay Frequency",
   "App.job.termOfEmployment": "Term of Employment (Months)",
