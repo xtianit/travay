@@ -1,5 +1,10 @@
 <template>
-  <div :class="$style.job">
+  <div class="loading-parent" :class="$style.job">
+      <loading
+          :active.sync="isLoading" 
+          :can-cancel="false" 
+          :is-full-page="fullPage">
+      </loading>
     <vue-grid v-if="job">
 
       <vue-grid-row>
@@ -373,6 +378,7 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
+  import Loading from 'vue-loading-overlay';
 
   const firebaseStorage = firebase.storage();
 
@@ -392,10 +398,13 @@
       validator: "new"
     },
     components: {
-      SponsorModal
+      SponsorModal,
+      Loading
     },
     data() {
       return {
+        isLoading: false,
+        fullPage: true,
         job: {},
         posted: "",
         taskId: "",
@@ -500,11 +509,12 @@
         //   this.openNetworkModal();
         //   return;
         // }
-
+        this.isLoading = true;
         const jobId = this.job.taskId;
 
         this.cancelJobInEscrow()
           .then(JobID => {
+            this.isLoading = false;
             console.log('job is being canceled');
             const job = db.collection("jobs").doc(jobId);
             const update = job.update({
@@ -522,7 +532,10 @@
               text: this.$t("App.job.jobCanceledNotificationText" /* This job has been cancelled. */)
             });
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       setEvaluator() {
 
@@ -531,12 +544,17 @@
         //   this.openNetworkModal();
         //   return;
         // }
+        this.isLoading = true;
 
         this.setEvaluatorInEscrow()
           .then(JobID => {
+            this.isLoading = false;
             // TODO record this in firebase
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       markJobComplete() {
 
@@ -568,7 +586,10 @@
               text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
             });
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+              this.isLoading = false;
+              console.log(error)
+          });
       },
       evaluateJobAsCompletedSucessfully() {
 
@@ -577,7 +598,7 @@
         //   this.openNetworkModal();
         //   return;
         // }
-
+        this.isLoading = true;
         const jobId = this.job.taskId;
 
         this.evaluateJobToEscrow()
@@ -592,14 +613,17 @@
             });
             this.isLoading = false;
             this.isEditingJobDetails = false;
-
+            this.isLoading = false;
             EventBus.$emit('notification.add', {
               id: 1,
               title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
               text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
             });
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       async evaluateJobAsCompletedUnsucessfully() {
         // const jobId = this.job.taskId;
@@ -645,6 +669,7 @@
             });
             this.isLoading = false;
             this.isEditingJobDetails = false;
+            this.isLoading = false;
 
             EventBus.$emit('notification.add', {
               id: 1,
@@ -654,8 +679,10 @@
                 "App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
             });
           })
-          .catch(error => console.log(error));
-        this.isLoading = false;
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       sponsorJob(taskId) {
         if (!this.userId) {
@@ -682,6 +709,7 @@
         //   this.openNetworkModal();
         //   return;
         // }
+        this.isLoading = true;
 
         if (this.hasEmptyFields) {
           EventBus.$emit('notification.add', {
@@ -732,10 +760,12 @@
                 }, 700);
               });
             } catch (err) {
+              this.isLoading = false;
               console.log('err when adding job in firebase', err);
             }
           })
           .catch(err => {
+            this.isLoading = false;
             console.log("bad", err);
           });
       },
@@ -816,7 +846,11 @@
         this.isEditingJobDetails = false;
       },
       uploadProofOfWork() {
-        this.uploadImages().then(res => console.log('Im done running both funcs'))
+        this.isLoading = true;
+        this.uploadImages().then(res => {
+          this.isLoading = false;
+          console.log('Im done running both funcs')
+        })
       },
       async uploadImages() {
         const self = this;

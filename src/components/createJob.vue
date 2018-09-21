@@ -1,216 +1,222 @@
 <template>
-  <vue-grid>
-
-    <div :class="$style.header">
+  <div class="loading-parent">
+      <loading
+          :active.sync="isLoading" 
+          :can-cancel="false" 
+          :is-full-page="fullPage">
+      </loading>
       <vue-grid>
-        <vue-grid-row>
-          <vue-grid-item class="vueGridItem">
-            <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
-            <!--<p>-->
-            <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
-            <!--</p>-->
-          </vue-grid-item>
-        </vue-grid-row>
-      </vue-grid>
-    </div>
 
-    <vue-grid>
-      <vue-grid-row>
-        <form @submit.prevent="createJob()">
+        <div :class="$style.header">
+          <vue-grid>
+            <vue-grid-row>
+              <vue-grid-item class="vueGridItem">
+                <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
+                <!--<p>-->
+                <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
+                <!--</p>-->
+              </vue-grid-item>
+            </vue-grid-row>
+          </vue-grid>
+        </div>
 
+        <vue-grid>
           <vue-grid-row>
-            <vue-grid-item>
-              <vue-input
-                name="task"
-                id="task"
-                placeholder="Job Title"
-                v-model="form.task"
-                required/>
-            </vue-grid-item>
-          </vue-grid-row>
+            <form @submit.prevent="createJob()">
 
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-input
-                name="brief"
-                id="brief"
-                placeholder="Job Description"
-                v-model="form.brief"
-                required/>
-            </vue-grid-item>
-          </vue-grid-row>
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-input
+                    name="task"
+                    id="task"
+                    placeholder="Job Title"
+                    v-model="form.task"
+                    required/>
+                </vue-grid-item>
+              </vue-grid-row>
 
-          <vue-grid-row>
-            <vue-grid-item>
-              {{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to
-              be considered as complete. Add one requirement, then click Add Requirement, to add additional
-              requirements. */) }}
-            </vue-grid-item>
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-input
+                    name="brief"
+                    id="brief"
+                    placeholder="Job Description"
+                    v-model="form.brief"
+                    required/>
+                </vue-grid-item>
+              </vue-grid-row>
 
-            <vue-grid-item>
-              <vue-input
-                name="deliverable"
-                id="deliverable"
-                placeholder="Requirement for Job to be Complete"
-                v-model="requirement"
-                required/>
-              <button accent @click="addRequirement">{{ $t('App.createJob.requirementButton' /* Add Requirement */) }}
-              </button>
+              <vue-grid-row>
+                <vue-grid-item>
+                  {{ $t('App.createJob.requirementInstructions' /* Please add your requirements in order for the job to
+                  be considered as complete. Add one requirement, then click Add Requirement, to add additional
+                  requirements. */) }}
+                </vue-grid-item>
+
+                <vue-grid-item>
+                  <vue-input
+                    name="deliverable"
+                    id="deliverable"
+                    placeholder="Requirement for Job to be Complete"
+                    v-model="requirement"
+                    required/>
+                  <button accent @click="addRequirement">{{ $t('App.createJob.requirementButton' /* Add Requirement */) }}
+                  </button>
+                  <br>
+                </vue-grid-item>
+                <br>
+                <br>
+                <vue-grid-item>
+                  <p v-for="(req, i) in form.deliverable" :key="i">
+                    <vue-badge accent>{{req}} -</vue-badge>
+                    <span @click="removeRequirement(i)">
+              X
+            </span>
+                    <br>
+                    <br>
+                  </p>
+                </vue-grid-item>
+              </vue-grid-row>
               <br>
-            </vue-grid-item>
-            <br>
-            <br>
-            <vue-grid-item>
-              <p v-for="(req, i) in form.deliverable" :key="i">
-                <vue-badge accent>{{req}} -</vue-badge>
-                <span @click="removeRequirement(i)">
-          X
-        </span>
-                <br>
-                <br>
-              </p>
-            </vue-grid-item>
+              <br>
+
+              <!--<vue-grid-row>-->
+                <!--<vue-grid-item class="vueGridItem">-->
+                  <!--<vue-date-picker-->
+                    <!--@change="calendarChange"-->
+                    <!--:first-day-of-week="1"-->
+                    <!--ref="closingDatepicker"-->
+                    <!--:selectedDate="form.closingDate"-->
+                    <!--placeholder="Job Closing Date"/>-->
+                <!--</vue-grid-item>-->
+              <!--</vue-grid-row>-->
+
+              <!--<vue-grid-row>-->
+              <!--<vue-grid-item>-->
+              <!--<vue-input-->
+              <!--name="payoutEvaluator"-->
+              <!--id="payoutEvaluator"-->
+              <!--required-->
+              <!--placeholder="Job Reviewer"-->
+              <!--v-model="form.payoutEvaluator"/>-->
+              <!--</vue-grid-item>-->
+              <!--</vue-grid-row>-->
+
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-input
+                    name="termOfEmployment"
+                    id="termOfEmployment"
+                    type="number"
+                    placeholder="Number of Months of Employment"
+                    v-model="form.termOfEmployment"
+                    required/>
+                  <div>{{ $t('App.createJob.termOfEmploymentExplanation' /* Months of work is also referenced as
+                    milestones. The total amount you fund for this job will be divided by the number of milestones or
+                    total months of employment. */) }}
+                  </div>
+                </vue-grid-item>
+              </vue-grid-row>
+
+
+              <!--<vue-grid-row>-->
+              <!--<vue-grid-item>-->
+              <!--<vue-select-->
+              <!--name="payFrequency"-->
+              <!--id="payFrequency"-->
+              <!--:options="payFrequency"-->
+              <!--:value="form.selectedPayFrequency"-->
+              <!--@input="val => selectChange(val, 'selectedPayFrequency')"-->
+              <!--</vue-grid-item>-->
+              <!--</vue-grid-row>-->
+              <br>
+              <br>
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-input
+                    name="salary"
+                    id="salary"
+                    type="number"
+                    placeholder="Total Funding (Salary) for Job in USD"
+                    v-model="form.salary"
+                    required/>
+                  <div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be
+                    deducted and paid to the worker evenly based on the total months you have typed above.
+                    (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in
+                    total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.
+                  </div>
+                </vue-grid-item>
+              </vue-grid-row>
+              <br>
+              <br>
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-select
+                    name="domain"
+                    id="domain"
+                    placeholder="Job Category"
+                    v-model="form.domain"
+                    :options="domainOptions"
+                    required/>
+                </vue-grid-item>
+                <vue-grid-item>
+                  <vue-select
+                    name="skill"
+                    id="skill"
+                    placeholder="Top Desired Skill"
+                    v-model="form.skill"
+                    :options="skillOptions"
+                    required/>
+                </vue-grid-item>
+              </vue-grid-row>
+
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-select
+                    name="country"
+                    id="country"
+                    v-model="form.country"
+                    :options="countryOptions"
+                    :disabled="form.addressDisabled"
+                    required/>
+                </vue-grid-item>
+              </vue-grid-row>
+
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-input
+                    name="cityOfWork"
+                    id="cityOfWork"
+                    placeholder="City where work is to be performed"
+                    v-model="form.cityOfWork"
+                    required/>
+                </vue-grid-item>
+              </vue-grid-row>
+
+              <vue-grid-row>
+                <vue-grid-item>
+                  <vue-checkbox
+                    name="acceptTerms"
+                    id="acceptTerms"
+                    v-model="form.acceptTerms"
+                    label=""
+                    required/>
+                  <p>{{ $t('App.createJob.acceptTerms' /* I accept the Terms, Privacy Policy and Code of Conduct. */) }}</p>
+                </vue-grid-item>
+              </vue-grid-row>
+
+              <br/>
+              <vue-button warn
+                          @click.prevent.stop="createJob">
+                {{ $t('App.createJob.submitPostAJob' /* Submit Job Posting */) }}
+              </vue-button>
+            </form>
+
           </vue-grid-row>
-          <br>
-          <br>
+        </vue-grid>
 
-          <!--<vue-grid-row>-->
-            <!--<vue-grid-item class="vueGridItem">-->
-              <!--<vue-date-picker-->
-                <!--@change="calendarChange"-->
-                <!--:first-day-of-week="1"-->
-                <!--ref="closingDatepicker"-->
-                <!--:selectedDate="form.closingDate"-->
-                <!--placeholder="Job Closing Date"/>-->
-            <!--</vue-grid-item>-->
-          <!--</vue-grid-row>-->
-
-          <!--<vue-grid-row>-->
-          <!--<vue-grid-item>-->
-          <!--<vue-input-->
-          <!--name="payoutEvaluator"-->
-          <!--id="payoutEvaluator"-->
-          <!--required-->
-          <!--placeholder="Job Reviewer"-->
-          <!--v-model="form.payoutEvaluator"/>-->
-          <!--</vue-grid-item>-->
-          <!--</vue-grid-row>-->
-
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-input
-                name="termOfEmployment"
-                id="termOfEmployment"
-                type="number"
-                placeholder="Number of Months of Employment"
-                v-model="form.termOfEmployment"
-                required/>
-              <div>{{ $t('App.createJob.termOfEmploymentExplanation' /* Months of work is also referenced as
-                milestones. The total amount you fund for this job will be divided by the number of milestones or
-                total months of employment. */) }}
-              </div>
-            </vue-grid-item>
-          </vue-grid-row>
-
-
-          <!--<vue-grid-row>-->
-          <!--<vue-grid-item>-->
-          <!--<vue-select-->
-          <!--name="payFrequency"-->
-          <!--id="payFrequency"-->
-          <!--:options="payFrequency"-->
-          <!--:value="form.selectedPayFrequency"-->
-          <!--@input="val => selectChange(val, 'selectedPayFrequency')"-->
-          <!--</vue-grid-item>-->
-          <!--</vue-grid-row>-->
-          <br>
-          <br>
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-input
-                name="salary"
-                id="salary"
-                type="number"
-                placeholder="Total Funding (Salary) for Job in USD"
-                v-model="form.salary"
-                required/>
-              <div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be
-                deducted and paid to the worker evenly based on the total months you have typed above.
-                (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in
-                total will receive approximately: */) }} <strong>${{ estimatedWorkerPayout }}</strong>.
-              </div>
-            </vue-grid-item>
-          </vue-grid-row>
-          <br>
-          <br>
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-select
-                name="domain"
-                id="domain"
-                placeholder="Job Category"
-                v-model="form.domain"
-                :options="domainOptions"
-                required/>
-            </vue-grid-item>
-            <vue-grid-item>
-              <vue-select
-                name="skill"
-                id="skill"
-                placeholder="Top Desired Skill"
-                v-model="form.skill"
-                :options="skillOptions"
-                required/>
-            </vue-grid-item>
-          </vue-grid-row>
-
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-select
-                name="country"
-                id="country"
-                v-model="form.country"
-                :options="countryOptions"
-                :disabled="form.addressDisabled"
-                required/>
-            </vue-grid-item>
-          </vue-grid-row>
-
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-input
-                name="cityOfWork"
-                id="cityOfWork"
-                placeholder="City where work is to be performed"
-                v-model="form.cityOfWork"
-                required/>
-            </vue-grid-item>
-          </vue-grid-row>
-
-          <vue-grid-row>
-            <vue-grid-item>
-              <vue-checkbox
-                name="acceptTerms"
-                id="acceptTerms"
-                v-model="form.acceptTerms"
-                label=""
-                required/>
-              <p>{{ $t('App.createJob.acceptTerms' /* I accept the Terms, Privacy Policy and Code of Conduct. */) }}</p>
-            </vue-grid-item>
-          </vue-grid-row>
-
-          <br/>
-          <vue-button warn
-                      :loading="isLoading"
-                      @click.prevent.stop="createJob">
-            {{ $t('App.createJob.submitPostAJob' /* Submit Job Posting */) }}
-          </vue-button>
-        </form>
-
-      </vue-grid-row>
-    </vue-grid>
-
-  </vue-grid>
+      </vue-grid>
+  </div>
 </template>
 
 <script>
@@ -225,7 +231,7 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
-
+  import Loading from 'vue-loading-overlay';
   const state = {
     date1: new Date()
   };
@@ -244,9 +250,12 @@
     $_veeValidate: {
       validator: 'new'
     },
+    components: {
+      Loading
+    },
     data() {
       return {
-        fullPage: false,
+        fullPage: true,
         form: {
           taskId: 0,
           task: '',
@@ -303,10 +312,11 @@
         //   this.openNetworkModal();
         //   return;
         // }
-
+        this.isLoading = true;
         const {form} = this;
 
         if (this.hasEmptyFields) {
+          this.isLoading = false
           EventBus.$emit('notification.add', {
             id: 1,
             title: this.$t("App.createJob.emptyFieldsTitle" /* Oops! */),
@@ -360,6 +370,7 @@
                 self.clearForm();
               })
               .catch(function (error) {
+                this.isLoading = false;
                 console.error('Error adding new job: ', error);
               });
             if (this.hasEmptyFields) {
@@ -371,11 +382,15 @@
                     text: this.$t("App.createJob.jobPostedText" /* Your job is now posted! Click here to see the job. */),
                     link: `/job/${jobId}`
                   });
+                  this.isLoading = false;
                 }, 700);
               });
             }
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       clearForm() {
         Object.keys(this.form).forEach(key => {
@@ -476,5 +491,7 @@
 </script>
 
 <style lang="scss" module>
-
+.loading-parent {
+  position: relative;
+}
 </style>

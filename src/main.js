@@ -8,6 +8,7 @@ import router from './router'
 import {store} from './store/'
 import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
+import 'vue-loading-overlay/dist/vue-loading.min.css';
 import { userRole } from './directives/userRole'
 // import VueMultianalytics from 'vue-multianalytics'
 import VueI18n from 'vue-i18n'
