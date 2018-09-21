@@ -1,5 +1,10 @@
 <template>
-  <div :class="$style.sponsorModal">
+  <div :class="$style.sponsorModal" class="loading-parent">
+      <loading
+          :active.sync="isLoading" 
+          :can-cancel="false" 
+          :is-full-page="fullPage">
+      </loading>
     <vue-modal :show="show" @close="$emit('update:show', false)">
       <vue-button warn @click="$emit('update:show', false)">X</vue-button>
 
@@ -32,9 +37,11 @@
 
 <script>
   import {store} from '../store';
+  import {NETWORKS} from "../util/constants/networks";
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
+  import Loading from 'vue-loading-overlay';
 
   export default {
     name: 'SponsorModal',
@@ -51,8 +58,13 @@
         }
       }
     },
+    components: {
+      Loading
+    },
     data() {
       return {
+        isLoading: false,
+        fullPage: true,
         sponsorAmount: '',
         taskId: "",
       };
@@ -60,14 +72,23 @@
     computed: {},
     methods: {
       sponsorJob() {
+
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         this.isLoading = true;
         this.sponsorAmountToEscrow()
           .then(result => {
             this.$emit('sponsorSubmit', this.sponsorAmount);
             this.sponsorAmount = '';
+            this.isLoading = false;
           })
-          .catch(error => console.log(error));
-        this.isLoading = false;
+          .catch(error => {
+            this.isLoading = false;
+          });
       },
       async sponsorAmountToEscrow() {
 
@@ -122,4 +143,7 @@
   .sponsorModal {
     display: block;
   }
+  .loading-parent {
+  position: relative;
+}
 </style>

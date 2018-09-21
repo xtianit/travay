@@ -1,51 +1,58 @@
 <template>
-  <vue-grid>
-    <vue-grid-row>
+  <div class="loading-parent">
+      <loading
+          :active.sync="isLoading" 
+          :can-cancel="false" 
+          :is-full-page="fullPage">
+      </loading>
+      <vue-grid>
+        <vue-grid-row>
 
-      <vue-grid-item>
-        <h1>{{ $t('App.tip.tipPageTitle' /* Tip Anyone! */) }}</h1>
-        <p>{{ $t('App.tip.tipPageDescription' /* Send cryptocurrency (DAI) to anyone. For a job well done, for a
-          service, for rent, food and more. */) }}</p>
+          <vue-grid-item>
+            <h1>{{ $t('App.tip.tipPageTitle' /* Tip Anyone! */) }}</h1>
+            <p>{{ $t('App.tip.tipPageDescription' /* Send cryptocurrency (DAI) to anyone. For a job well done, for a
+              service, for rent, food and more. */) }}</p>
 
-        <br>
+            <br>
 
-        <form @submit.prevent="makeTipEscrow()">
+            <form @submit.prevent="makeTipEscrow()">
 
-          <vue-input
-            name="receiver"
-            id="receiver"
-            required
-            placeholder="Receiver"
-            validation="required"
-            v-model="form.receiver"/>
-          <p><em>{{ $t('App.tip.receiverDescription' /* Paste in the ethereum address of the person who should receive
-            your DAI. Remember this is irreversible so make sure you have the right address. */) }}</em></p>
+              <vue-input
+                name="receiver"
+                id="receiver"
+                required
+                placeholder="Receiver"
+                validation="required"
+                v-model="form.receiver"/>
+              <p><em>{{ $t('App.tip.receiverDescription' /* Paste in the ethereum address of the person who should receive
+                your DAI. Remember this is irreversible so make sure you have the right address. */) }}</em></p>
 
-          <br>
+              <br>
 
-          <vue-input
-            name="amount"
-            id="amount"
-            required
-            placeholder="Amount in USD"
-            validation="required"
-            v-model="form.amount"/>
-          <p><em>{{ $t('App.tip.amountDescription' /* Enter how much you would like to send in USD. */) }}</em></p>
+              <vue-input
+                name="amount"
+                id="amount"
+                required
+                placeholder="Amount in USD"
+                validation="required"
+                v-model="form.amount"/>
+              <p><em>{{ $t('App.tip.amountDescription' /* Enter how much you would like to send in USD. */) }}</em></p>
 
-          <br>
+              <br>
 
-          <vue-button warn
-                      :loading="isLoading"
-                      @click="makeTipEscrow()">
-            {{ $t('App.tip.sendTipButton' /* Send Tip */) }}
-          </vue-button>
+              <vue-button warn
+                          :loading="isLoading"
+                          @click="makeTipEscrow()">
+                {{ $t('App.tip.sendTipButton' /* Send Tip */) }}
+              </vue-button>
 
-        </form>
-      </vue-grid-item>
+            </form>
+          </vue-grid-item>
 
 
-    </vue-grid-row>
-  </vue-grid>
+        </vue-grid-row>
+      </vue-grid>
+    </div>
 </template>
 
 <script>
@@ -55,12 +62,17 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
+  import Loading from 'vue-loading-overlay';
 
   export default {
     name: "tip",
+    components: {
+      Loading
+    },
     data() {
       return {
         isLoading: false,
+        fullPage: true,
         form: {
           receiver: "",
           amount: ""
@@ -70,7 +82,14 @@
     methods: {
       async makeTipEscrow() {
 
+        // TODO: Uncomment this out when moving to production !!!!
+        // if (this.$store.state.web3.networkId !== "1") {
+        //   this.openNetworkModal();
+        //   return;
+        // }
+
         const self = this;
+        self.isLoading = true;
 
         return new Promise(async (resolve, reject) => {
 
@@ -114,7 +133,7 @@
 
               this.$nextTick(() => {
                 setTimeout(() => {
-                  this.isLoading = false;
+                  self.isLoading = false;
 
                   EventBus.$emit('notification.add', {
                     id: 1,
@@ -125,6 +144,7 @@
               });
               self.clearForm();
             } catch (error) {
+              self.isLoading = false;
               reject(error);
             }
           })
@@ -140,5 +160,7 @@
 </script>
 
 <style scoped>
-
+.loading-parent {
+  position: relative;
+}
 </style>
