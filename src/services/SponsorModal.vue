@@ -143,4 +143,7 @@
   .sponsorModal {
     display: block;
   }
+  .loading-parent {
+  position: relative;
+}
 </style>

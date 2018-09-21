@@ -160,5 +160,7 @@
 </script>
 
 <style scoped>
-
+.loading-parent {
+  position: relative;
+}
 </style>
