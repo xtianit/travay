@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.sponsorModal" class="loading-parent">
       <loading
-          :active.sync="isLoading" 
-          :can-cancel="false" 
+          :active.sync="isLoading"
+          :can-cancel="false"
           :is-full-page="fullPage">
       </loading>
     <vue-modal :show="show" @close="$emit('update:show', false)">
@@ -37,6 +37,8 @@
 
 <script>
   import {store} from '../store';
+  import * as types from '../store/types'
+  import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
   import {NETWORKS} from "../util/constants/networks";
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
@@ -71,13 +73,15 @@
     },
     computed: {},
     methods: {
+      ...mapActions({
+        openNetworkModal: types.OPEN_NETWORK_MODAL
+      }),
       sponsorJob() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         this.isLoading = true;
         this.sponsorAmountToEscrow()

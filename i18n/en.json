@@ -11,7 +11,7 @@
   "App.nav.english": "Angle",
   "App.nav.home": "Home",
   "App.job.mainNetModalTitle": "Switch to Main Network",
-  "App.job.mainNetModalDescription": "Please go to MetaMask and switch to the Main Network to process your transaction.",
+  "App.job.mainNetModalDescription": "Please go to MetaMask and switch to the \"Main Network\" to process your transaction.",
   "App.signInModal.googleSignIn": "Sign In with Google",
   "App.signInModal.signOutWarning": "Remember to also sign out of MetaMask, to prevent phishing. Learn more about phishing here: https://fr.wikipedia.org/wiki/Hame%C3%A7onnage.",
   "App.signInModal.googleSignOut": "Sign Out with Google",

@@ -1,8 +1,8 @@
 <template>
   <div class="loading-parent">
       <loading
-          :active.sync="isLoading" 
-          :can-cancel="false" 
+          :active.sync="isLoading"
+          :can-cancel="false"
           :is-full-page="fullPage">
       </loading>
       <vue-grid>
@@ -57,8 +57,9 @@
 
 <script>
   import {NETWORKS} from "../util/constants/networks";
-  import {mapState} from "vuex";
+  import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
   import {store} from '../store/'
+  import * as types from '../store/types'
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
@@ -80,13 +81,15 @@
       };
     },
     methods: {
+      ...mapActions({
+        openNetworkModal: types.OPEN_NETWORK_MODAL
+      }),
       async makeTipEscrow() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         const self = this;
         self.isLoading = true;

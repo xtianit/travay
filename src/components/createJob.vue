@@ -232,6 +232,7 @@
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
   import Loading from 'vue-loading-overlay';
+
   const state = {
     date1: new Date()
   };

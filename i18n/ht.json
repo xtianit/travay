@@ -11,7 +11,7 @@
   "App.nav.english": "Angle",
   "App.nav.home": "Paj Lakay",
   "App.job.mainNetModalTitle": "Ale nan Rezo Prensipal la (Main Network)",
-  "App.job.mainNetModalDescription": "Tanpri ale MetaMask epi chanje nan rezo prensipal la pou trete tranzaksyon ou.",
+  "App.job.mainNetModalDescription": "Tanpri ale MetaMask epi chanje nan \"Rezo Prensipal\" la pou trete tranzaksyon ou.",
   "App.signInModal.googleSignIn": "Konekte avék Google",
   "App.signInModal.signOutWarning": "Sonje tou siyen soti nan MetaMask, yo anpeche èskrokri. Aprann plis bagay sou èskrokri isit la: https://fr.wikipedia.org/wiki/Hame%C3%A7onnage.",
   "App.signInModal.googleSignOut": "Siyen soti ak Google",

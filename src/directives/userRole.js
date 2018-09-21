@@ -83,7 +83,7 @@ export const userRole = {
           !value.role[2].includes(userId) ||
           !value.role[3].includes(userId) && value.role[1] === ""
         ) {
-          console.log('NOT HIDING');
+          // console.log('NOT HIDING');
         } else {
           hide(vnode);
         }

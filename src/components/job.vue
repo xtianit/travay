@@ -337,9 +337,8 @@
                 </vue-panel-body>
                 <vue-panel-footer v-userRole.manager="{role: job.role}">
                   <vue-grid-item>
-                    <vue-button
-                      @click.prevent.stop="e => onPayout(job.id)"
-                      primary>
+                    <vue-button primary style="color: white;"
+                      @click.prevent.stop="e => onPayout(job.id)">
                       {{ $t('App.job.payoutJobButton' /* Payout Job */) }}
                     </vue-button>
                   </vue-grid-item>
@@ -364,6 +363,8 @@
 </template>
 
 <script>
+  import {store} from '../store/'
+  import * as types from '../store/types'
   import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
   import {NETWORKS} from "../util/constants/networks";
   import axios from "axios";
@@ -373,8 +374,6 @@
   import {uuid} from "vue-uuid";
   import moment from "moment";
   import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
-  import * as types from '../store/types'
-  import {store} from '../store/'
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
@@ -412,7 +411,6 @@
           acceptTerms: false,
           newsletter: false
         },
-        isLoading: false,
         showSponsoredModal: false,
         isEditingJobDetails: false,
         file: "",
@@ -456,7 +454,6 @@
       }
     },
     computed: {
-      ...mapGetters("job", []),
       ...mapGetters({
         userId: types.GET_USER_ID
       }),
@@ -593,11 +590,10 @@
       },
       markJobComplete() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         const jobId = this.job.taskId;
 
@@ -608,7 +604,7 @@
             const job = db.collection("jobs").doc(jobId);
             const update = job.update({
               // TODO solve undefined error
-              // milestonesCompleted: [...milestoneCompleted, new Date()]
+              // workerMilestonesCompleted: [...workerMilestoneCompleted, new Date()]
             });
 
             this.job.status.state = "complete";
@@ -643,7 +639,7 @@
 
             const update = job.update({
               status: {
-                successfullyCompleted: "true"
+                milestoneCompletedSuccessfully: new Date()
               }
             });
             EventBus.$emit('notification.add', {
@@ -821,11 +817,10 @@
       },
       onPayout(docId) {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         const taskId = this.$route.params.id;
 
