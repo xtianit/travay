@@ -7,7 +7,7 @@
           <vue-grid-item class="vueGridItem">
             <h1>{{ $t('App.nav.jobs' /* Jobs */) }}</h1>
             <!--<p>-->
-              <!--{{ $t('App.jobs.pageSubtitle' /* Here you'll find 6-month and 12-month jobs. */) }}-->
+            <!--{{ $t('App.jobs.pageSubtitle' /* Here you'll find 6-month and 12-month jobs. */) }}-->
             <!--</p>-->
           </vue-grid-item>
         </vue-grid-row>
@@ -92,7 +92,9 @@
           </vue-button>
         </vue-grid-item>
       </vue-grid-row>
+
       <br>
+
       <sponsor-modal
         :job="jobToSponsor"
         :show.sync="showSponsoredModal"
@@ -102,6 +104,8 @@
           task: this.jobToSponsor.task || '',
           job: this.jobToSponsor
           })"></sponsor-modal>
+
+
       <vue-grid-row>
         <vue-grid-item>
           <hr>
@@ -111,31 +115,33 @@
             <vue-panel-body>
               <ul>
                 <li>
-                  {{job.task}}<br>
-                  {{ $t('App.job.jobDescription' /* Description */) }}: {{job.brief}}<br>
-                  {{ $t('App.job.jobDomain' /* Domain */) }}: {{job.domain}}<br>
-                  {{ $t('App.job.jobSkill' /* Desired Skill */) }}: {{job.skill}}
-                  <br>
-                  <br>
-                  <!--Full time rate: ${{job.salary['full-time-rate']}}<br>-->
+                  <strong>{{job.task}}</strong><br><br>
+                  <strong>{{ $t('App.job.jobDescription' /* Description */) }}:</strong> {{job.brief}}<br><br>
+                  <strong>{{ $t('App.job.jobDomain' /* Domain */) }}:</strong> {{job.domain}}<br><br>
+                  <strong>{{ $t('App.job.jobSkill' /* Desired Skill */) }}:</strong> {{job.skill}}<br><br>
+                  <strong>{{ $t('App.job.termOfEmployment' /* Desired Skill */) }}:</strong>
+                  {{job.termOfEmployment}}<br><br>
+                  <strong>{{ $t('App.job.cityOfWork' /* City of Work */) }}:</strong> {{ job.cityOfWork }}<br><br>
+                  <strong>{{ $t('App.job.jobSalary' /* Salary (USD) */) }}:</strong>
+                  ${{job.salary['full-time-rate']}}<br><br>
                   <!--Pay frequency:-->
                   <!--<input id="weekly" true-value="weekly" type="checkbox" name="weekly"-->
-                         <!--v-model="job.salary['pay-frequency'].label" disabled/>-->
+                  <!--v-model="job.salary['pay-frequency'].label" disabled/>-->
                   <!--<label for="weekly">Weekly</label>-->
                   <!--<input id="bi-weekly" type="checkbox" true-value="bi-weekly" name="bi-weekly"-->
-                         <!--v-model="job.salary['pay-frequency'].label" disabled/>-->
+                  <!--v-model="job.salary['pay-frequency'].label" disabled/>-->
                   <!--<label for="bi-weekly">Bi-weekly</label>-->
                   <!--<input id="monthly" true-value="monthly" type="checkbox" name="monthly"-->
-                         <!--v-model="job.salary['pay-frequency'].label" disabled/>-->
+                  <!--v-model="job.salary['pay-frequency'].label" disabled/>-->
                   <!--<label for="monthly">Monthly</label><br>-->
                   <!--Term of employment:-->
                   <!--<input id="sixmonth" type="checkbox" name="sixmonth" v-model="job['terms-of-employment']"-->
-                         <!--true-value="6" disabled/>-->
+                  <!--true-value="6" disabled/>-->
                   <!--<label for="sixmonth">6 month</label>-->
                   <!--<input id="oneyear" type="checkbox" name="oneyear" v-model="job['terms-of-employment']"-->
-                         <!--true-value="12" disabled/>-->
+                  <!--true-value="12" disabled/>-->
                   <!--<label for="oneyear">1 year</label>-->
-                  {{ $t('App.job.datePosted' /* Date Posted */) }}: {{ job['date-posted'] | moment }}<br>
+                  <strong>{{ $t('App.job.datePosted' /* Date Posted */) }}:</strong> {{ job['date-posted'] | moment }}<br>
                 </li>
               </ul>
             </vue-panel-body>
@@ -152,7 +158,8 @@
                           accent>
                 <a
                   style="color: white !important;"
-                  @click.prevent.stop="e => sponsorJob(job.taskId)">Sponsor this Job</a>
+                  @click.prevent.stop="e => sponsorJob(job.taskId)">{{ $t('App.job.sponsorJobButton' /* Sponsor This Job
+                  */) }}</a>
               </vue-button>
 
             </vue-panel-footer>
@@ -170,7 +177,7 @@
   import {mapActions, mapGetters} from 'vuex';
   import axios from 'axios';
   import firebase from 'firebase';
-  import db from '../firebaseinit';
+  import db from '../firebaseinit-dev';
   import SponsorModal from '../services/SponsorModal.vue';
   import {uuid} from 'vue-uuid';
   import moment from 'moment';
@@ -207,6 +214,7 @@
         skill: '',
         domain: '',
         keyword: '',
+        isNavigating: false,
         types: [
           {
             id: 'salary',
@@ -317,7 +325,6 @@
         }
         this.selectedJobToSponsorId = taskId;
         this.showSponsoredModal = true;
-        console.log('should show sponsored modal', this.showSponsoredModal)
       },
       sort(jobs) {
         const result = jobs.sort(function (a, b) {

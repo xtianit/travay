@@ -5,6 +5,7 @@ import getWeb3 from '../util/getWeb3';
 import pollWeb3 from '../util/pollWeb3';
 import getContract from '../util/getContract';
 import signInModal from './modules/signInModal';
+import mainnetModal from './modules/mainnetModal';
 
 Vue.use(Vuex);
 
@@ -65,7 +66,8 @@ export const store = new Vuex.Store({
     }
   },
   modules: {
-    signInModal
+    signInModal,
+    mainnetModal
   }
 });
 

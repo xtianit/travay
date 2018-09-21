@@ -1,17 +1,17 @@
 import { uuid } from 'vue-uuid';
-import db from '../firebaseinit';
-import * as types from '@/store/types'
+import db from '../firebaseinit-dev';
+import * as types from '@/store/types';
 
 export const sponsorSubmitMixin = {
   methods: {
     async sponsorSubmit({ amount, taskId, task, job = {} }) {
-
       const data = {
         sponsoredId: uuid.v1(),
         userId: this.$store.getters[types.GET_USER_ID],
         amount,
         taskId: taskId,
-        task: task
+        task: task,
+        date: new Date()
       };
       console.log('data for sponsored', data);
       try {
@@ -22,7 +22,8 @@ export const sponsorSubmitMixin = {
           .collection('jobs')
           .doc(taskId)
           .update({
-            sponsoredAmount: totalAmount
+            sponsoredAmount: totalAmount,
+            'role.3': [...3, this.userId]
           });
         if (Reflect.has(this, 'job')) {
           this.job.sponsoredAmount = totalAmount;

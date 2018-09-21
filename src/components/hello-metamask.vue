@@ -6,7 +6,11 @@
         <p id="has-metamask"><i aria-hidden="true" class="fa fa-check"></i> MetaMask {{
           $t('App.helloMetaMask.installed' /* Installed */) }}</p>
         <p>{{ $t('App.helloMetaMask.network' /* Network */) }}: <strong>{{ network }}</strong></p>
-        <p>{{ $t('App.helloMetaMask.account' /* Account */) }}: {{ coinbase }}</p>
+        <p v-if="network !== 'Main Ethereum Network'"> {{
+          $t('App.helloMetaMask.notMainNet') /* You are not currently on the Main Network, please switch to the Main
+          Network to use this application. */}}</p>
+        <p v-else></p>
+        <p>{{ $t('App.helloMetaMask.account' /* Ethereum Account */) }}: {{ coinbase }}</p>
         <!--<p>{{ $t('App.helloMetaMask.balance' /* Balance */) }}: {{ balance }} Wei // {{ ethBalance }} Eth</p>-->
       </vue-grid-item>
     </vue-grid-row>
@@ -58,6 +62,7 @@
 <style scoped>
   .metamask-info {
     text-align: center;
+    margin-top: 50px;
   }
 
   #has-metamask {
@@ -66,9 +71,5 @@
 
   #no-metamask {
     color: red;
-  }
-
-  #notOnMainNetwork {
-    color: yellow;
   }
 </style>
