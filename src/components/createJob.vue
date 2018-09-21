@@ -1,8 +1,8 @@
 <template>
   <div class="loading-parent">
       <loading
-          :active.sync="isLoading" 
-          :can-cancel="false" 
+          :active.sync="isLoading"
+          :can-cancel="false"
           :is-full-page="fullPage">
       </loading>
       <vue-grid>
@@ -260,6 +260,7 @@
           taskId: 0,
           task: '',
           brief: '',
+          payouts: [],
           deliverable: [],
           datePosted: '',
           // payoutEvaluator: '',
@@ -295,6 +296,9 @@
       };
     },
     methods: {
+      ...mapActions({
+        openNetworkModal: types.OPEN_NETWORK_MODAL
+      }),
       calendarChange(value) {
         this.$set(this.form, 'closingDate', value)
       },
@@ -307,16 +311,16 @@
       },
       createJob() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
+
         this.isLoading = true;
         const {form} = this;
 
         if (this.hasEmptyFields) {
-          this.isLoading = false
+          this.isLoading = false;
           EventBus.$emit('notification.add', {
             id: 1,
             title: this.$t("App.createJob.emptyFieldsTitle" /* Oops! */),
@@ -339,6 +343,7 @@
               brief: form.brief,
               'date-posted': new Date(),
               deliverable: form.deliverable,
+              payouts: [],
               skill: form.skill,
               domain: form.domain,
               termOfEmployment: form.termOfEmployment,

@@ -1,10 +1,10 @@
 <template>
   <div class="loading-parent" :class="$style.job">
-      <loading
-          :active.sync="isLoading" 
-          :can-cancel="false" 
-          :is-full-page="fullPage">
-      </loading>
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="fullPage">
+    </loading>
     <vue-grid v-if="job">
 
       <vue-grid-row>
@@ -483,8 +483,8 @@
       //...mapActions("signInModal", ["openLoginModal", "closeLoginModal"]),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,
-        openNetworkModal: types.OPEN_NETWORK_MODAL,
-        closeLoginModal: types.CLOSE_LOGIN_MODAL
+        closeLoginModal: types.CLOSE_LOGIN_MODAL,
+        openNetworkModal: types.OPEN_NETWORK_MODAL
       }),
       removeImage(i) {
         this.images = this.images.filter((img, index) => index !== i);
@@ -504,11 +504,11 @@
       },
       cancelJob() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
+
         this.isLoading = true;
         const jobId = this.job.taskId;
 
@@ -539,22 +539,57 @@
       },
       setEvaluator() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
+
         this.isLoading = true;
 
         this.setEvaluatorInEscrow()
           .then(JobID => {
-            this.isLoading = false;
-            // TODO record this in firebase
+            try {
+              db
+                .collection("jobs")
+                .doc(docId)
+                .update({
+                  "role.1": this.userId
+                });
+              const result = db
+                .collection("users")
+                .where("uid", "==", this.userId)
+                .get()
+                .then(snapshots => {
+                  const doc = snapshots.docs[0];
+                  const userData = doc.data();
+                  const obj = {doc, user: userData, evaluatingJobs: []};
+                  if (Reflect.has(userData, "evaluatingJobs")) {
+                    obj.evaluatingJobs = userData.evaluatingJobs;
+                  }
+                  return obj;
+                })
+                .then(({doc, user, evaluatingJobs}) => {
+                  doc.ref.update({
+                    evaluatingJobs: [...evaluatingJobs, this.job.taskId]
+                  });
+                });
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  this.isLoading = false;
+
+                  EventBus.$emit('notification.add', {
+                    id: 1,
+                    title: this.$t("App.job.jobEvaluatorNotificationTitle" /* Thank you! */),
+                    text: this.$t("App.job.jobEvaluatorNotificationText"
+                      /* Ou se kounye a evalyatè a pou travay sa a. */)
+                  });
+                }, 700);
+              });
+            } catch (error) {
+              this.isLoading = false;
+              console.log('error when adding job in firebase', error);
+            }
           })
-          .catch(error => {
-            this.isLoading = false;
-            console.log(error)
-          });
       },
       markJobComplete() {
 
@@ -587,17 +622,17 @@
             });
           })
           .catch(error => {
-              this.isLoading = false;
-              console.log(error)
+            this.isLoading = false;
+            console.log(error)
           });
       },
       evaluateJobAsCompletedSucessfully() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
+
         this.isLoading = true;
         const jobId = this.job.taskId;
 
@@ -611,9 +646,6 @@
                 successfullyCompleted: "true"
               }
             });
-            this.isLoading = false;
-            this.isEditingJobDetails = false;
-            this.isLoading = false;
             EventBus.$emit('notification.add', {
               id: 1,
               title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
@@ -650,39 +682,57 @@
       },
       claimPayout() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         this.isLoading = true;
 
         this.workerClaimPayoutInEscrow()
           .then(JobID => {
+            try {
+              db
+                .collection("jobs")
+                .doc(docId)
+                .update({
+                  "payouts": new Date()
+                });
+              const result = db
+                .collection("users")
+                .where("uid", "==", this.userId)
+                .get()
+                .then(snapshots => {
+                  const doc = snapshots.docs[0];
+                  const userData = doc.data();
+                  const obj = {doc, user: userData, claimedPayouts: []};
+                  if (Reflect.has(userData, "claimedPayouts")) {
+                    obj.claimedPayouts = userData.claimedPayouts;
+                  }
+                  return obj;
+                })
+                .then(({doc, user, claimedPayouts}) => {
+                  doc.ref.update({
+                    claimedPayouts: [...claimedPayouts, new Date()]
+                  });
+                });
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  this.isLoading = false;
 
-            const job = db.collection("jobs").doc(JobID);
-
-            const update = job.update({
-              // TODO resolve undefined error
-              // payOutsClaimed: [...payOutsClaimed, new Date()]
-            });
-            this.isLoading = false;
-            this.isEditingJobDetails = false;
-            this.isLoading = false;
-
-            EventBus.$emit('notification.add', {
-              id: 1,
-              title: this.$t(
-                "App.job.jobCompletedNotificationTitle" /* Success! */),
-              text: this.$t(
-                "App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
-            });
+                  EventBus.$emit('notification.add', {
+                    id: 1,
+                    title: this.$t("App.job.workerClaimedPayoutNotificationTitle" /* Success! */),
+                    text: this.$t("App.job.workerClaimedPayoutNotificationText"
+                      /* You will see your salary in your MetaMask account soon. */)
+                  });
+                }, 700);
+              });
+            } catch (error) {
+              this.isLoading = false;
+              console.log('error when adding job in firebase', error);
+            }
           })
-          .catch(error => {
-            this.isLoading = false;
-            console.log(error)
-          });
       },
       sponsorJob(taskId) {
         if (!this.userId) {
@@ -704,11 +754,11 @@
       },
       claimJob(docId) {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
+
         this.isLoading = true;
 
         if (this.hasEmptyFields) {
@@ -759,14 +809,14 @@
                   });
                 }, 700);
               });
-            } catch (err) {
+            } catch (error) {
               this.isLoading = false;
-              console.log('err when adding job in firebase', err);
+              console.log('error when adding job in firebase', error);
             }
           })
-          .catch(err => {
+          .catch(error => {
             this.isLoading = false;
-            console.log("bad", err);
+            console.log("bad", error);
           });
       },
       onPayout(docId) {
@@ -1185,7 +1235,7 @@
 </script>
 
 <style lang="scss" module>
-.loading-parent {
-  position: relative;
-}
+  .loading-parent {
+    position: relative;
+  }
 </style>
