@@ -81,17 +81,6 @@
               <br>
 
               <!--<vue-grid-row>-->
-                <!--<vue-grid-item class="vueGridItem">-->
-                  <!--<vue-date-picker-->
-                    <!--@change="calendarChange"-->
-                    <!--:first-day-of-week="1"-->
-                    <!--ref="closingDatepicker"-->
-                    <!--:selectedDate="form.closingDate"-->
-                    <!--placeholder="Job Closing Date"/>-->
-                <!--</vue-grid-item>-->
-              <!--</vue-grid-row>-->
-
-              <!--<vue-grid-row>-->
               <!--<vue-grid-item>-->
               <!--<vue-input-->
               <!--name="payoutEvaluator"-->
@@ -177,7 +166,6 @@
                     id="country"
                     v-model="form.country"
                     :options="countryOptions"
-                    :disabled="form.addressDisabled"
                     required/>
                 </vue-grid-item>
               </vue-grid-row>
@@ -271,10 +259,10 @@
           isTaskIdDisabled: true,
           state: state,
           isDatePostedDisabled: true,
-          acceptTerms: false,
+          acceptTerms: false
         },
         countryOptions: [
-          // {label: 'Choose a Country', value: null},
+          {label: 'Choose a Country', value: null},
           {label: 'Haiti', value: 'haiti'},
           {label: 'USA', value: 'us'}
         ],
@@ -320,15 +308,15 @@
         this.isLoading = true;
         const {form} = this;
 
-        if (this.hasEmptyFields) {
-          this.isLoading = false;
-          EventBus.$emit('notification.add', {
-            id: 1,
-            title: this.$t("App.createJob.emptyFieldsTitle" /* Oops! */),
-            text: this.$t("App.createJob.emptyFieldsText" /* Please fill in all fields. */)
-          });
-          return false;
-        }
+        // if (this.hasEmptyFields) {
+        //   this.isLoading = false;
+        //   EventBus.$emit('notification.add', {
+        //     id: 1,
+        //     title: this.$t("App.createJob.emptyFieldsTitle" /* Oops! */),
+        //     text: this.$t("App.createJob.emptyFieldsText" /* Please fill in all fields. */)
+        //   });
+        //   return false;
+        // }
 
         this.createJobInEscrow()
           .then(JobID => {
@@ -389,7 +377,7 @@
                     link: `/job/${jobId}`
                   });
                   this.isLoading = false;
-                }, 700);
+                }, 750);
               });
             }
           })
@@ -462,13 +450,6 @@
       }),
       estimatedWorkerPayout: function () {
         return this.form.salary - this.form.salary * 0.02;
-      },
-      addressDisabled() {
-        return (
-          this.form.firstname === '' ||
-          this.form.lastname === '' ||
-          this.form.email === ''
-        );
       },
       hasErrors() {
         return this.errors && this.errors.items.length > 0;

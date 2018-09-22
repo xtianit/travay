@@ -1,9 +1,9 @@
 <template>
   <footer id="footer-style">
     &copy; {{ year }} {{ $t('App.footer.company' /* company */) }} <br>
-    <router-link :to="'/userGuide'">{{ $t('App.footer.userGuide' /* User Guide */) }}</router-link> |
-    <router-link :to="'/get-started'">{{ $t('App.footer.getStartedGuide' /* Get Started */) }}</router-link> |
-    <router-link :to="'/code-of-conduct'">{{ $t('App.footer.codeOfConduct' /* Code of Conduct */) }}</router-link>
+    <!--<router-link :to="'/userGuide'">{{ $t('App.footer.userGuide' /* User Guide */) }}</router-link> |-->
+    <!--<router-link :to="'/get-started'">{{ $t('App.footer.getStartedGuide' /* Get Started */) }}</router-link> |-->
+    <!--<router-link :to="'/code-of-conduct'">{{ $t('App.footer.codeOfConduct' /* Code of Conduct */) }}</router-link>-->
   </footer>
 </template>
 

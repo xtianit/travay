@@ -59,9 +59,8 @@
 
                     <strong>{{ $t('App.job.jobRequirements' /* Requirements */) }}</strong>:<br>
 
-                    <em>{{ $t('App.job.requirementInstructions' /* Please add your requirements in order for the job to
-                      be considered as complete. Add one requirement, then click Add Requirement, to add additional
-                      requirements. */) }}</em><br/>
+                    <em>{{ $t('App.job.requirementInstructions' /* Add one requirement, then click Add Requirement, to
+                      add additional requirements. */) }}</em><br/>
 
                     <vue-grid-item>
                       <vue-input
@@ -157,8 +156,8 @@
               <h3>{{ $t('App.job.claimTitle' /* Claim */) }}</h3>
 
               <vue-grid-item>
-                {{ $t('App.job.claimDescription' /* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}<br><br>
+                {{ $t('App.job.claimDescription' /* Claiming a job is as simply as clicking the button Claim. The button
+                will only be visible if the job is not claimed by anyone and an individual is logged in. */) }}<br><br>
               </vue-grid-item>
 
               <template v-if="!claimed">
@@ -237,8 +236,8 @@
 
                   <vue-grid-item>
                     <p>{{ $t('App.job.proofOfWorkDescription' /* Based on the requirements of a job, the Job Manager may
-                      request proof that work was completed. For example, a picture of a planted tree or that trash was
-                      deposited in the correct location. */)
+                      request proof that work was completed. For example, a picture of a planted tree. If the worker has
+                      provided proof it will be shown below. */)
                       }}
                     </p>
                     <br>
@@ -293,9 +292,9 @@
                   <br><br>
                   <h3>{{ $t('App.job.evaluation' /* Evaluation */) }}</h3>
                   <br>
-                  <p>{{ $t('App.job.evaluationDescription' /* After a job is claimed an evaluator must be assigned.
-                    If assigned as an evaluator the below area will show additional information. An evaluator
-                    confirms the completion of work. */)
+                  <p>{{ $t('App.job.evaluationDescription' /* After a job is claimed an evaluator must be assigned. An
+                    evaluator confirms the completion of work. If assigned as an evaluator the below area will show
+                    additional information. */)
                     }}</p>
                   <br>
                   <vue-button v-userRole.signedIn.canBecomeEvaluator="{role: job.role}" primary>
@@ -338,7 +337,7 @@
                 <vue-panel-footer v-userRole.manager="{role: job.role}">
                   <vue-grid-item>
                     <vue-button primary style="color: white;"
-                      @click.prevent.stop="e => onPayout(job.id)">
+                                @click.prevent.stop="e => onPayout(job.id)">
                       {{ $t('App.job.payoutJobButton' /* Payout Job */) }}
                     </vue-button>
                   </vue-grid-item>
@@ -507,11 +506,11 @@
         }
 
         this.isLoading = true;
+
         const jobId = this.job.taskId;
 
         this.cancelJobInEscrow()
           .then(JobID => {
-            this.isLoading = false;
             console.log('job is being canceled');
             const job = db.collection("jobs").doc(jobId);
             const update = job.update({
@@ -609,7 +608,6 @@
 
             this.job.status.state = "complete";
             this.isLoading = false;
-            this.isEditingJobDetails = false;
 
             EventBus.$emit('notification.add', {
               id: 1,
@@ -630,6 +628,7 @@
         }
 
         this.isLoading = true;
+
         const jobId = this.job.taskId;
 
         this.evaluateJobToEscrow()
@@ -647,6 +646,7 @@
               title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
               text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
             });
+            this.isLoading = false;
           })
           .catch(error => {
             this.isLoading = false;
@@ -655,6 +655,8 @@
       },
       async evaluateJobAsCompletedUnsucessfully() {
         // const jobId = this.job.taskId;
+
+        //  this.isLoading = true;
         //
         // try {
         //   const job = await db.collection("jobs").doc(jobId);
@@ -672,6 +674,7 @@
         //     text: this.$t("App.job.jobUnCompleteNotificationText"
         //       /* This job has been marked as not completed successfully.. */)
         //   });
+        //   this.isLoading = false;
         // } catch (error) {
         //   console.log(error)
         // }
@@ -757,6 +760,7 @@
 
         this.isLoading = true;
 
+        // TODO: fix the checkbox field for approving the terms when claiming a job
         if (this.hasEmptyFields) {
           EventBus.$emit('notification.add', {
             id: 1,
@@ -858,6 +862,9 @@
           })
       },
       async postEditedJob() {
+
+        this.isLoading = true;
+
         const jobData = {
           description: this.job.brief,
           deliverable: this.job.deliverable,
@@ -903,6 +910,7 @@
           const imageUrl = await this.uploadFile(file, self.job.taskId);
           return {name: file.name, url: imageUrl};
         });
+
         Promise.all(results).then(async imageUrls => {
           if (!Reflect.has(this.job, "images")) this.job.images = [];
           const images = [...this.job.images, ...imageUrls];

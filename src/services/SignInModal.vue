@@ -175,11 +175,12 @@
           if (snapshot.docs.length === 0) {
             const user = await db.collection('users').add(data);
             this.saveUserAddress();
-            this.$router.push('/get-started');
+            // this.$router.push('/get-started');
+            this.$router.push('/jobs');
           }
           this.user = data;
           this.saveUserInStorage(data);
-          // this.$router.push('/jobs');
+          this.$router.push('/jobs');
         } catch (error) {
           console.error('error while getting user by uid', error);
         }

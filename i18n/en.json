@@ -72,7 +72,7 @@
   "App.profile.sponsoringJobs": "List of all jobs you've sponsored.",
   "App.job.evaluation": "Evaluation",
   "App.job.cityOfWork": "City Where Work is to be Performed",
-  "App.job.evaluationDescription": "After a job is claimed an evaluator must be assigned. If assigned as an evaluator the below area will show additional information. An evaluator confirms the completion of work.",
+  "App.job.evaluationDescription": "After a job is claimed an evaluator must be assigned. An evaluator confirms the completion of work. If assigned as an evaluator the below area will show additional information.",
   "App.job.claim": "Claim",
   "App.job.claimPayout": "Claim Payout",
   "App.jobs.learnMoreButton": "LEARN MORE",

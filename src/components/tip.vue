@@ -40,7 +40,7 @@
 
               <br>
 
-              <vue-button warn
+              <vue-button primary style="color: white;"
                           :loading="isLoading"
                           @click="makeTipEscrow()">
                 {{ $t('App.tip.sendTipButton' /* Send Tip */) }}
