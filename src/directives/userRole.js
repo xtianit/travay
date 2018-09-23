@@ -1,4 +1,4 @@
-import { store } from '../store/';
+import {store} from '../store/';
 import * as types from '../store/types'
 
 const role = {
@@ -17,7 +17,7 @@ const hide = vnode => {
 export const userRole = {
   update(el, binding, vnode) {
     const userId = store.getters[types.GET_USER_ID];
-    const { value, modifiers } = binding;
+    const {value, modifiers} = binding;
     if (value.role) {
 
       // Manager only
@@ -28,6 +28,8 @@ export const userRole = {
       // Evaluator only
       if (Reflect.has(modifiers, 'evaluator')) {
         if (value.role[1] !== userId) hide(vnode);
+      } else {
+        console.log('NOT HIDING EVALUATOR');
       }
 
       // Worker only
@@ -56,11 +58,11 @@ export const userRole = {
       // Only if user did not claim the job && is not the evaluator
       if (Reflect.has(modifiers, 'canClaim')) {
         if (
-          !value.role[0].includes(userId)  &&
+          !value.role[0].includes(userId) &&
           !value.role[1].includes(userId) &&
           !value.role[3].includes(userId) && value.role[2] === ""
         ) {
-          // console.log('NOT HIDING');
+          console.log('NOT HIDING CAN CLAIM');
         } else {
           hide(vnode);
         }
@@ -72,18 +74,21 @@ export const userRole = {
           value.role[0] === userId ||
           value.role[1] === userId ||
           value.role[2] === userId
-        )
+        ) {
+          console.log('NOT HIDING SPONSOR');
+        } else {
           hide(vnode);
+        }
       }
 
       // Only if user did not claim the job && is not the evaluator && job doesn't have an evaluator
       if (Reflect.has(modifiers, 'canBecomeEvaluator')) {
         if (
-          !value.role[0].includes(userId)  ||
-          !value.role[2].includes(userId) ||
+          !value.role[0].includes(userId) &&
+          !value.role[2].includes(userId) &&
           !value.role[3].includes(userId) && value.role[1] === ""
         ) {
-          // console.log('NOT HIDING');
+          console.log('NOT HIDING BECOME EVALUATOR');
         } else {
           hide(vnode);
         }

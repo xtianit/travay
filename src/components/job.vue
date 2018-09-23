@@ -271,6 +271,7 @@
 
                 </vue-panel-body>
                 <!--<vue-panel-footer v-if="job.role">-->
+                <!-- UPLOAD IMAGE BUTTON -->
                 <vue-panel-footer>
                   <vue-button v-userRole.worker="{cb: uploadFile, role: job.role}" accent>
                     <a @click.prevent="uploadProofOfWork()" style="color: white;">
@@ -303,7 +304,7 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>
+                  <vue-button v-userRole.evaluator="{role: job.role}" primary>
                     <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
@@ -449,7 +450,7 @@
     },
     filters: {
       moment: function (date) {
-        return moment(date).format("MMMM Do YYYY");
+        return moment(date).format("Do MMMM YYYY");
       }
     },
     computed: {
@@ -542,6 +543,7 @@
 
         this.isLoading = true;
 
+        // TODO evaluator's ID is not being stored in Firebase
         this.setEvaluatorInEscrow()
           .then(JobID => {
             try {
@@ -577,7 +579,7 @@
                     id: 1,
                     title: this.$t("App.job.jobEvaluatorNotificationTitle" /* Thank you! */),
                     text: this.$t("App.job.jobEvaluatorNotificationText"
-                      /* Ou se kounye a evalyatè a pou travay sa a. */)
+                      /* You are now the evaluator for this job. */)
                   });
                 }, 700);
               });
@@ -638,7 +640,8 @@
 
             const update = job.update({
               status: {
-                milestoneCompletedSuccessfully: new Date()
+                milestoneCompletedSuccessfully: new Date(),
+                state: "incomplete"
               }
             });
             EventBus.$emit('notification.add', {
@@ -690,6 +693,7 @@
 
         this.workerClaimPayoutInEscrow()
           .then(JobID => {
+            // TODO updating payouts array in Firebase not working
             try {
               db
                 .collection("jobs")
@@ -849,7 +853,8 @@
                 doc.ref.update({
                   payOutsToWorker: [...payOutsToWorker, new Date()]
                 });
-              });
+              })
+              .catch(error => console.log(error));
             this.$nextTick(() => {
               EventBus.$emit('notification.add', {
                 id: 1,
@@ -858,7 +863,6 @@
               });
               this.isLoading = false;
             })
-              .catch(error => console.log(error));
           })
       },
       async postEditedJob() {
@@ -900,7 +904,6 @@
       uploadProofOfWork() {
         this.isLoading = true;
         this.uploadImages().then(res => {
-          this.isLoading = false;
           console.log('Im done running both funcs')
         })
       },
@@ -924,6 +927,7 @@
         });
       },
       uploadFile(file, jobId) {
+        this.isLoading = true;
         return new Promise((resolve, reject) => {
           const self = this;
           const storageRef = firebaseStorage
@@ -935,13 +939,14 @@
             function (snapshot) {
               const progress =
                 snapshot.bytesTransferred / snapshot.totalBytes * 100;
-              self.loadingText =
-                this.$t('App.job.uploadedPhotoProgress' /* Upload is */) +
-                progress +
-                this.$t(
-                  'App.job.uploadedPhotoProgress2' /* % done. Processing post. */);
-              this.upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
-              console.log(this.upload.progress);
+              // TODO fix on screen loading percentage of image upload
+              // self.loadingText =
+              //   this.$t('App.job.uploadedPhotoProgress' /* Upload is */) +
+              //   progress +
+              //   this.$t(
+              //     'App.job.uploadedPhotoProgress2' /* % done. Processing post. */);
+              // this.upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
+              // console.log(this.upload.progress);
             },
             function (error) {
               reject(error);
@@ -951,6 +956,7 @@
               resolve(downloadUrl);
             }
           );
+          this.isLoading = false;
         });
       },
       async fileUploaded(event) {

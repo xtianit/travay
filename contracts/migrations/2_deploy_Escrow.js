@@ -1,6 +1,7 @@
 const Escrow = artifacts.require("./Escrow.sol");
 const DAI = artifacts.require("./DAI.sol");
 
+// Main Net
 const DAI_COIN_ADDRESS = "0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359";
 
 // Main Net
