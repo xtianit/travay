@@ -212,7 +212,7 @@
   import {NETWORKS} from "../util/constants/networks";
   import {uuid} from 'vue-uuid';
   import firebase from 'firebase';
-  import db from '../firebaseinit-dev';
+  import db from '../firebaseinit';
   import {any} from 'bluebird';
   import {store} from '../store';
   import * as types from '../store/types'

@@ -369,7 +369,7 @@
   import {NETWORKS} from "../util/constants/networks";
   import axios from "axios";
   import firebase from "firebase";
-  import db from "../firebaseinit-dev";
+  import db from "../firebaseinit";
   import SponsorModal from "../services/SponsorModal.vue";
   import {uuid} from "vue-uuid";
   import moment from "moment";

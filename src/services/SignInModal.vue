@@ -61,7 +61,7 @@
   import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
   import * as types from '../store/types'
   import firebase from 'firebase';
-  import db from '../firebaseinit-dev';
+  import db from '../firebaseinit';
   import {uuid} from 'vue-uuid';
   import {store} from '../store';
   import truffleContract from "truffle-contract";
