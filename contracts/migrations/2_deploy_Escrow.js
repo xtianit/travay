@@ -1,13 +1,14 @@
 const Escrow = artifacts.require("./Escrow.sol");
 const DAI = artifacts.require("./DAI.sol");
 
+// Main Net
 const DAI_COIN_ADDRESS = "0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359";
 
 // Main Net
-const ARBITRATOR = "0xa7c2662a534a0ae22e8b0f27d6a099e3b3971c6a";
+// const ARBITRATOR = "0xa7c2662a534a0ae22e8b0f27d6a099e3b3971c6a";
 
 // Ropsten
-// const ARBITRATOR = "0xB06cEF6B14dd249f5a0977F645436cC4f4095325";
+const ARBITRATOR = "0xB06cEF6B14dd249f5a0977F645436cC4f4095325";
 
 // Ropsten Deployment
 module.exports = (deployer, network, accounts) => {

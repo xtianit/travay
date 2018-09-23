@@ -1,5 +1,10 @@
 <template>
-  <div :class="$style.job">
+  <div class="loading-parent" :class="$style.job">
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="fullPage">
+    </loading>
     <vue-grid v-if="job">
 
       <vue-grid-row>
@@ -54,9 +59,8 @@
 
                     <strong>{{ $t('App.job.jobRequirements' /* Requirements */) }}</strong>:<br>
 
-                    <em>{{ $t('App.job.requirementInstructions' /* Please add your requirements in order for the job to
-                      be considered as complete. Add one requirement, then click Add Requirement, to add additional
-                      requirements. */) }}</em><br/>
+                    <em>{{ $t('App.job.requirementInstructions' /* Add one requirement, then click Add Requirement, to
+                      add additional requirements. */) }}</em><br/>
 
                     <vue-grid-item>
                       <vue-input
@@ -152,8 +156,8 @@
               <h3>{{ $t('App.job.claimTitle' /* Claim */) }}</h3>
 
               <vue-grid-item>
-                {{ $t('App.job.claimDescription' /* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. */) }}<br><br>
+                {{ $t('App.job.claimDescription' /* Claiming a job is as simply as clicking the button Claim. The button
+                will only be visible if the job is not claimed by anyone and an individual is logged in. */) }}<br><br>
               </vue-grid-item>
 
               <template v-if="!claimed">
@@ -232,8 +236,8 @@
 
                   <vue-grid-item>
                     <p>{{ $t('App.job.proofOfWorkDescription' /* Based on the requirements of a job, the Job Manager may
-                      request proof that work was completed. For example, a picture of a planted tree or that trash was
-                      deposited in the correct location. */)
+                      request proof that work was completed. For example, a picture of a planted tree. If the worker has
+                      provided proof it will be shown below. */)
                       }}
                     </p>
                     <br>
@@ -267,6 +271,7 @@
 
                 </vue-panel-body>
                 <!--<vue-panel-footer v-if="job.role">-->
+                <!-- UPLOAD IMAGE BUTTON -->
                 <vue-panel-footer>
                   <vue-button v-userRole.worker="{cb: uploadFile, role: job.role}" accent>
                     <a @click.prevent="uploadProofOfWork()" style="color: white;">
@@ -288,9 +293,9 @@
                   <br><br>
                   <h3>{{ $t('App.job.evaluation' /* Evaluation */) }}</h3>
                   <br>
-                  <p>{{ $t('App.job.evaluationDescription' /* After a job is claimed an evaluator must be assigned.
-                    If assigned as an evaluator the below area will show additional information. An evaluator
-                    confirms the completion of work. */)
+                  <p>{{ $t('App.job.evaluationDescription' /* After a job is claimed an evaluator must be assigned. An
+                    evaluator confirms the completion of work. If assigned as an evaluator the below area will show
+                    additional information. */)
                     }}</p>
                   <br>
                   <vue-button v-userRole.signedIn.canBecomeEvaluator="{role: job.role}" primary>
@@ -299,7 +304,7 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>
+                  <vue-button v-userRole.evaluator="{role: job.role}" primary>
                     <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
@@ -332,9 +337,8 @@
                 </vue-panel-body>
                 <vue-panel-footer v-userRole.manager="{role: job.role}">
                   <vue-grid-item>
-                    <vue-button
-                      @click.prevent.stop="e => onPayout(job.id)"
-                      primary>
+                    <vue-button primary style="color: white;"
+                                @click.prevent.stop="e => onPayout(job.id)">
                       {{ $t('App.job.payoutJobButton' /* Payout Job */) }}
                     </vue-button>
                   </vue-grid-item>
@@ -359,6 +363,8 @@
 </template>
 
 <script>
+  import {store} from '../store/'
+  import * as types from '../store/types'
   import {mapActions, mapGetters, mapMutations, mapState} from 'vuex';
   import {NETWORKS} from "../util/constants/networks";
   import axios from "axios";
@@ -368,11 +374,10 @@
   import {uuid} from "vue-uuid";
   import moment from "moment";
   import {sponsorSubmitMixin} from "../mixins/sponsorSubmitMixin";
-  import * as types from '../store/types'
-  import {store} from '../store/'
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
+  import Loading from 'vue-loading-overlay';
 
   const firebaseStorage = firebase.storage();
 
@@ -392,10 +397,13 @@
       validator: "new"
     },
     components: {
-      SponsorModal
+      SponsorModal,
+      Loading
     },
     data() {
       return {
+        isLoading: false,
+        fullPage: true,
         job: {},
         posted: "",
         taskId: "",
@@ -403,7 +411,6 @@
           acceptTerms: false,
           newsletter: false
         },
-        isLoading: false,
         showSponsoredModal: false,
         isEditingJobDetails: false,
         file: "",
@@ -443,11 +450,10 @@
     },
     filters: {
       moment: function (date) {
-        return moment(date).format("MMMM Do YYYY");
+        return moment(date).format("Do MMMM YYYY");
       }
     },
     computed: {
-      ...mapGetters("job", []),
       ...mapGetters({
         userId: types.GET_USER_ID
       }),
@@ -474,8 +480,8 @@
       //...mapActions("signInModal", ["openLoginModal", "closeLoginModal"]),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,
-        openNetworkModal: types.OPEN_NETWORK_MODAL,
-        closeLoginModal: types.CLOSE_LOGIN_MODAL
+        closeLoginModal: types.CLOSE_LOGIN_MODAL,
+        openNetworkModal: types.OPEN_NETWORK_MODAL
       }),
       removeImage(i) {
         this.images = this.images.filter((img, index) => index !== i);
@@ -495,11 +501,12 @@
       },
       cancelJob() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
+
+        this.isLoading = true;
 
         const jobId = this.job.taskId;
 
@@ -522,29 +529,72 @@
               text: this.$t("App.job.jobCanceledNotificationText" /* This job has been cancelled. */)
             });
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       setEvaluator() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
+        this.isLoading = true;
+
+        // TODO evaluator's ID is not being stored in Firebase
         this.setEvaluatorInEscrow()
           .then(JobID => {
-            // TODO record this in firebase
+            try {
+              db
+                .collection("jobs")
+                .doc(docId)
+                .update({
+                  "role.1": this.userId
+                });
+              const result = db
+                .collection("users")
+                .where("uid", "==", this.userId)
+                .get()
+                .then(snapshots => {
+                  const doc = snapshots.docs[0];
+                  const userData = doc.data();
+                  const obj = {doc, user: userData, evaluatingJobs: []};
+                  if (Reflect.has(userData, "evaluatingJobs")) {
+                    obj.evaluatingJobs = userData.evaluatingJobs;
+                  }
+                  return obj;
+                })
+                .then(({doc, user, evaluatingJobs}) => {
+                  doc.ref.update({
+                    evaluatingJobs: [...evaluatingJobs, this.job.taskId]
+                  });
+                });
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  this.isLoading = false;
+
+                  EventBus.$emit('notification.add', {
+                    id: 1,
+                    title: this.$t("App.job.jobEvaluatorNotificationTitle" /* Thank you! */),
+                    text: this.$t("App.job.jobEvaluatorNotificationText"
+                      /* You are now the evaluator for this job. */)
+                  });
+                }, 700);
+              });
+            } catch (error) {
+              this.isLoading = false;
+              console.log('error when adding job in firebase', error);
+            }
           })
-          .catch(error => console.log(error));
       },
       markJobComplete() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         const jobId = this.job.taskId;
 
@@ -555,12 +605,11 @@
             const job = db.collection("jobs").doc(jobId);
             const update = job.update({
               // TODO solve undefined error
-              // milestonesCompleted: [...milestoneCompleted, new Date()]
+              // workerMilestonesCompleted: [...workerMilestoneCompleted, new Date()]
             });
 
             this.job.status.state = "complete";
             this.isLoading = false;
-            this.isEditingJobDetails = false;
 
             EventBus.$emit('notification.add', {
               id: 1,
@@ -568,15 +617,19 @@
               text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
             });
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       evaluateJobAsCompletedSucessfully() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
+
+        this.isLoading = true;
 
         const jobId = this.job.taskId;
 
@@ -587,22 +640,26 @@
 
             const update = job.update({
               status: {
-                successfullyCompleted: "true"
+                milestoneCompletedSuccessfully: new Date(),
+                state: "incomplete"
               }
             });
-            this.isLoading = false;
-            this.isEditingJobDetails = false;
-
             EventBus.$emit('notification.add', {
               id: 1,
               title: this.$t("App.job.jobCompletedNotificationTitle" /* Success! */),
               text: this.$t("App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
             });
+            this.isLoading = false;
           })
-          .catch(error => console.log(error));
+          .catch(error => {
+            this.isLoading = false;
+            console.log(error)
+          });
       },
       async evaluateJobAsCompletedUnsucessfully() {
         // const jobId = this.job.taskId;
+
+        //  this.isLoading = true;
         //
         // try {
         //   const job = await db.collection("jobs").doc(jobId);
@@ -620,42 +677,65 @@
         //     text: this.$t("App.job.jobUnCompleteNotificationText"
         //       /* This job has been marked as not completed successfully.. */)
         //   });
+        //   this.isLoading = false;
         // } catch (error) {
         //   console.log(error)
         // }
       },
       claimPayout() {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         this.isLoading = true;
 
         this.workerClaimPayoutInEscrow()
           .then(JobID => {
+            // TODO updating payouts array in Firebase not working
+            try {
+              db
+                .collection("jobs")
+                .doc(docId)
+                .update({
+                  "payouts": new Date()
+                });
+              const result = db
+                .collection("users")
+                .where("uid", "==", this.userId)
+                .get()
+                .then(snapshots => {
+                  const doc = snapshots.docs[0];
+                  const userData = doc.data();
+                  const obj = {doc, user: userData, claimedPayouts: []};
+                  if (Reflect.has(userData, "claimedPayouts")) {
+                    obj.claimedPayouts = userData.claimedPayouts;
+                  }
+                  return obj;
+                })
+                .then(({doc, user, claimedPayouts}) => {
+                  doc.ref.update({
+                    claimedPayouts: [...claimedPayouts, new Date()]
+                  });
+                });
+              this.$nextTick(() => {
+                setTimeout(() => {
+                  this.isLoading = false;
 
-            const job = db.collection("jobs").doc(JobID);
-
-            const update = job.update({
-              // TODO resolve undefined error
-              // payOutsClaimed: [...payOutsClaimed, new Date()]
-            });
-            this.isLoading = false;
-            this.isEditingJobDetails = false;
-
-            EventBus.$emit('notification.add', {
-              id: 1,
-              title: this.$t(
-                "App.job.jobCompletedNotificationTitle" /* Success! */),
-              text: this.$t(
-                "App.job.jobCompleteNotificationText" /* This job has been marked completed. Your Job Manager will review the work and send payment after confirming. */)
-            });
+                  EventBus.$emit('notification.add', {
+                    id: 1,
+                    title: this.$t("App.job.workerClaimedPayoutNotificationTitle" /* Success! */),
+                    text: this.$t("App.job.workerClaimedPayoutNotificationText"
+                      /* You will see your salary in your MetaMask account soon. */)
+                  });
+                }, 700);
+              });
+            } catch (error) {
+              this.isLoading = false;
+              console.log('error when adding job in firebase', error);
+            }
           })
-          .catch(error => console.log(error));
-        this.isLoading = false;
       },
       sponsorJob(taskId) {
         if (!this.userId) {
@@ -677,12 +757,14 @@
       },
       claimJob(docId) {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
+        this.isLoading = true;
+
+        // TODO: fix the checkbox field for approving the terms when claiming a job
         if (this.hasEmptyFields) {
           EventBus.$emit('notification.add', {
             id: 1,
@@ -731,21 +813,22 @@
                   });
                 }, 700);
               });
-            } catch (err) {
-              console.log('err when adding job in firebase', err);
+            } catch (error) {
+              this.isLoading = false;
+              console.log('error when adding job in firebase', error);
             }
           })
-          .catch(err => {
-            console.log("bad", err);
+          .catch(error => {
+            this.isLoading = false;
+            console.log("bad", error);
           });
       },
       onPayout(docId) {
 
-        // TODO: Uncomment this out when moving to production !!!!
-        // if (this.$store.state.web3.networkId !== "1") {
-        //   this.openNetworkModal();
-        //   return;
-        // }
+        if (this.$store.state.web3.networkId !== "1") {
+          this.openNetworkModal();
+          return;
+        }
 
         const taskId = this.$route.params.id;
 
@@ -770,7 +853,8 @@
                 doc.ref.update({
                   payOutsToWorker: [...payOutsToWorker, new Date()]
                 });
-              });
+              })
+              .catch(error => console.log(error));
             this.$nextTick(() => {
               EventBus.$emit('notification.add', {
                 id: 1,
@@ -779,10 +863,12 @@
               });
               this.isLoading = false;
             })
-              .catch(error => console.log(error));
           })
       },
       async postEditedJob() {
+
+        this.isLoading = true;
+
         const jobData = {
           description: this.job.brief,
           deliverable: this.job.deliverable,
@@ -816,7 +902,10 @@
         this.isEditingJobDetails = false;
       },
       uploadProofOfWork() {
-        this.uploadImages().then(res => console.log('Im done running both funcs'))
+        this.isLoading = true;
+        this.uploadImages().then(res => {
+          console.log('Im done running both funcs')
+        })
       },
       async uploadImages() {
         const self = this;
@@ -824,6 +913,7 @@
           const imageUrl = await this.uploadFile(file, self.job.taskId);
           return {name: file.name, url: imageUrl};
         });
+
         Promise.all(results).then(async imageUrls => {
           if (!Reflect.has(this.job, "images")) this.job.images = [];
           const images = [...this.job.images, ...imageUrls];
@@ -837,6 +927,7 @@
         });
       },
       uploadFile(file, jobId) {
+        this.isLoading = true;
         return new Promise((resolve, reject) => {
           const self = this;
           const storageRef = firebaseStorage
@@ -848,13 +939,14 @@
             function (snapshot) {
               const progress =
                 snapshot.bytesTransferred / snapshot.totalBytes * 100;
-              self.loadingText =
-                this.$t('App.job.uploadedPhotoProgress' /* Upload is */) +
-                progress +
-                this.$t(
-                  'App.job.uploadedPhotoProgress2' /* % done. Processing post. */);
-              this.upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
-              console.log(this.upload.progress);
+              // TODO fix on screen loading percentage of image upload
+              // self.loadingText =
+              //   this.$t('App.job.uploadedPhotoProgress' /* Upload is */) +
+              //   progress +
+              //   this.$t(
+              //     'App.job.uploadedPhotoProgress2' /* % done. Processing post. */);
+              // this.upload.progress = (uploadTask.snapshot.bytesTransferred / uploadTask.snapshot.totalBytes) * 100;
+              // console.log(this.upload.progress);
             },
             function (error) {
               reject(error);
@@ -864,6 +956,7 @@
               resolve(downloadUrl);
             }
           );
+          this.isLoading = false;
         });
       },
       async fileUploaded(event) {
@@ -1151,4 +1244,7 @@
 </script>
 
 <style lang="scss" module>
+  .loading-parent {
+    position: relative;
+  }
 </style>
