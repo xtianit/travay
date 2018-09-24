@@ -30,19 +30,32 @@
                     $t('App.job.editProfileIcon' /* Editing Profile */)}}</i>
                 </a>
               </p>
+              <br>
 
               <template v-if="isEditingProfile">
                 <form @submit.prevent="updateProfile()">
 
-                  <p>{{ $t('App.profile.updateProfile' /* Update mobile number. */) }}</p>
+                  <p>{{ $t('App.profile.updateProfile' /* Update your mobile number. */) }}</p><br>
 
                   <vue-grid-row>
                     <vue-grid-item>
-                      <vue-input type="text" name="country" id="country" placeholder="Country Code" readonly
-                                 v-model="form.country"/>
+                      <!--<vue-input type="text" name="country" id="country" :placeholder="$t('App.profile.countryCodeTitle')" readonly-->
+                      <!--v-model="form.country"/>-->
+                      <vue-select
+                        name="countryCode"
+                        id="countryCode"
+                        placeholder="Job Category"
+                        v-model="form.countryCode"
+                        :options="$t('countryCodes')"
+                        :key="locale"
+                        required/>
                     </vue-grid-item>
+                  </vue-grid-row>
+
+                  <vue-grid-row>
                     <vue-grid-item>
-                      <vue-input type="text" name="number" id="number" placeholder="Number" required
+                      <vue-input type="text" name="number" id="number" :placeholder="$t('App.profile.numberTitle')"
+                                 required
                                  v-model="form.number"/>
                     </vue-grid-item>
                   </vue-grid-row>
@@ -87,7 +100,7 @@
       <vue-grid-row>
         <vue-grid-item>
           <vue-accordion multiple>
-            <vue-accordion-item title="Incomplete Jobs">
+            <vue-accordion-item :title="$t('App.profile.incompleteJobsTitle')">
               {{ $t('App.profile.incompleteJobs' /* List of all jobs that are still open. */) }}
               <div
                 v-for="(item, index) in incompleteJobs"
@@ -96,7 +109,7 @@
               </div>
             </vue-accordion-item>
 
-            <vue-accordion-item title="Completed Jobs">
+            <vue-accordion-item :title="$t('App.profile.completedJobsTitle')">
               {{ $t('App.profile.completedJobs' /* List of all jobs that have all been completed and closed. */) }}
               <div
                 v-for="(item, index) in completedJobs"
@@ -105,7 +118,7 @@
               </div>
             </vue-accordion-item>
 
-            <vue-accordion-item title="Canceled Jobs">
+            <vue-accordion-item :title="$t('App.profile.canceledJobsTitle')">
               {{ $t('App.profile.canceledJobs' /* List of all jobs that have all been canceled. */) }}
               <div
                 v-for="(item, index) in canceledJobs"
@@ -114,7 +127,7 @@
               </div>
             </vue-accordion-item>
 
-            <vue-accordion-item title="Jobs You're Managing">
+            <vue-accordion-item :title="$t('App.profile.managingJobsTitle')">
               {{ $t('App.profile.managingJobs' /* List of all jobs you are managing. */) }}
               <div
                 v-for="(item, index) in managingJobs"
@@ -123,7 +136,7 @@
               </div>
             </vue-accordion-item>
 
-            <vue-accordion-item title="Jobs You're Evaluating">
+            <vue-accordion-item :title="$t('App.profile.evaluatingJobsTitle')">
               {{ $t('App.profile.evaluatingJobs' /* List of all jobs you are listed as the Evaluator. */) }}
               <div
                 v-for="(item, index) in evaluatingJobs"
@@ -135,7 +148,7 @@
               </template>
             </vue-accordion-item>
 
-            <vue-accordion-item title="Jobs You've Sponsored">
+            <vue-accordion-item :title="$t('App.profile.sponsoringJobsTitle')">
               {{ $t('App.profile.sponsoringJobs' /* List of all jobs you've sponsored. */) }}
               <div
                 v-for="(item, index) in sponsored"
@@ -177,6 +190,7 @@
     },
     data() {
       return {
+        locale: '',
         isLoading: false,
         sponsored: false,
         isEditingProfile: false,
@@ -189,7 +203,7 @@
         managingJobs: [],
         canceledJobs: [],
         form: {
-          country: '509',
+          countryCode: '',
           number: '',
           optInTexts: true,
           subscribeToMailingList: true
@@ -206,8 +220,8 @@
         saveUserInStorage: types.SAVE_USER_IN_STORAGE
       }),
       concatenateToE164() {
-        // const phone = this.form.country + this.form.area + this.form.prefix + this.form.line;
-        const phone = this.form.country + this.form.number;
+        // const phone = this.form.country + this.form.number;
+        const phone = this.form.countryCode + this.form.number;
         return `+${phone}`
       },
       async updateProfile() {

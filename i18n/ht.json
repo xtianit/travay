@@ -57,6 +57,14 @@
   "App.tip.receiverDescription": "Mete nan Ethereum adrès moun ki ta sipoze resevwa lajan DAI ou a. Pa bliye, sonje ke sa irevèsib (paka anile), pou sa asire'w ke ou gen bon adrès la!",
   "App.tip.amountDescription": "Antre nan konbyen lajan ou ta renmen voye an USD.",
   "App.job.notEditingProfileIcon": "Korije Pwofil",
+  "App.profile.incompleteJobsTitle":"Travay Enkonplè",
+  "App.profile.completedJobsTitle":"Travay fin Ranpli",
+  "App.profile.canceledJobsTitle":"Anile Travay",
+  "App.profile.managingJobsTitle":"Travay ou Jere",
+  "App.profile.evaluatingJobsTitle":"Travay ke ou Evalye",
+  "App.profile.sponsoringJobsTitle":"Travay ou Sponsorize",
+  "App.profile.countryCodeTitle":"Peyi Kòd",
+  "App.profile.numberTitle":"Nimewo",
   "App.profile.pageTitle": "Pwofil",
   "App.profile.updateProfileTitle": "Siksè!",
   "App.profile.updateProfileText": "Pwofil ou aktyalize!",
@@ -136,6 +144,10 @@
   "App.jobs.pageSubtitle": "Men w ap jwenn travay 6 mwa ak 12 mwa.",
   "App.jobs.search": "Rechèch",
   "App.jobs.filter": "Filtre",
+  "App.createJob.JobDescriptionInForm": "Deskripsyon nan travay la",
+  "App.createJob.requirementInForm": "Obligasyon pou travay la dwe ranpli",
+  "App.createJob.nrMonthsInForm": "Kantite Mwa Travay",
+  "App.createJob.totalFoundingInForm": "Total finansman (salè) pou yon travay nan USD",
   "App.createJob.jobPostedTitle": "Yay!",
   "App.createJob.jobPostedText": "Se travay ou kounye a afiche! Klike la a pou wè travay la.",
   "App.createJob.emptyFieldsTitle": "Oops!",
@@ -198,5 +210,28 @@
   "components.register.terms": "I accept the <a href=\"/\">Terms and Conditions</a>",
   "components.register.title": "Enskri",
   "components.truncate.showLess": "Montre mwens",
-  "components.truncate.showMore": "Montre plis"
+  "components.truncate.showMore": "Montre plis",
+  "domainOptions": [
+    {"label": "Chwazi yon domèn", "value": null},
+    {"label": "Kominote", "value": "community"},
+    {"label": "Edikasyon", "value": "education"},
+    {"label": "Anviwònman", "value": "environment"}
+  ],
+  "skillOptions": [
+    {"label": "Chwazi Konpetans lan Vle", "value": null},
+    {"label": "Administratif", "value": "administrative"},
+    {"label": "Jeni", "value": "engineering"},
+    {"label": "Manpower la", "value": "labor"},
+    {"label": "Ansèyman", "value": "teaching"}
+  ],
+  "countryOptions": [
+    {"label": "Chwazi yon Peyi", "value": null},
+    {"label": "Haiti", "value": "haiti"},
+    {"label": "USA", "value": "us"}
+  ],
+  "countryCodes": [
+    {"label": "Chwazi yon Peyi", "value": null},
+    {"label": "Haiti", "value": "509"},
+    {"label": "USA", "value": "1"}
+  ]
 }

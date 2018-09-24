@@ -29,7 +29,7 @@
                   <vue-input
                     name="task"
                     id="task"
-                    placeholder="Job Title"
+                    :placeholder="$t('App.createJob.JobTitleInForm')"
                     v-model="form.task"
                     required/>
                 </vue-grid-item>
@@ -40,7 +40,7 @@
                   <vue-input
                     name="brief"
                     id="brief"
-                    placeholder="Job Description"
+                    :placeholder="$t('App.createJob.JobDescriptionInForm')"
                     v-model="form.brief"
                     required/>
                 </vue-grid-item>
@@ -57,7 +57,7 @@
                   <vue-input
                     name="deliverable"
                     id="deliverable"
-                    placeholder="Requirement for Job to be Complete"
+                    :placeholder="$t('App.createJob.requirementInForm')"
                     v-model="requirement"
                     required/>
                   <button accent @click="addRequirement">{{ $t('App.createJob.requirementButton' /* Add Requirement */) }}
@@ -97,7 +97,7 @@
                     name="termOfEmployment"
                     id="termOfEmployment"
                     type="number"
-                    placeholder="Number of Months of Employment"
+                    :placeholder="$t('App.createJob.nrMonthsInForm')"
                     v-model="form.termOfEmployment"
                     required/>
                   <div>{{ $t('App.createJob.termOfEmploymentExplanation' /* Months of work is also referenced as
@@ -126,7 +126,7 @@
                     name="salary"
                     id="salary"
                     type="number"
-                    placeholder="Total Funding (Salary) for Job in USD"
+                    :placeholder="$t('App.createJob.totalFoundingInForm')"
                     v-model="form.salary"
                     required/>
                   <div>{{ $t('App.createJob.salaryPayoutDisclaimer' /* Remember: (1) The salary you list above will be
@@ -141,11 +141,12 @@
               <vue-grid-row>
                 <vue-grid-item>
                   <vue-select
-                    name="domain"
+                    name=" "
                     id="domain"
                     placeholder="Job Category"
                     v-model="form.domain"
-                    :options="domainOptions"
+                    :options="$t('domainOptions')"
+                    :key="locale"
                     required/>
                 </vue-grid-item>
                 <vue-grid-item>
@@ -154,7 +155,8 @@
                     id="skill"
                     placeholder="Top Desired Skill"
                     v-model="form.skill"
-                    :options="skillOptions"
+                    :options="$t('skillOptions')"
+                    :key="locale"
                     required/>
                 </vue-grid-item>
               </vue-grid-row>
@@ -165,7 +167,8 @@
                     name="country"
                     id="country"
                     v-model="form.country"
-                    :options="countryOptions"
+                    :options="$t('countryOptions')"
+                    :key="locale"
                     required/>
                 </vue-grid-item>
               </vue-grid-row>
@@ -175,7 +178,7 @@
                   <vue-input
                     name="cityOfWork"
                     id="cityOfWork"
-                    placeholder="City where work is to be performed"
+                    :placeholder="$t('App.job.cityOfWork')"
                     v-model="form.cityOfWork"
                     required/>
                 </vue-grid-item>
@@ -261,24 +264,6 @@
           isDatePostedDisabled: true,
           acceptTerms: false
         },
-        countryOptions: [
-          {label: 'Choose a Country', value: null},
-          {label: 'Haiti', value: 'haiti'},
-          {label: 'USA', value: 'us'}
-        ],
-        skillOptions: [
-          {label: 'Choose Top Desired Skill', value: null},
-          {label: 'Administrative', value: 'administrative'},
-          {label: 'Engineering', value: 'engineering'},
-          {label: 'Labor', value: 'labor'},
-          {label: 'Teaching', value: 'teaching'}
-        ],
-        domainOptions: [
-          {label: 'Choose a Job Category', value: null},
-          {label: 'Community', value: 'community'},
-          {label: 'Education', value: 'education'},
-          {label: 'Environment', value: 'environment'}
-        ],
         isLoading: false,
         requirement: '',
         status: {}
@@ -300,7 +285,7 @@
       },
       createJob() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
