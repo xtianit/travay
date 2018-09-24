@@ -248,6 +248,7 @@
     data() {
       return {
         fullPage: true,
+        locale: '',
         form: {
           taskId: 0,
           task: '',
