@@ -110,6 +110,9 @@
                     <strong>{{ $t('App.job.cityOfWork' /* City of Work */) }}:</strong> {{ job.cityOfWork }}
                     <br><br>
 
+                    <strong>{{ $t('App.job.countryOfWork' /* Country of Work */) }}:</strong> {{ job.country }}
+                    <br><br>
+
                     <strong>{{ $t('App.job.requirements' /* Requirements */) }}:</strong><br><br>
                     <p v-for="(item, index) in job.deliverable" :key="index">
                       + {{item}}
@@ -369,7 +372,7 @@
   import {NETWORKS} from "../util/constants/networks";
   import axios from "axios";
   import firebase from "firebase";
-  import db from "../firebaseinit";
+  import db from "../firebaseinit-dev";
   import SponsorModal from "../services/SponsorModal.vue";
   import {uuid} from "vue-uuid";
   import moment from "moment";
@@ -501,7 +504,7 @@
       },
       cancelJob() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -536,7 +539,7 @@
       },
       setEvaluator() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -591,7 +594,7 @@
       },
       markJobComplete() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -624,7 +627,7 @@
       },
       evaluateJobAsCompletedSucessfully() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -684,7 +687,7 @@
       },
       claimPayout() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -757,7 +760,7 @@
       },
       claimJob(docId) {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -825,7 +828,7 @@
       },
       onPayout(docId) {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
