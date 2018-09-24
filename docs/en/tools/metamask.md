@@ -1,7 +1,5 @@
-<template>
-  <vue-grid>
-    <vue-grid-row>
-      <vue-grid-item>
+# MetaMask
+
         <h1>Installing MetaMask</h1>
         <p><em>What is MetaMask?</em></p>
         <p>MetaMask is the easiest way to interact with decentralized web applications in a browser. It is a browser
@@ -37,18 +35,3 @@
           href="https://truffleframework.com/docs/truffle/getting-started/truffle-with-metamask#setting-up-metamask"
           target="_blank">
           Truffle</a>.</p>
-
-      </vue-grid-item>
-    </vue-grid-row>
-  </vue-grid>
-</template>
-
-<script>
-  export default {
-    name: "set-up-metamask"
-  }
-</script>
-
-<style scoped>
-
-</style>

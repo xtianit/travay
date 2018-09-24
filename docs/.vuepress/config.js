@@ -19,5 +19,27 @@ module.exports = {
       title: 'Travay',
       description: 'FR LANGUAGE'
     }
+  },
+  themeConfig: {
+    lastUpdated: 'Last Updated',
+    displayAllHeaders: true,
+    nav: [
+      { text: 'Home', link: '/' },
+      { text: 'Go to Travay', link: 'https://www.travayht.com' },
+      { text: 'Contact Us', link: '../en/contact-us' },
+    ],
+    sidebar: [
+      {
+        title: 'Group 1',
+        collapsable: false,
+        children: [
+          '/'
+        ]
+      },
+      {
+        title: 'Group 2',
+        children: [ /* ... */ ]
+      }
+    ]
   }
 };

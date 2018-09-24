@@ -1,4 +1,3 @@
-<template>
   <div>
     <vue-grid>
 
@@ -80,23 +79,3 @@
       <!--</vue-grid-row>-->
     </vue-grid>
   </div>
-</template>
-
-<script>
-  export default {
-    metaInfo: {
-      title: "Travay User Guide",
-      meta: [
-        {
-          name: "Travay User Guide",
-          content: "How to use Travay."
-        }
-      ]
-    },
-    name: 'userGuide'
-  }
-</script>
-
-<style scoped>
-
-</style>

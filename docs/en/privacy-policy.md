@@ -1,12 +1,6 @@
-<template>
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <br>
-        <h1>Electric Feel Privacy Policy</h1>
 
         <p>This Privacy Policy describes how your personal information is collected, used, and shared when you visit
-          or make a purchase from electricfeel.co (the “Site”).</p>
+          or make a purchase from travay.co and travayht.com (the “Site”).</p>
 
         <h2>PERSONAL INFORMATION WE COLLECT</h2>
 
@@ -118,14 +112,3 @@
 
         <p>21800 Towncenter Plaza Ste 266A-164</p>
         <p>Sterling, VA, 20164, United States</p>
-
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
-  export default {
-    name: "privacy"
-  }
-</script>

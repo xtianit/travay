@@ -1,7 +1,7 @@
 {
   "name": "travay",
   "version": "0.0.1",
-  "description": "The long terms job market of Haiti",
+  "description": "Long term job market of Haiti",
   "author": "Farah Brunache",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
