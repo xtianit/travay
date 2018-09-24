@@ -57,13 +57,21 @@
   "App.tip.amountDescription": "Enter how much you would like to send in USD.",
   "App.job.editProfileIcon": "Editing Profile",
   "App.job.notEditingProfileIcon": "Edit Profile",
+  "App.profile.incompleteJobsTitle":"Incomplete Jobs",
+  "App.profile.completedJobsTitle":"Completed Jobs",
+  "App.profile.canceledJobsTitle":"Canceled Jobs",
+  "App.profile.managingJobsTitle":"Jobs You're Managing",
+  "App.profile.evaluatingJobsTitle":"Jobs You're Evaluating",
+  "App.profile.sponsoringJobsTitle":"Jobs You've Sponsored",
+  "App.profile.countryCodeTitle":"Country Code",
+  "App.profile.numberTitle":"Number",
   "App.profile.pageTitle": "Profile",
   "App.profile.updateProfileTitle": "Success!",
   "App.profile.updateProfileText": "Your profile has been update!",
   "App.profile.updateProfileButton": "Update Profile",
   "App.profile.optInTexts": "I want to receive text messages when there are new jobs.",
   "App.profile.subscribeToMailingList": "I want to receive email messages when there are new jobs.",
-  "App.profile.updateProfile": "Update mobile number.",
+  "App.profile.updateProfile": "Update your mobile number.",
   "App.profile.incompleteJobs": "List of all jobs that are still open.",
   "App.profile.completedJobs": "List of all jobs that have all been completed and closed.",
   "App.profile.canceledJobs": "List of all jobs that have all been canceled.",
@@ -136,6 +144,10 @@
   "App.jobs.pageSubtitle": "Here you'll find 6-month and 12-month jobs.",
   "App.jobs.search": "Search",
   "App.jobs.filter": "Filter",
+  "App.createJob.JobDescriptionInForm": "Job Description",
+  "App.createJob.requirementInForm": "Requirement for Job to be Complete",
+  "App.createJob.nrMonthsInForm": "Number of Months of Employment",
+  "App.createJob.totalFoundingInForm": "Total Funding (Salary) for Job in USD",
   "App.createJob.jobPostedTitle": "Yay!",
   "App.createJob.jobPostedText": "Your job is now posted! Click here to see the job.",
   "App.createJob.emptyFieldsTitle": "Oops!",
@@ -197,5 +209,28 @@
   "components.register.terms": "I accept the <a href=\"/\">Terms and Conditions</a>",
   "components.register.title": "Register",
   "components.truncate.showLess": "Show less",
-  "components.truncate.showMore": "Show more"
+  "components.truncate.showMore": "Show more",
+  "domainOptions": [
+    {"label": "Choose a Domain", "value": null},
+    {"label": "Community", "value": "community"},
+    {"label": "Education", "value": "education"},
+    {"label": "Environment", "value": "environment"}
+  ],
+  "skillOptions": [
+    {"label": "Choose Top Desired Skill", "value": null},
+    {"label": "Administrative", "value": "administrative"},
+    {"label": "Engineering", "value": "engineering"},
+    {"label": "Labor", "value": "labor"},
+    {"label": "Teaching", "value": "teaching"}
+  ],
+  "countryOptions": [
+    {"label": "Choose a Country", "value": null},
+    {"label": "Haiti", "value": "haiti"},
+    {"label": "USA", "value": "us"}
+  ],
+  "countryCodes": [
+    {"label": "Choose a Country", "value": null},
+    {"label": "Haiti", "value": "509"},
+    {"label": "USA", "value": "1"}
+  ]
 }
