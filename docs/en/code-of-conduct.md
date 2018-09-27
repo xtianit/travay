@@ -1,3 +1,4 @@
+# Code of Conduct
 
         <h1>{{ $t('App.codeOfCode.pageTitle' /* Code of Conduct */) }}</h1>
 

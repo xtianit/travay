@@ -1,11 +1,11 @@
 module.exports = {
   title: 'Travay Guide',
   description: 'How to use Travay',
+  base: '/guide/',
+  // dest: path.join(path.resolve(__dirname), '..', '..', 'dist', 'docs'),
   locales: {
-    // The key is the path for the locale to be nested under.
-    // As a special case, the default locale can use '/' as its path.
     '/en/': {
-      lang: 'English', // this will be set as the lang attribute on <html>
+      lang: 'English',
       title: 'Travay',
       description: 'The Long-Term Jobs Market of Haiti'
     },
@@ -24,21 +24,33 @@ module.exports = {
     lastUpdated: 'Last Updated',
     displayAllHeaders: true,
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Go to Travay', link: 'https://www.travayht.com' },
-      { text: 'Contact Us', link: '../en/contact-us' },
+      {text: 'Home', link: '/'},
+      {text: 'Go to Travay', link: 'https://www.travayht.com'},
+      {text: 'Contact Us', link: '../en/contact-us'},
     ],
     sidebar: [
       {
-        title: 'Group 1',
-        collapsable: false,
+        title: 'Travay',
         children: [
-          '/'
+          '/',
+          '../en/faqs',
+          '../en/dictionary',
+          '../en/privacy-policy',
+          '../en/contact-us'
         ]
       },
       {
-        title: 'Group 2',
-        children: [ /* ... */ ]
+        title: 'Third Party Applications Travay Uses',
+        children: [
+          '../en/tools/airswap',
+          '../en/tools/metamask'
+        ]
+      },
+      {
+        title: 'Other Blockchain and Crypto Resources',
+        children: [
+          '../en/tools/additional/dether',
+        ]
       }
     ]
   }
