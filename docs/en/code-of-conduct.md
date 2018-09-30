@@ -1,7 +1,5 @@
-<template>
-  <vue-grid class="code-of-conduct">
-    <vue-grid-row>
-      <vue-grid-item>
+# Code of Conduct
+
         <h1>{{ $t('App.codeOfCode.pageTitle' /* Code of Conduct */) }}</h1>
 
         <p>{{ $t('App.codeOfCode.paragraph1' /* We as creators and maintainers of Travay pledge to making
@@ -82,19 +80,3 @@
           Colony</a> and <a href="https://jobs.netflix.com/culture" target="_blank">Netflix Company Culture</a>.</p>
       </vue-grid-item>
     </vue-grid-row>
-  </vue-grid>
-
-</template>
-
-<script>
-  export default {
-    name: "code-of-conduct"
-  }
-</script>
-
-<style scoped>
-
-  .code-of-conduct {
-    margin: 20px;
-  }
-</style>

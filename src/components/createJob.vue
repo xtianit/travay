@@ -215,7 +215,7 @@
   import {NETWORKS} from "../util/constants/networks";
   import {uuid} from 'vue-uuid';
   import firebase from 'firebase';
-  import db from '../firebaseinit';
+  import db from '../firebaseinit-dev';
   import {any} from 'bluebird';
   import {store} from '../store';
   import * as types from '../store/types'
@@ -286,7 +286,7 @@
       },
       createJob() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }

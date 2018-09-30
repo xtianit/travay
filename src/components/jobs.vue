@@ -177,7 +177,7 @@
   import {mapActions, mapGetters} from 'vuex';
   import axios from 'axios';
   import firebase from 'firebase';
-  import db from '../firebaseinit';
+  import db from '../firebaseinit-dev';
   import SponsorModal from '../services/SponsorModal.vue';
   import {uuid} from 'vue-uuid';
   import moment from 'moment';
@@ -306,7 +306,8 @@
       // ...mapActions('signInModal', ['openLoginModal', 'closeLoginModal']),
       ...mapActions({
         openLoginModal: types.OPEN_LOGIN_MODAL,
-        closeLoginModal: types.CLOSE_LOGIN_MODAL
+        closeLoginModal: types.CLOSE_LOGIN_MODAL,
+        openNetworkModal: types.OPEN_NETWORK_MODAL
       }),
       moment: function () {
         return moment();
@@ -319,6 +320,12 @@
         this.$router.push('createJob');
       },
       sponsorJob(taskId) {
+
+        if (this.$store.state.web3.networkId !== "3") {
+          this.openNetworkModal();
+          return;
+        }
+
         if (!this.userId) {
           this.openLoginModal();
           return;

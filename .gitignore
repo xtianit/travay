@@ -10,6 +10,7 @@ storybook-static
 .env
 sendgrid.env
 /contracts/truffle.js
+.moving-to-prod
 
 # Editor directories and files
 .idea

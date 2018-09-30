@@ -110,6 +110,9 @@
                     <strong>{{ $t('App.job.cityOfWork' /* City of Work */) }}:</strong> {{ job.cityOfWork }}
                     <br><br>
 
+                    <strong>{{ $t('App.job.countryOfWork' /* Country of Work */) }}:</strong> {{ job.country }}
+                    <br><br>
+
                     <strong>{{ $t('App.job.requirements' /* Requirements */) }}:</strong><br><br>
                     <p v-for="(item, index) in job.deliverable" :key="index">
                       + {{item}}
@@ -304,8 +307,9 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.evaluator="{role: job.role}" primary>
-                    <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
+                  <!--<vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>-->
+                  <vue-button>
+                  <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
                   </vue-button>
@@ -369,7 +373,7 @@
   import {NETWORKS} from "../util/constants/networks";
   import axios from "axios";
   import firebase from "firebase";
-  import db from "../firebaseinit";
+  import db from "../firebaseinit-dev";
   import SponsorModal from "../services/SponsorModal.vue";
   import {uuid} from "vue-uuid";
   import moment from "moment";
@@ -501,7 +505,7 @@
       },
       cancelJob() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -528,15 +532,15 @@
               title: this.$t("App.job.jobCanceledNotificationTitle" /* Success! */),
               text: this.$t("App.job.jobCanceledNotificationText" /* This job has been cancelled. */)
             });
+            this.isLoading = false;
           })
           .catch(error => {
-            this.isLoading = false;
             console.log(error)
           });
       },
       setEvaluator() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -591,7 +595,7 @@
       },
       markJobComplete() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -624,7 +628,7 @@
       },
       evaluateJobAsCompletedSucessfully() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -684,7 +688,7 @@
       },
       claimPayout() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -738,6 +742,12 @@
           })
       },
       sponsorJob(taskId) {
+
+        if (this.$store.state.web3.networkId !== "3") {
+          this.openNetworkModal();
+          return;
+        }
+
         if (!this.userId) {
           this.openLoginModal();
           return;
@@ -757,7 +767,7 @@
       },
       claimJob(docId) {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
@@ -825,7 +835,7 @@
       },
       onPayout(docId) {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }
