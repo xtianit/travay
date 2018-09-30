@@ -307,8 +307,7 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <!--<vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>-->
-                  <vue-button>
+                  <vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>
                   <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
