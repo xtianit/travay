@@ -307,8 +307,9 @@
                     </a>
                   </vue-button>
                   <br><br>
-                  <vue-button v-userRole.evaluator="{role: job.role}" primary>
-                    <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
+                  <!--<vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>-->
+                  <vue-button>
+                  <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
                   </vue-button>
@@ -531,9 +532,9 @@
               title: this.$t("App.job.jobCanceledNotificationTitle" /* Success! */),
               text: this.$t("App.job.jobCanceledNotificationText" /* This job has been cancelled. */)
             });
+            this.isLoading = false;
           })
           .catch(error => {
-            this.isLoading = false;
             console.log(error)
           });
       },
@@ -741,6 +742,12 @@
           })
       },
       sponsorJob(taskId) {
+
+        if (this.$store.state.web3.networkId !== "3") {
+          this.openNetworkModal();
+          return;
+        }
+
         if (!this.userId) {
           this.openLoginModal();
           return;

@@ -27,9 +27,9 @@ export const userRole = {
 
       // Evaluator only
       if (Reflect.has(modifiers, 'evaluator')) {
-        if (value.role[1] !== userId) hide(vnode);
+        if (!value.role[1].includes(userId)) hide(vnode);
       } else {
-        console.log('NOT HIDING EVALUATOR');
+        console.log('EVALUATOR Role');
       }
 
       // Worker only
@@ -62,7 +62,7 @@ export const userRole = {
           !value.role[1].includes(userId) &&
           !value.role[3].includes(userId) && value.role[2] === ""
         ) {
-          console.log('NOT HIDING CAN CLAIM');
+          // console.log('CAN CLAIM Role');
         } else {
           hide(vnode);
         }
@@ -75,7 +75,7 @@ export const userRole = {
           value.role[1] === userId ||
           value.role[2] === userId
         ) {
-          console.log('NOT HIDING SPONSOR');
+          // console.log('SPONSOR Role');
         } else {
           hide(vnode);
         }
@@ -84,11 +84,12 @@ export const userRole = {
       // Only if user did not claim the job && is not the evaluator && job doesn't have an evaluator
       if (Reflect.has(modifiers, 'canBecomeEvaluator')) {
         if (
+          value.role[1] === "" &&
           !value.role[0].includes(userId) &&
           !value.role[2].includes(userId) &&
-          !value.role[3].includes(userId) && value.role[1] === ""
+          !value.role[3].includes(userId)
         ) {
-          console.log('NOT HIDING BECOME EVALUATOR');
+          console.log('Become EVALUATOR Role');
         } else {
           hide(vnode);
         }

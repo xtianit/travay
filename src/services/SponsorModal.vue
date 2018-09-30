@@ -1,10 +1,10 @@
 <template>
   <div :class="$style.sponsorModal" class="loading-parent">
-      <loading
-          :active.sync="isLoading"
-          :can-cancel="false"
-          :is-full-page="fullPage">
-      </loading>
+    <loading
+      :active.sync="isLoading"
+      :can-cancel="false"
+      :is-full-page="fullPage">
+    </loading>
     <vue-modal :show="show" @close="$emit('update:show', false)">
       <vue-button warn @click="$emit('update:show', false)">X</vue-button>
 
@@ -28,7 +28,7 @@
       <br>
       <!--TODO: fix: modal overlay remains after navigating to new page-->
       <!--<p>You will need DAI to Sponsor a Job. You can get some <router-link :to="'/get-funds'">{{-->
-        <!--$t('App.footer.getStartedGuide' /* Get Started */) }}</router-link>.-->
+      <!--$t('App.footer.getStartedGuide' /* Get Started */) }}</router-link>.-->
       <!--</p>-->
 
     </vue-modal>
@@ -71,17 +71,11 @@
         taskId: "",
       };
     },
-    computed: {},
     methods: {
       ...mapActions({
         openNetworkModal: types.OPEN_NETWORK_MODAL
       }),
       sponsorJob() {
-
-        if (this.$store.state.web3.networkId !== "3") {
-          this.openNetworkModal();
-          return;
-        }
 
         this.isLoading = true;
         this.sponsorAmountToEscrow()
@@ -148,6 +142,6 @@
     display: block;
   }
   .loading-parent {
-  position: relative;
-}
+    position: relative;
+  }
 </style>
