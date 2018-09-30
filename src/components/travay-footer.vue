@@ -1,8 +1,10 @@
 <template>
   <footer id="footer-style">
     &copy; {{ year }} {{ $t('App.footer.company' /* company */) }} <br>
-    <a href="https://airtable.com/shrGJhkEk4SphwEXe" target="_blank">Get Notified of New Jobs</a><br>
-    <p>Contact Us: <a href="https://twitter.com/travayco" target="_blank">Twitter</a></p>
+    <a href="https://airtable.com/shrGJhkEk4SphwEXe" target="_blank">{{ $t('App.footer.getNotified' /* Get Notified of
+      New Jobs */) }}</a><br>
+    <p>{{ $t('App.footer.contractUs' /* Contact Us */) }}:
+      <a href="https://twitter.com/travayco" target="_blank">Twitter</a></p>
   </footer>
 </template>
 

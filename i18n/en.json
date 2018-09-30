@@ -161,6 +161,8 @@
   "App.createJob.salaryPayoutDisclaimer": "Remember: (1) The salary you list above will be deducted and paid to the worker evenly based on the total months you have typed above. (2) We collect 2% of the total salary amount. Based on the salary you have entered above the worker in total will receive approximately: ",
   "App.createJob.pageDescription": "Use the form below to create a 6-month or 12-month job.",
   "App.createJob.requirementInstructions": "Please add your requirements in order for the job to be considered as complete. Add one requirement, then click Add Requirement, to add additional requirements.",
+  "App.footer.getNotified": "Get Notified of New Jobs",
+  "App.footer.contractUs": "Contact Us",
   "App.footer.userGuide": "User Guide",
   "App.footer.getStartedGuide": "Get Started",
   "App.footer.codeOfConduct": "Code of Conduct",
