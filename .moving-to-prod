@@ -2,3 +2,17 @@ When moving the prod
 1 . main.js - ht
 2. firebaseinit-dev
 3. `this.$store.state.web3.networkId !== "3"` Change network ID from 1 to 3
+
+Blockchain Functions:
+
+create job
+cancel job
+claim job
+uploadProofOfWork (not a blockchain function) - this is loading isn't working
+markJobComplete
+setEvaluator
+evaluateJobAsCompletedSucessfully
+onPayout
+claimPayout
+tip
+sponsor
