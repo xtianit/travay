@@ -373,7 +373,7 @@
   import {NETWORKS} from "../util/constants/networks";
   import axios from "axios";
   import firebase from "firebase";
-  import db from "../firebaseinit-dev";
+  import db from "../firebaseinit";
   import SponsorModal from "../services/SponsorModal.vue";
   import {uuid} from "vue-uuid";
   import moment from "moment";
@@ -505,7 +505,7 @@
       },
       cancelJob() {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -540,7 +540,7 @@
       },
       setEvaluator() {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -595,7 +595,7 @@
       },
       markJobComplete() {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -628,7 +628,7 @@
       },
       evaluateJobAsCompletedSucessfully() {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -688,7 +688,7 @@
       },
       claimPayout() {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -743,7 +743,7 @@
       },
       sponsorJob(taskId) {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -767,7 +767,7 @@
       },
       claimJob(docId) {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -835,7 +835,7 @@
       },
       onPayout(docId) {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -1254,7 +1254,7 @@
 </script>
 
 <style lang="scss" module>
-  .loading-parent {
-    position: relative;
-  }
+.loading-parent {
+  position: relative;
+}
 </style>

@@ -177,7 +177,7 @@
   import {mapActions, mapGetters} from 'vuex';
   import axios from 'axios';
   import firebase from 'firebase';
-  import db from '../firebaseinit-dev';
+  import db from '../firebaseinit';
   import SponsorModal from '../services/SponsorModal.vue';
   import {uuid} from 'vue-uuid';
   import moment from 'moment';
@@ -321,7 +321,7 @@
       },
       sponsorJob(taskId) {
 
-        if (this.$store.state.web3.networkId !== "3") {
+        if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();
           return;
         }
@@ -430,5 +430,4 @@
 </script>
 
 <style scoped>
-
 </style>
