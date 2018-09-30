@@ -27,9 +27,7 @@ export const userRole = {
 
       // Evaluator only
       if (Reflect.has(modifiers, 'evaluator')) {
-        if (
-          value.role[1] !== userId
-        ) hide(vnode);
+        if (value.role[1] !== userId) hide(vnode);
       } else {
         console.log('EVALUATOR Role');
       }

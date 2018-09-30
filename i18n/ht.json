@@ -161,6 +161,8 @@
   "App.createJob.salaryPayoutDisclaimer": "Sonje: (1) Salè ou lis anwo a ap fèt dedui ak peye travayè a respire ki baze sou mwa yo total ou te tape pi wo a. (2) Nou kolekte 2% kantite lajan total salè. Ki baze sou salè ou te antre anlè travayè a nan total pral resevwa apeprè: ",
   "App.createJob.pageDescription": "Itilize fòm ki anba a pou kreye yon travay 6 mwa oswa 12 mwa.",
   "App.createJob.requirementInstructions": "Tanpri ajoute kondisyon ou yo nan lòd pou travay la yo dwe konsidere kòm konplè. Add yon egzijans, epi klike sou Add Requirement, pou ajoute lòt kondisyon.",
+  "App.footer.getNotified": "Jwenn notifye nan nouvo travay.",
+  "App.footer.contractUs": "Kontakte Nou",
   "App.footer.userGuide": "Gid Itilizatè",
   "App.footer.getStartedGuide": "Ann kòmanse",
   "App.footer.codeOfConduct": "Kòd Konduit",
