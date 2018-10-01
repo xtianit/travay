@@ -64,7 +64,7 @@
             {{ $t('App.getStarted.startJob' /* Pick a job and start work immediately! */) }}
           </li>
         </ol>
-        <p>{{ $t('App.getStarted.note' /* Note: Travay is only available with Android and Firefox. */) }}</p>
+        <p>{{ $t('App.getStarted.note' /* Note: Travay is not available on iPhone. */) }}</p>
       </vue-grid-item>
     </vue-grid-row>
 
