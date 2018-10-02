@@ -22,7 +22,6 @@ module.exports = {
   },
   themeConfig: {
     lastUpdated: 'Last Updated',
-    displayAllHeaders: true,
     nav: [
       {text: 'Home', link: '/'},
       {text: 'Go to Travay', link: 'https://www.travayht.com'},
@@ -31,6 +30,7 @@ module.exports = {
     sidebar: [
       {
         title: 'Travay',
+        collapsable: true,
         children: [
           '/',
           '../en/faqs',
@@ -40,16 +40,10 @@ module.exports = {
         ]
       },
       {
-        title: 'Third Party Applications Travay Uses',
+        title: 'Required Third Party Applications',
+        collapsable: true,
         children: [
-          '../en/tools/airswap',
           '../en/tools/metamask'
-        ]
-      },
-      {
-        title: 'Other Blockchain and Crypto Resources',
-        children: [
-          '../en/tools/additional/dether',
         ]
       }
     ]

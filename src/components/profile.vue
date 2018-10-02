@@ -17,8 +17,8 @@
               :key="user.uid">
               <p>{{ user.name || user.displayName }}</p>
               <p>{{ user.email || null }}</p>
-              <p>{{ user.phoneWhatsapp || null }}</p>
-              <p>{{ user.phone || null }}</p>
+              <p>{{ $t('App.profile.numberTitleWhatsapp' /* Whatsapp Number */) }}: {{ user.phoneWhatsapp || null }}</p>
+              <p>{{ $t('App.profile.numberTitleMobile') /* Mobile Number */ }}: {{ user.phone || null }}</p>
               <!--<p>{{ user.address || null }}</p>-->
               <p>{{ user.country || null }}</p>
               <br>
@@ -34,9 +34,25 @@
               <br>
 
               <template v-if="isEditingProfile">
+
+                <p>{{ $t('App.profile.updateProfile' /* Update your profile. */) }}</p><br>
+
                 <form @submit.prevent="updateProfile()">
 
-                  <p>{{ $t('App.profile.updateProfile' /* Update your profile. */) }}</p><br>
+                  <vue-grid-row>
+                    <vue-grid-item>
+                      <vue-tags-input
+                        name="tags"
+                        v-model="tag"
+                        :tags="tags"
+                        :autocomplete-items="autocompleteItems"
+                        :add-only-from-autocomplete="true"
+                        @tags-changed="updateSkills()">
+                      </vue-tags-input>
+                    </vue-grid-item>
+                  </vue-grid-row>
+                  <br>
+                  <br>
 
                   <vue-grid-row>
                     <vue-grid-item>
@@ -52,7 +68,7 @@
                     </vue-grid-item>
                     <vue-grid-item>
                       <vue-input type="text" name="number" id="number"
-                                 :placeholder="$t('App.profile.numberTitleWhatsapp')"
+                                 :placeholder="$t('App.profile.numberTitleWhatsapp') /* Whatsapp Number */"
                                  required
                                  v-model="form.numberWhatsapp"/>
                     </vue-grid-item>
@@ -71,7 +87,8 @@
                         required/>
                     </vue-grid-item>
                     <vue-grid-item>
-                      <vue-input type="text" name="number" id="number" :placeholder="$t('App.profile.numberTitleMobile')"
+                      <vue-input type="text" name="number" id="number"
+                                 :placeholder="$t('App.profile.numberTitleMobile') /* Mobile Number */"
                                  required
                                  v-model="form.number"/>
                     </vue-grid-item>
@@ -186,6 +203,8 @@
   import * as types from '../store/types'
   import {store} from '../store';
   import SignInModal from '../services/SignInModal';
+  import VueTagsInput from '@johmun/vue-tags-input';
+  import axios from 'axios';
 
   export default {
     metaInfo: {
@@ -196,6 +215,9 @@
           content: "Your Profile in Travay"
         }
       ]
+    },
+    components: {
+      VueTagsInput,
     },
     name: "Profile",
     $_veeValidate: {
@@ -215,13 +237,19 @@
         evaluatingJobs: [],
         managingJobs: [],
         canceledJobs: [],
+        tag: '',
+        tags: [],
+        autocompleteItems: [],
+        debounce: null,
         form: {
           countryCodeWhatsapp: '',
           countryCodeMobile: '',
           numberWhatsapp: '',
           number: '',
           optInTexts: true,
-          subscribeToMailingList: true
+          subscribeToMailingList: true,
+          tag: '',
+          tags: [],
         },
       };
     },
@@ -230,10 +258,36 @@
         userId: types.GET_USER_ID
       })
     },
+    watch: {
+      'tag': 'initItems',
+    },
     methods: {
       ...mapActions({
         saveUserInStorage: types.SAVE_USER_IN_STORAGE
       }),
+      updateSkills(newTags) {
+        this.autocompleteItems = [];
+        this.form.tags = newTags;
+
+        if (this.tag) this.form.tag.push(this.tag);
+        this.tag = '';
+        console.log('tag', this.form.tag)
+      },
+      initItems() {
+        if (this.tag.length === 0) return;
+
+        const skillOptions = `https://itunes.apple.com/search?term=
+        ${this.tag}&entity=allArtist&attribute=allArtistTerm&limit=6`;
+
+        clearTimeout(this.debounce);
+        this.debounce = setTimeout(() => {
+          axios.get(skillOptions).then(response => {
+            this.autocompleteItems = response.data.results.map(a => {
+              return { text: a.artistName };
+            });
+          }).catch(() => console.warn('Oh. Something went wrong'));
+        }, 600);
+      },
       concatenateToE164Whatsapp() {
         // const phone = this.form.country + this.form.number;
         const phoneWhatsapp = this.form.countryCodeWhatsapp + this.form.numberWhatsapp;
@@ -254,7 +308,8 @@
           optInTexts: this.form.optInTexts,
           subscribeToMailingList: this.form.subscribeToMailingList,
           phoneWhatsapp: e164Whatsapp,
-          phone: e164
+          phone: e164,
+          tags: this.form.tag
         };
 
         const user = await db.collection('users')

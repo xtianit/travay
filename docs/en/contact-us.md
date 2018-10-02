@@ -1,15 +1,13 @@
 # Contact Us
 
-You may contact us using the following options
+You may contact us using the following options:
 
-+ Chat box on [https://www.travay.co](travay.co)
-+ Chat box on [https://www.travayht.com](travayht.com)
-+ Email alo@electricfeel.co
-+ Twitter: [@travayco](https://twitter.com/travayco)
++ Chat box at [https://www.travayht.com](travayht.com)
++ Twitter: [@travayht](https://twitter.com/travayht)
++ Slack: [Electric Feel Slack](https://electric-feel-community.herokuapp.com)
++ Email: travayht@gmail.com
 
-Location:
-
-514, Route de Delmas (Delmas 66)
-
+Location:<br>
+514, Route de Delmas (Delmas 66)<br>
 Delmas, Haiti HT6120
 
