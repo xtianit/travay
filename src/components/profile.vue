@@ -17,6 +17,7 @@
               :key="user.uid">
               <p>{{ user.name || user.displayName }}</p>
               <p>{{ user.email || null }}</p>
+              <p>{{ user.phoneWhatsapp || null }}</p>
               <p>{{ user.phone || null }}</p>
               <!--<p>{{ user.address || null }}</p>-->
               <p>{{ user.country || null }}</p>
@@ -35,26 +36,42 @@
               <template v-if="isEditingProfile">
                 <form @submit.prevent="updateProfile()">
 
-                  <p>{{ $t('App.profile.updateProfile' /* Update your mobile number. */) }}</p><br>
+                  <p>{{ $t('App.profile.updateProfile' /* Update your profile. */) }}</p><br>
 
                   <vue-grid-row>
                     <vue-grid-item>
                       <!--<vue-input type="text" name="country" id="country" :placeholder="$t('App.profile.countryCodeTitle')" readonly-->
                       <!--v-model="form.country"/>-->
                       <vue-select
-                        name="countryCode"
-                        id="countryCode"
-                        placeholder="Job Category"
-                        v-model="form.countryCode"
-                        :options="$t('countryCodes')"
+                        name="countryCodeWhatsapp"
+                        id="countryCodeWhatsapp"
+                        v-model="form.countryCodeWhatsapp"
+                        :options="$t('countryCodesWhatsapp')"
                         :key="locale"
                         required/>
+                    </vue-grid-item>
+                    <vue-grid-item>
+                      <vue-input type="text" name="number" id="number"
+                                 :placeholder="$t('App.profile.numberTitleWhatsapp')"
+                                 required
+                                 v-model="form.numberWhatsapp"/>
                     </vue-grid-item>
                   </vue-grid-row>
 
                   <vue-grid-row>
                     <vue-grid-item>
-                      <vue-input type="text" name="number" id="number" :placeholder="$t('App.profile.numberTitle')"
+                      <!--<vue-input type="text" name="country" id="country" :placeholder="$t('App.profile.countryCodeTitle')" readonly-->
+                      <!--v-model="form.country"/>-->
+                      <vue-select
+                        name="countryCodeMobile"
+                        id="countryCodeMobile"
+                        v-model="form.countryCodeMobile"
+                        :options="$t('countryCodesMobile')"
+                        :key="locale"
+                        required/>
+                    </vue-grid-item>
+                    <vue-grid-item>
+                      <vue-input type="text" name="number" id="number" :placeholder="$t('App.profile.numberTitleMobile')"
                                  required
                                  v-model="form.number"/>
                     </vue-grid-item>
@@ -66,9 +83,7 @@
                         name="optInTexts"
                         id="optInTexts"
                         v-model="form.optInTexts"
-                        label=""/>
-                      <p>{{ $t('App.profile.optInTexts' /* I want to receive text messages when there are new jobs. */)
-                        }}</p>
+                        :label="$t('App.profile.optInTexts' /* I want to receive text messages when there are new jobs. */)"/>
                     </vue-grid-item>
                   </vue-grid-row>
 
@@ -78,10 +93,8 @@
                         name="subscribeToMailingList"
                         id="subscribeToMailingList"
                         v-model="form.subscribeToMailingList"
-                        label=""/>
-                      <p>{{ $t('App.profile.subscribeToMailingList' /* I want to receive emails when there are
-                        new jobs. */)
-                        }}</p>
+                        :label="$t('App.profile.subscribeToMailingList'
+                        /* I want to receive emails when there are new jobs. */)" />
                     </vue-grid-item>
                   </vue-grid-row>
 
@@ -203,7 +216,9 @@
         managingJobs: [],
         canceledJobs: [],
         form: {
-          countryCode: '',
+          countryCodeWhatsapp: '',
+          countryCodeMobile: '',
+          numberWhatsapp: '',
           number: '',
           optInTexts: true,
           subscribeToMailingList: true
@@ -219,19 +234,26 @@
       ...mapActions({
         saveUserInStorage: types.SAVE_USER_IN_STORAGE
       }),
+      concatenateToE164Whatsapp() {
+        // const phone = this.form.country + this.form.number;
+        const phoneWhatsapp = this.form.countryCodeWhatsapp + this.form.numberWhatsapp;
+        return `+${phoneWhatsapp}`
+      },
       concatenateToE164() {
         // const phone = this.form.country + this.form.number;
-        const phone = this.form.countryCode + this.form.number;
+        const phone = this.form.countryCodeMobile + this.form.number;
         return `+${phone}`
       },
       async updateProfile() {
         this.isLoading = true;
 
+        const e164Whatsapp = this.concatenateToE164Whatsapp();
         const e164 = this.concatenateToE164();
 
         const data = {
           optInTexts: this.form.optInTexts,
           subscribeToMailingList: this.form.subscribeToMailingList,
+          phoneWhatsapp: e164Whatsapp,
           phone: e164
         };
 

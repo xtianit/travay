@@ -65,14 +65,15 @@
   "App.profile.evaluatingJobsTitle":"Jobs You're Evaluating",
   "App.profile.sponsoringJobsTitle":"Jobs You've Sponsored",
   "App.profile.countryCodeTitle":"Country Code",
-  "App.profile.numberTitle":"Number",
+  "App.profile.numberTitleWhatsapp":"Whatsapp Number",
+  "App.profile.numberTitleMobile":"Mobile Number",
   "App.profile.pageTitle": "Profile",
   "App.profile.updateProfileTitle": "Success!",
   "App.profile.updateProfileText": "Your profile has been update!",
   "App.profile.updateProfileButton": "Update Profile",
   "App.profile.optInTexts": "I want to receive text messages when there are new jobs.",
   "App.profile.subscribeToMailingList": "I want to receive email messages when there are new jobs.",
-  "App.profile.updateProfile": "Update your mobile number.",
+  "App.profile.updateProfile": "Update your profile.",
   "App.profile.incompleteJobs": "List of all jobs that are still open.",
   "App.profile.completedJobs": "List of all jobs that have all been completed and closed.",
   "App.profile.canceledJobs": "List of all jobs that have all been canceled.",
@@ -186,6 +187,7 @@
   "App.getStarted.jobPosters": "Job Posters",
   "App.getStarted.fundMetaMask": "Fund your MetaMask account with DAI by clicking",
   "App.getStarted.thingsToRememberTitle": "Things to Remember",
+  "App.getStarted.howToKnowOfNewJobsNote": "Note: Registered users who updated their profile with a phone number automatically get added to the notification list. And everyone who signs up can opt-in and out at any time.",
   "App.getStarted.thingsToRememberText": "You have to use Firefox browser in order for MetaMask to work. MetaMask is your secure identity vault, providing a user interface to manage your identities on different sites and sign blockchain transactions. Remember to NEVER share or loose your password or seed phrase from Metamask.",
   "components.autocomplete.emptyMessage": "No options found for %s",
   "components.calendar.friday.short": "F",
@@ -234,7 +236,12 @@
     {"label": "Haiti", "value": "haiti"},
     {"label": "USA", "value": "us"}
   ],
-  "countryCodes": [
+  "countryCodesWhatsapp": [
+    {"label": "Choose a Country", "value": null},
+    {"label": "Haiti", "value": "509"},
+    {"label": "USA", "value": "1"}
+  ],
+  "countryCodesMobile": [
     {"label": "Choose a Country", "value": null},
     {"label": "Haiti", "value": "509"},
     {"label": "USA", "value": "1"}

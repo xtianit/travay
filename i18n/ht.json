@@ -65,14 +65,15 @@
   "App.profile.evaluatingJobsTitle":"Travay ke ou Evalye",
   "App.profile.sponsoringJobsTitle":"Travay ou Sponsorize",
   "App.profile.countryCodeTitle":"Peyi Kòd",
-  "App.profile.numberTitle":"Nimewo",
+  "App.profile.numberTitleWhatsapp":"Nimewo Whatsapp",
+  "App.profile.numberTitleMobile":"Nimewo Telefòn",
   "App.profile.pageTitle": "Pwofil",
   "App.profile.updateProfileTitle": "Siksè!",
   "App.profile.updateProfileText": "Pwofil ou aktyalize!",
   "App.profile.updateProfileButton": "Korije",
   "App.profile.optInTexts": "Mwen vle resevwa mesaj tèks lè gen nouvo djòb.",
   "App.profile.subscribeToMailingList": "Mwen vle resevwa mesaj imel lè gen nouvo djòb.",
-  "App.profile.updateProfile": "Mete nimewo telefòn ou.",
+  "App.profile.updateProfile": "Mete pwofil ou.",
   "App.profile.incompleteJobs": "Lis tout travay ki toujou louvri.",
   "App.profile.completedJobs": "Lis tout travay ki te fini epi ki fèmen.",
   "App.profile.canceledJobs": "Lis tout travay ki te anile.",
@@ -186,6 +187,7 @@
   "App.getStarted.fundMetaMask": "Fon kont MetaMask ou a ak DAI pa klike",
   "App.getStarted.thingsToRememberTitle": "Bagay sa yo sonje",
   "App.getStarted.thingsToRememberText": "Ou gen yo sèvi ak Firefox navigatè yo nan lòd pou MetaMask nan travay. MetaMask se vout sekirite idantite ou, bay yon koòdone itilizatè nan jere idantite ou sou sit diferan ak tranzaksyon siy blòkchan. Sonje pou pa janm pataje oswa lage modpas ou oswa fraz pitit pitit soti nan Metamask.",
+  "App.getStarted.howToKnowOfNewJobsNote": "Remak: Moun ki anrejistre ki te mete ajou pwofil yo avèk yon nimewo telefòn yo otomatikman ajoute nan lis notifikasyon an. Ak nenpòt ki moun ki siy moute ka enskri ak koupe abònman nan nenpòt ki lè.",
   "components.autocomplete.emptyMessage": "Pa gen opsyon yo te jwenn pou %s",
   "components.calendar.friday.short": "F",
   "components.calendar.monday.short": "M",
@@ -233,8 +235,13 @@
     {"label": "Haiti", "value": "haiti"},
     {"label": "USA", "value": "us"}
   ],
-  "countryCodes": [
-    {"label": "Chwazi yon Peyi", "value": null},
+  "countryCodesWhatsapp": [
+    {"label": "Choose a Country", "value": null},
+    {"label": "Haiti", "value": "509"},
+    {"label": "USA", "value": "1"}
+  ],
+  "countryCodesMobile": [
+    {"label": "Choose a Country", "value": null},
     {"label": "Haiti", "value": "509"},
     {"label": "USA", "value": "1"}
   ]
