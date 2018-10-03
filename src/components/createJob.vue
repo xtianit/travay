@@ -12,6 +12,8 @@
             <vue-grid-row>
               <vue-grid-item class="vueGridItem">
                 <h1>{{ $t('App.nav.createJob' /* Create Job */) }}</h1>
+                <h5>{{ $t('App.createJob.pricing1' /* Learn more about pricing */) }} <router-link to="pricing">{{
+                  $t('App.createJob.pricing2' /* here */) }}</router-link>.</h5>
                 <!--<p>-->
                 <!--{{ $t('App.createJob.pageDescription' /* Use the form below to create a 6-month or 12-month job. */) }}-->
                 <!--</p>-->
@@ -19,6 +21,7 @@
             </vue-grid-row>
           </vue-grid>
         </div>
+        <br>
 
         <vue-grid>
           <vue-grid-row>

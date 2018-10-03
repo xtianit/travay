@@ -18,7 +18,11 @@
             <p>You post a job and individuals directly apply or select your job.</p>
           </vue-panel-body>
           <vue-panel-footer>
-            <vue-button accent :to="'./createJob'">Get Started</vue-button>
+            <vue-button accent>
+              <router-link style="text-decoration: none; color: white;" to="createJob">{{
+                $t('App.pricing.getStartedButton' /* Get Started */) }}
+              </router-link>
+            </vue-button>
           </vue-panel-footer>
         </vue-panel>
         <br>
