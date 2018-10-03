@@ -40,16 +40,16 @@
                 <form @submit.prevent="updateProfile()">
 
                   <!--<vue-grid-row>-->
-                    <!--<vue-grid-item>-->
-                      <!--<vue-tags-input-->
-                        <!--name="tags"-->
-                        <!--v-model="tag"-->
-                        <!--:tags="tags"-->
-                        <!--:autocomplete-items="autocompleteItems"-->
-                        <!--:add-only-from-autocomplete="true"-->
-                        <!--@tags-changed="updateSkills()">-->
-                      <!--</vue-tags-input>-->
-                    <!--</vue-grid-item>-->
+                  <!--<vue-grid-item>-->
+                  <!--<vue-tags-input-->
+                  <!--name="tags"-->
+                  <!--v-model="tag"-->
+                  <!--:tags="tags"-->
+                  <!--:autocomplete-items="autocompleteItems"-->
+                  <!--:add-only-from-autocomplete="true"-->
+                  <!--@tags-changed="updateSkills()">-->
+                  <!--</vue-tags-input>-->
+                  <!--</vue-grid-item>-->
                   <!--</vue-grid-row>-->
                   <!--<br>-->
                   <!--<br>-->
@@ -66,6 +66,7 @@
                         :key="locale"
                         required/>
                     </vue-grid-item>
+
                     <vue-grid-item>
                       <vue-input type="text" name="number" id="number"
                                  :placeholder="$t('App.profile.numberTitleWhatsapp') /* Whatsapp Number */"
@@ -122,7 +123,7 @@
                         id="subscribeToMailingList"
                         v-model="form.subscribeToMailingList"
                         :label="$t('App.profile.subscribeToMailingList'
-                        /* I want to receive emails when there are new jobs. */)" />
+                        /* I want to receive emails when there are new jobs. */)"/>
                     </vue-grid-item>
                   </vue-grid-row>
 
@@ -295,7 +296,7 @@
         this.debounce = setTimeout(() => {
           axios.get(skillOptions).then(response => {
             this.autocompleteItems = response.data.results.map(a => {
-              return { text: a.artistName };
+              return {text: a.artistName};
             });
           }).catch(() => console.warn('Oh. Something went wrong'));
         }, 600);
