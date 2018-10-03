@@ -1,3 +1,10 @@
+---
+title: Privacy Policy
+meta:
+  - name: blockchain, ethereum, travay, haiti's job market
+  - content: Travay's Privacy Policy
+---
+
 # Privacy Policy
 
 This Privacy Policy describes how your personal information is collected, used, and shared when you visit or make a purchase from travay.co and travayht.com (the “Site”).

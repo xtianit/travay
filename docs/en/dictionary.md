@@ -1,3 +1,10 @@
+---
+title: Dictionary
+meta:
+  - name: blockchain, ethereum, travay, haiti's job market
+  - content: Terminology used in Travay
+---
+
 # Dictionary
 
 ## Job

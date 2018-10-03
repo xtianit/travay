@@ -1,3 +1,10 @@
+---
+title: Code of Conduct
+meta:
+  - name: blockchain, ethereum, travay, haiti's job market
+  - content: Travay's code of conduct
+---
+
 # Code of Conduct
 
         <h1>{{ $t('App.codeOfCode.pageTitle' /* Code of Conduct */) }}</h1>
