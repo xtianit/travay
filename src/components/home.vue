@@ -68,7 +68,7 @@
 
         <p>{{ $t('App.getStarted.getInPersonHelp1' /* If you need help registering we are offering free assistance
           */) }}: <a
-            href="https://calendly.com/farahbrunache/enskri-pou-itilize-travay/10-04-2018" target="_blank">{{
+            href="https://calendly.com/farahbrunache/enskri-pou-itilize-travay" target="_blank">{{
             $t('App.getStarted.getInPersonHelp2' /* sign up here */) }}</a>.</p>
       </vue-grid-item>
     </vue-grid-row>
