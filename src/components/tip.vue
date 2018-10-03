@@ -11,8 +11,7 @@
           <vue-grid-item>
             <h1>{{ $t('App.tip.tipPageTitle' /* Tip Anyone! */) }}</h1>
             <p>{{ $t('App.tip.tipPageDescription' /* Send cryptocurrency (DAI) to anyone. For a job well done, for a
-              service, for rent, food and more. */) }}</p>
-
+              service, for rent, food and more. Remember that $1 DAI is equal to $1 USD. */) }}</p>
             <br>
 
             <form @submit.prevent="makeTipEscrow()">
@@ -21,7 +20,7 @@
                 name="receiver"
                 id="receiver"
                 required
-                placeholder="Receiver"
+                :placeholder="$t('App.tip.receiverPlaceholderText') /* Receiver */"
                 validation="required"
                 v-model="form.receiver"/>
               <p><em>{{ $t('App.tip.receiverDescription' /* Paste in the ethereum address of the person who should receive
@@ -33,7 +32,7 @@
                 name="amount"
                 id="amount"
                 required
-                placeholder="Amount in USD"
+                :placeholder="$t('App.tip.AmountPlaceholderText') /* Amount in USD */"
                 validation="required"
                 v-model="form.amount"/>
               <p><em>{{ $t('App.tip.amountDescription' /* Enter how much you would like to send in USD. */) }}</em></p>
