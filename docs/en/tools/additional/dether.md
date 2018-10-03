@@ -1,3 +1,0 @@
-# Dether
-
-Coming soon ...

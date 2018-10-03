@@ -1,7 +1,7 @@
 # Dictionary
 
 ## Job
-A paid position of regular employment. In the context of Travay most jobs are posted to better the community and all are for long-term employment only (6 or 12-month terms).
+A paid position of regular employment. In the context of Travay most jobs are posted to better the community and all are for at least six months or more.
 
 ## Roles
 Roles are defined based on the different actions an individual can take within Travay.
@@ -12,4 +12,4 @@ Roles are defined based on the different actions an individual can take within T
 + Sponsor: a person who donates to the funding of a job.<br><br>
 
 ## Wallet
-The virtual wallet stores the stable coin earned from completing jobs in Travay.
+The virtual wallet stores the stable coin earned from completing jobs in Travay. We currently use [MetaMask](../en/tools/metamask.md) for this feature.

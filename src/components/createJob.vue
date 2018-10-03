@@ -190,9 +190,10 @@
                     name="acceptTerms"
                     id="acceptTerms"
                     v-model="form.acceptTerms"
-                    label=""
+                    :label="$t('App.createJob.acceptTerms'
+                    /* I accept the Terms, Privacy Policy and Code of Conduct. */)"
+                    :key="locale"
                     required/>
-                  <p>{{ $t('App.createJob.acceptTerms' /* I accept the Terms, Privacy Policy and Code of Conduct. */) }}</p>
                 </vue-grid-item>
               </vue-grid-row>
 

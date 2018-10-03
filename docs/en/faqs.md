@@ -4,14 +4,24 @@
 Travay is a long-term jobs marketplace for Haitians.
 
 ## How do I get notified when there are new jobs?
+All registered users have the option to opt-in and out of Whatsapp and text messages when new jobs are posted.
+
+We also have a [waitlist](https://airtable.com/shrGJhkEk4SphwEXe) you can add your name to. This subscribes you to Whatsapp, text messages and emails when new jobs are posted.
+
+Keep in mind it takes a few minutes to get your account set up. So it is preferred that you register and once you receive a message can quickly claim a job.
 Koman map fè poum konnen lè genyen yon travay ki disponible?
 
 ## Who is Travay for?
++ For Haitians seeking jobs in Haiti
++ For employers seeking to immediately fill open positions
++ For international donors who want to directly see the impact of their funds in Haiti and support small businesses 
 
 ## What do I need to access Travay?
 Travay doesn’t need more than a web browser to run, so if you have a laptop or mobile device, you will have all you need to run the Travay app.
 
 ## How do I get started?
+
+Visit the homepage for the steps to sign up: [https://www.travayht.com](travayht.com)
 
 ## How do I pick a job?
 Once you are registered. You can filter through the jobs to match your preferences. When you find a job that interests you, you can claim it and start working.

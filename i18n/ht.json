@@ -65,14 +65,16 @@
   "App.profile.evaluatingJobsTitle":"Travay ke ou Evalye",
   "App.profile.sponsoringJobsTitle":"Travay ou Sponsorize",
   "App.profile.countryCodeTitle":"Peyi Kòd",
-  "App.profile.numberTitle":"Nimewo",
+  "App.profile.numberTitleWhatsapp":"Nimewo Whatsapp",
+  "App.profile.numberTitleMobile":"Nimewo Telefòn",
   "App.profile.pageTitle": "Pwofil",
   "App.profile.updateProfileTitle": "Siksè!",
   "App.profile.updateProfileText": "Pwofil ou aktyalize!",
   "App.profile.updateProfileButton": "Korije",
   "App.profile.optInTexts": "Mwen vle resevwa mesaj tèks lè gen nouvo djòb.",
+  "App.profile.optInWhatsappMessages": "Mwen vle resevwa mesaj Whatsapp lè gen nouvo djòb.",
   "App.profile.subscribeToMailingList": "Mwen vle resevwa mesaj imel lè gen nouvo djòb.",
-  "App.profile.updateProfile": "Mete nimewo telefòn ou.",
+  "App.profile.updateProfile": "Mete pwofil ou.",
   "App.profile.incompleteJobs": "Lis tout travay ki toujou louvri.",
   "App.profile.completedJobs": "Lis tout travay ki te fini epi ki fèmen.",
   "App.profile.canceledJobs": "Lis tout travay ki te anile.",
@@ -172,6 +174,8 @@
   "App.codeOfCode.paragraph1": "Nou kòm kreyatè ak antretyen nan Travay angajman pou fè patisipasyon nan kominote nou an yon eksperyans pèsekisyon pou tout moun, kèlkeswa laj, gwosè kò, enfimite, etnisite, idantite seksyèl ak ekspresyon, nivo eksperyans, nasyonalite, aparans pèsonèl, ras, relijyon , oswa idantite seksyèl ak oryantasyon.",
   "App.codeOfCode.mission": "Misyon nou",
   "App.codeOfCode.paragraph2": "Misyon Travay la se kiltive talan nan sitwayen chak jou pou kreye yon kominote restore ak opòtinite ekonomik nan echèl la. Nou 3 valè debaz yo se:",
+  "App.getStarted.getInPersonHelp1": "Si ou bezwen èd pou w konekte, nou gen moun ki ap ofri èd gratis",
+  "App.getStarted.getInPersonHelp2": "Enskri la a",
   "App.getStarted.title": "Byen vit kòmanse",
   "App.getStarted.note": "Remak: Travay pa disponib sou iPhone.",
   "App.getStarted.jobWorkersTitle": "Travayè",
@@ -186,6 +190,7 @@
   "App.getStarted.fundMetaMask": "Fon kont MetaMask ou a ak DAI pa klike",
   "App.getStarted.thingsToRememberTitle": "Bagay sa yo sonje",
   "App.getStarted.thingsToRememberText": "Ou gen yo sèvi ak Firefox navigatè yo nan lòd pou MetaMask nan travay. MetaMask se vout sekirite idantite ou, bay yon koòdone itilizatè nan jere idantite ou sou sit diferan ak tranzaksyon siy blòkchan. Sonje pou pa janm pataje oswa lage modpas ou oswa fraz pitit pitit soti nan Metamask.",
+  "App.getStarted.howToKnowOfNewJobsNote": "Remak: Moun ki anrejistre ki te mete ajou pwofil yo avèk yon nimewo telefòn yo otomatikman ajoute nan lis notifikasyon an. Ak nenpòt ki moun ki siy moute ka enskri ak koupe abònman nan nenpòt ki lè.",
   "components.autocomplete.emptyMessage": "Pa gen opsyon yo te jwenn pou %s",
   "components.calendar.friday.short": "F",
   "components.calendar.monday.short": "M",
@@ -233,8 +238,13 @@
     {"label": "Haiti", "value": "haiti"},
     {"label": "USA", "value": "us"}
   ],
-  "countryCodes": [
-    {"label": "Chwazi yon Peyi", "value": null},
+  "countryCodesWhatsapp": [
+    {"label": "Choose a Country", "value": null},
+    {"label": "Haiti", "value": "509"},
+    {"label": "USA", "value": "1"}
+  ],
+  "countryCodesMobile": [
+    {"label": "Choose a Country", "value": null},
     {"label": "Haiti", "value": "509"},
     {"label": "USA", "value": "1"}
   ]

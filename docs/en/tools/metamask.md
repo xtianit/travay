@@ -14,27 +14,23 @@ Remember that MetaMask only works in FireFox on mobile devices.
 
 Click the MetaMask icon in your browser and this screen will appear:
 
-Inline-style: 
 ![alt text](../../../static/images/metamask-1.png "Logo Title Text 1")
 
 
 Next, you'll receive 12 words. You must write them down before continuing.
 
-Inline-style: 
 ![alt text](../../../static/images/metamask-2.png "Logo Title Text 1")
 
 You'll see the menu that shows "Main Network"
 
 Remember that you need to be on the "Main Network" in order to process real transactions with real money and value. If you switch to any other network you will not be able to do real transactions.
 
-Inline-style: 
 ![alt text](../../../static/images/metamask-3.png "Logo Title Text 1")
 
 You are now all set!
 
 And this is what your transaction history page will look like:
 
-Inline-style: 
 ![alt text](../../../static/images/metamask-4.png "Logo Title Text 1")
 
 Attribution

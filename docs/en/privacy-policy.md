@@ -66,4 +66,4 @@ We may update this privacy policy from time to time in order to reflect, for exa
 
 ## CONTACT US
 
-For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at alo@electricfeel.co.
+For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at travayht@gmail.com.
