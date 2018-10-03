@@ -39,20 +39,20 @@
 
                 <form @submit.prevent="updateProfile()">
 
-                  <vue-grid-row>
-                    <vue-grid-item>
-                      <vue-tags-input
-                        name="tags"
-                        v-model="tag"
-                        :tags="tags"
-                        :autocomplete-items="autocompleteItems"
-                        :add-only-from-autocomplete="true"
-                        @tags-changed="updateSkills()">
-                      </vue-tags-input>
-                    </vue-grid-item>
-                  </vue-grid-row>
-                  <br>
-                  <br>
+                  <!--<vue-grid-row>-->
+                    <!--<vue-grid-item>-->
+                      <!--<vue-tags-input-->
+                        <!--name="tags"-->
+                        <!--v-model="tag"-->
+                        <!--:tags="tags"-->
+                        <!--:autocomplete-items="autocompleteItems"-->
+                        <!--:add-only-from-autocomplete="true"-->
+                        <!--@tags-changed="updateSkills()">-->
+                      <!--</vue-tags-input>-->
+                    <!--</vue-grid-item>-->
+                  <!--</vue-grid-row>-->
+                  <!--<br>-->
+                  <!--<br>-->
 
                   <vue-grid-row>
                     <vue-grid-item>
@@ -101,6 +101,17 @@
                         id="optInTexts"
                         v-model="form.optInTexts"
                         :label="$t('App.profile.optInTexts' /* I want to receive text messages when there are new jobs. */)"/>
+                    </vue-grid-item>
+                  </vue-grid-row>
+
+                  <vue-grid-row>
+                    <vue-grid-item>
+                      <vue-checkbox
+                        name="optInWhatsappMessages"
+                        id="optInWhatsappMessages"
+                        v-model="form.optInWhatsappMessages"
+                        :label="$t('App.profile.optInWhatsappMessages'
+                        /* I want to receive Whatsapp messages when there are new jobs. */)"/>
                     </vue-grid-item>
                   </vue-grid-row>
 
@@ -246,7 +257,8 @@
           countryCodeMobile: '',
           numberWhatsapp: '',
           number: '',
-          optInTexts: true,
+          optInTexts: false,
+          optInWhatsappMessages: true,
           subscribeToMailingList: true,
           tag: '',
           tags: [],
@@ -306,6 +318,7 @@
 
         const data = {
           optInTexts: this.form.optInTexts,
+          optInWhatsappMessages: this.form.optInWhatsappMessages,
           subscribeToMailingList: this.form.subscribeToMailingList,
           phoneWhatsapp: e164Whatsapp,
           phone: e164,

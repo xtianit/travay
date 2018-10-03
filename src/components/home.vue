@@ -64,7 +64,12 @@
             {{ $t('App.getStarted.startJob' /* Pick a job and start work immediately! */) }}
           </li>
         </ol>
-        <p><em>{{ $t('App.getStarted.note' /* Note: Travay is not available on iPhone. */) }}</em></p>
+        <p><em>{{ $t('App.getStarted.note' /* Note: Travay is not available on iPhone. */) }}</em></p><br>
+
+        <p>{{ $t('App.getStarted.getInPersonHelp1' /* If you need help registering we are offering free assistance
+          */) }}: <a
+            href="https://calendly.com/farahbrunache/enskri-pou-itilize-travay/10-04-2018" target="_blank">{{
+            $t('App.getStarted.getInPersonHelp2' /* sign up here */) }}</a>.</p>
       </vue-grid-item>
     </vue-grid-row>
 
