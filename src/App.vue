@@ -2,6 +2,7 @@
   <div id="app" :class="$style.app">
     <navbar/>
     <hello-metamask/>
+    <hello-firefox/>
     <router-view :class="$style.content"/>
     <br>
     <br>
@@ -21,6 +22,7 @@
   import { mapActions, mapMutations, mapGetters } from 'vuex'
   import {store} from './store';
   import HelloMetamask from '@/components/hello-metamask'
+  import HelloFirefox from '@/components/hello-firefox'
   import Navbar from '@/components/navbar'
   import TravayFooter from '@/components/travay-footer'
   import SignInModal from './services/SignInModal'
@@ -34,6 +36,7 @@
   components: {
     'navbar': Navbar,
     'hello-metamask': HelloMetamask,
+    'hello-firefox': HelloFirefox,
     'travay-footer': TravayFooter,
     'signInModal': SignInModal
   },
