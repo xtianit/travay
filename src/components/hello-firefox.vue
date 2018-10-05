@@ -1,7 +1,7 @@
 <template>
   <vue-grid class='firefox-info'>
 
-    <vue-grid-row v-if="isNotFirefox && isMobile">
+    <vue-grid-row v-if="isNotFirefox && isMobile === true">
       <vue-grid-item>
         <p>{{ $t('App.helloFirefox.switchToFirefox' /* You are not currently using the Firefox
           browser. To use this application you must switch to FireFox */) }}</p>
