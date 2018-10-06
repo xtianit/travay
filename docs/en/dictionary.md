@@ -18,5 +18,10 @@ Roles are defined based on the different actions an individual can take within T
 + Worker: a person who claims a job.
 + Sponsor: a person who donates to the funding of a job.<br><br>
 
+## USD
+USD Dollar
+Dola Ameriken
+
 ## Wallet
 The virtual wallet stores the stable coin earned from completing jobs in Travay. We currently use [MetaMask](../en/tools/metamask.md) for this feature.
+

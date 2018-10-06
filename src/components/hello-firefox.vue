@@ -24,7 +24,6 @@
     },
     data() {
       return {
-        isMobile: false
       }
     },
     name: "hello-firefox",

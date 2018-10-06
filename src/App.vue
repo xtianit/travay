@@ -4,8 +4,6 @@
     <hello-metamask/>
     <hello-firefox/>
     <router-view :class="$style.content"/>
-    <br>
-    <br>
     <travay-footer />
     <br>
     <!-- TODO: fix cookie consent -->
