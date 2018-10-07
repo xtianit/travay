@@ -82,9 +82,10 @@
     <vue-grid-row>
       <vue-grid-item>
         <vue-button
-          class="sponsor-btn--container" accent>
-          <a style="color: white !important;" @click.prevent.stop="e => createJobClicked()"
-             id="remove-hyperlink">{{ $t('App.jobs.postAJobButton' /* Post a Job */) }}</a>
+          @click.prevent.stop="e => postAJob()"
+          accent>
+          <a style="color: white !important;">{{
+            $t('App.jobs.postAJobButton' /* Post a Job */) }}</a>
         </vue-button>
       </vue-grid-item>
     </vue-grid-row>
@@ -143,22 +144,22 @@
             </ul>
           </vue-panel-body>
           <vue-panel-footer>
-            <vue-button primary>
-              <router-link :to="`/job/${job.taskId}`" style="color:white; text-decoration: none;">{{
-                $t('App.jobs.learnMoreButton' /* LEARN MORE */) }}
-              </router-link>
-            </vue-button>
+            <router-link :to="`/job/${job.taskId}`">
+              <vue-button primary>
+                {{ $t('App.jobs.learnMoreButton' /* LEARN MORE */) }}
+              </vue-button>
+            </router-link>
             <br/>
             <br/>
-            <vue-button v-userRole.canSponsor="{role: job.role}"
-                        class="sponsor-btn--container"
-                        accent>
-              <a
-                style="color: white !important;"
-                @click.prevent.stop="e => sponsorJob(job.taskId)">{{ $t('App.job.sponsorJobButton' /* Sponsor This Job
-                */) }}</a>
-            </vue-button>
-
+            <div v-if="job.role">
+              <a @click.prevent.stop="e => sponsorJob(job.taskId)">
+                <vue-button :v-userRole.canSponsor="{role: job.role}"
+                            style="color: white !important;"
+                            accent>
+                  {{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}
+                </vue-button>
+              </a>
+            </div>
           </vue-panel-footer>
           <br>
         </vue-panel>
@@ -309,7 +310,7 @@
       moment: function () {
         return moment();
       },
-      createJobClicked() {
+      postAJob() {
         if (!this.userId) {
           this.openLoginModal();
           return;

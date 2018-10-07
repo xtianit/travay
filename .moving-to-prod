@@ -1,18 +1,23 @@
 When moving the prod
-1 . main.js - ht
-2. firebaseinit-dev
-3. `this.$store.state.web3.networkId !== "3"` Change network ID from 1 to 3
+1. firebaseinit-dev
+2. `this.$store.state.web3.networkId !== "3"` Change network ID from 1 to 3
 
 Blockchain Functions:
 
-create job
-cancel job
-claim job
-uploadProofOfWork (not a blockchain function) - this is loading isn't working
-markJobComplete
-setEvaluator
-evaluateJobAsCompletedSucessfully
-onPayout
-claimPayout
-tip
-sponsor
+Workflow must be in this numbered order (exception is setEvaluator)
+1. createJob
+cancelJob (at any time)
+2. claimJob
+```
+uploadProofOfWork (at any time)
+```
+3. markJobComplete
+4. setEvaluator (can happen any time before step #5)
+5. evaluateJobAsCompletedSucessfully
+```
+evaluateJobAsCompletedUnsucessfully (at any time)
+```
+6. payoutJob
+7. claimPayout
+tip (at any time)
+sponsor (at any time)
