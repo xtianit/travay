@@ -127,7 +127,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       filepath: "service-worker.js",
       staticFileGlobs: [
         "index.html",
-        "static/manifest.json",
+        "manifest.json",
         "dist/**/*.{css,js}"
       ],
       stripPrefix: "/"
