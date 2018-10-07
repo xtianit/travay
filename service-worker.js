@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["dist/static/css/app.b9719bee3e0651b999c48799594a4b04.css","b8ed62496b578a75fb6b1e811a10179d"],["dist/static/js/app.156c416200a90188c5b0.js","05e6db8029808e1135a98b95634b6c87"],["dist/static/js/manifest.2ae2e69a05c33dfc65f8.js","323055c248c0cbf6e12cf4b27d6dfd9b"],["index.html","3a343e2debd5fa40f0dd58e4c1a88428"]];
+var precacheConfig = [["dist/static/css/app.b9719bee3e0651b999c48799594a4b04.css","b8ed62496b578a75fb6b1e811a10179d"],["dist/static/js/app.6cd9e735e3671e460361.js","89e8ba26068dfce1512167d89a8a83c3"],["dist/static/js/manifest.2ae2e69a05c33dfc65f8.js","323055c248c0cbf6e12cf4b27d6dfd9b"],["index.html","3a343e2debd5fa40f0dd58e4c1a88428"],["manifest.json","32f0bfeea3f46c677c16c9b5fa8612f6"]];
 var cacheName = 'sw-precache-v3-travay-app-' + (self.registration ? self.registration.scope : '');
 
 

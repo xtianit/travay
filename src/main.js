@@ -104,6 +104,6 @@ const shouldSW = 'serviceWorker' in navigator && prod;
 
 if (shouldSW) {
   navigator.serviceWorker.register('/service-worker.js').then(() => {
-    console.log('SW registered')
-  })
+    console.log('SW registerd');
+  });
 }
