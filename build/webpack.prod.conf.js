@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const SWPrecache = require('sw-precache-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -119,18 +119,18 @@ const webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: path.resolve(__dirname, '../service-worker.js'),
+        to: config.build.assetsRoot + '/[name].js'
       }
     ]),
-
-    new SWPrecache({
+    new SWPrecacheWebpackPlugin({
       cacheId: "travay-app",
       filepath: "service-worker.js",
-      staticFileGlobs: [
-        "index.html",
-        "manifest.json",
-        "dist/**/*.{css,js}"
-      ],
-      stripPrefix: "/"
+      staticFileGlobs: ['dist/**/*.{js,html,css}'],
+      minify: true,
+      stripPrefix: "dist/"
     })
   ]
 })
