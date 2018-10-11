@@ -31,6 +31,12 @@
   beforeCreate () {
     this.$store.dispatch('registerWeb3');
   },
+  data: () =>({ online: false }),
+  mounted() {
+    this.online = navigator.onLine;
+    window.addEventListener('online', () => this.online = true);
+    window.addEventListener('offline', () => this.online = false);
+  },
   components: {
     'navbar': Navbar,
     'hello-metamask': HelloMetamask,

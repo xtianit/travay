@@ -128,9 +128,25 @@ const webpackConfig = merge(baseWebpackConfig, {
     new SWPrecacheWebpackPlugin({
       cacheId: "travay-app",
       filepath: "service-worker.js",
-      staticFileGlobs: ['dist/**/*.{js,html,css}'],
+      staticFileGlobs: ['dist/static/**/*.{js,html,css,png}'],
+      staticFileGlobsIgnorePatterns: [/\*-worker\.js$/],
       minify: true,
-      stripPrefix: "dist/"
+      navigateFallback: '/index.html',
+      stripPrefix: "dist/",
+      runtimeCaching: [
+        {
+          urlPattern: /^http:\/\/localhost\//,
+          handler: 'cacheFirst'
+        },
+        {
+          urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
+          handler: 'cacheFirst'
+        },
+        {
+          urlPattern: /^https:\/\/pro\.fontawesome\.com\//,
+          handler: 'cacheFirst'
+        }
+      ]
     })
   ]
 })
