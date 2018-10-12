@@ -24,11 +24,11 @@
 
     <br>
 
-    <vue-gird-row>
-      <vue-grid-item>
-        <ais-search-box :autofocus="true"></ais-search-box>
-      </vue-grid-item>
-    </vue-gird-row>
+    <!--<vue-gird-row>-->
+      <!--<vue-grid-item>-->
+        <!--<ais-search-box :autofocus="true"></ais-search-box>-->
+      <!--</vue-grid-item>-->
+    <!--</vue-gird-row>-->
 
     <sponsor-modal
       :job="jobToSponsor"
