@@ -35,7 +35,7 @@
             <h2>$30</h2>
             <p>USD Flat Fee</p>
             <br>
-            <p>We post and recruit for your position.</p>
+            <p>We post and recruit for your job position.</p>
             <br>
             <p>Ready to get started?</p>
             <br>
@@ -44,7 +44,7 @@
               <li>Send us an email with your job details to travayht@gmail.com</li>
               <li>We'll notify you when the job is posted and there are candidates available.</li>
             </ol>
-            <p>Note: this one-time is non-refundable.</p>
+            <p>Note: this is a one-time non-refundable fee.</p>
           </vue-panel-body>
           <vue-panel-footer>
           </vue-panel-footer>

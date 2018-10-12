@@ -121,7 +121,7 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
   import {store} from '../store';
-  import InstantSearch from 'vue-instantsearch';
+  // import InstantSearch from 'vue-instantsearch';
 
   export default {
     mixins: [sponsorSubmitMixin],
