@@ -21,6 +21,3 @@ Workflow must be in this numbered order (exception is setEvaluator)
 10. claimPayout
 11. makeTipEscrow (at any time)
 12. sponsorJob (at any time)
-
-# Set the Algolia credentials as environment variables
-firebase functions:config:set algolia.appid="4L1EHNQF84" algolia.apikey="d92c0d4f9242b8cb87d1158a1e9834e5"
