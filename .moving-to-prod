@@ -1,6 +1,6 @@
 When moving the prod
 1. firebaseinit-dev
-2. `this.$store.state.web3.networkId !== "3"` Change network ID from 1 to 3
+2. `this.$store.state.web3.networkId !== "3"` Change network ID from to 1
 
 Blockchain Functions:
 
