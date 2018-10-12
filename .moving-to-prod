@@ -6,18 +6,21 @@ Blockchain Functions:
 
 Workflow must be in this numbered order (exception is setEvaluator)
 1. createJob
-cancelJob (at any time)
-2. claimJob
+2. cancelJob (at any time)
+3. claimJob
 ```
-uploadProofOfWork (at any time)
+4. uploadProofOfWork (at any time)
 ```
-3. markJobComplete
-4. setEvaluator (can happen any time before step #5)
-5. evaluateJobAsCompletedSucessfully
+5. markJobComplete
+6. setEvaluator (can happen any time before step #5)
+7. evaluateJobAsCompletedSucessfully
 ```
-evaluateJobAsCompletedUnsucessfully (at any time)
+8. evaluateJobAsCompletedUnsucessfully (at any time)
 ```
-6. payoutJob
-7. claimPayout
-tip (at any time)
-sponsor (at any time)
+9. payoutJob
+10. claimPayout
+11. makeTipEscrow (at any time)
+12. sponsorJob (at any time)
+
+# Set the Algolia credentials as environment variables
+firebase functions:config:set algolia.appid="4L1EHNQF84" algolia.apikey="d92c0d4f9242b8cb87d1158a1e9834e5"

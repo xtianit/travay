@@ -9,74 +9,6 @@
         <!--</p>-->
       </vue-grid-item>
     </vue-grid-row>
-
-    <br>
-
-    <!--<vue-grid-row>-->
-    <!--<vue-grid-item>-->
-    <!--<ul class="filter-bar">-->
-    <!--<li class="filter__item">{{ $t('App.jobs.search' /* Search */) }}:-->
-    <!--<input type="text" name="search" v-model="keyword" />-->
-    <!--</li>-->
-
-    <!--<li class="filter__item">{{ $t('App.jobs.filter' /* Filter */) }}:-->
-    <!--</li>-->
-
-    <!--<li-->
-    <!--<select v-model="filterType">-->
-    <!--<option value="all">All</option>-->
-    <!--<option-->
-    <!--v-for="type in types"-->
-    <!--v-bind:value="type.id"-->
-    <!--v-bind:key="type.id"-->
-    <!--&gt;-->
-    <!--{{ type.title }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringBySalary" v-model='startRange'>-->
-    <!--<option>Select a Start range</option>-->
-    <!--<option-->
-    <!--v-for="amount in amounts"-->
-    <!--v-bind:value="amount.value"-->
-    <!--v-bind:key="amount.id"-->
-    <!--&gt;-->
-    <!--{{ amount.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringBySalary" v-model='endRange'>-->
-    <!--<option>Select a End range</option>-->
-    <!--<option-->
-    <!--v-for="amount in amounts"-->
-    <!--v-bind:value="amount.value"-->
-    <!--v-bind:key="amount.id"-->
-    <!--&gt;-->
-    <!--{{ amount.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringBySkill" v-model='skill'>-->
-    <!--<option>Select a Skill</option>-->
-    <!--<option-->
-    <!--v-for="skill in skills"-->
-    <!--v-bind:value="skill.value"-->
-    <!--v-bind:key="skill.id"-->
-    <!--&gt;-->
-    <!--{{ skill.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringByDomain" v-model='domain'>-->
-    <!--<option value="">Select a Domain</option>-->
-    <!--<option-->
-    <!--v-for="domain in domains"-->
-    <!--v-bind:value="domain.value"-->
-    <!--v-bind:key="domain.id"-->
-    <!--&gt;-->
-    <!--{{ domain.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</vue-grid-item>-->
-    <!--</vue-grid-row>-->
     <br>
 
     <vue-grid-row>
@@ -91,6 +23,12 @@
     </vue-grid-row>
 
     <br>
+
+    <vue-gird-row>
+      <vue-grid-item>
+        <ais-search-box :autofocus="true"></ais-search-box>
+      </vue-grid-item>
+    </vue-gird-row>
 
     <sponsor-modal
       :job="jobToSponsor"
@@ -161,9 +99,8 @@
               </a>
             </div>
           </vue-panel-footer>
-          <br>
         </vue-panel>
-        <br>
+        <hr>
       </vue-grid-item>
 
     </vue-grid-row>
@@ -184,6 +121,7 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
   import {store} from '../store';
+  import InstantSearch from 'vue-instantsearch';
 
   export default {
     mixins: [sponsorSubmitMixin],

@@ -15,6 +15,7 @@
   "App.signInModal.googleSignIn": "Konekte avék Google",
   "App.signInModal.signOutWarning": "Sonje ou ka soti sou MetaMask, pou anpeche phishing (yon tip de frod) fèt. Aprann plis sou phishing la a: https://fr.wikipedia.org/wiki/Hame%C3%A7onnage.",
   "App.signInModal.googleSignOut": "Dekonekte ak Google",
+  "App.helloMetaMask.connectMetaMaskButton": "KONEKTE METAMASK",
   "App.helloMetaMask.installed": "Enstale",
   "App.helloMetaMask.network": "Rezo",
   "App.helloMetaMask.account": "Kont Ethereum",
