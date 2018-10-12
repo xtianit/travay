@@ -1,3 +1,10 @@
+---
+title: Contact Us
+meta:
+  - name: blockchain, ethereum, travay, haiti's job market
+  - content: How to contact Travay with question
+---
+
 # Contact Us
 
 You may contact us using the following options:

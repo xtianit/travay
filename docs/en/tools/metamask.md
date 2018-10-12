@@ -1,3 +1,10 @@
+---
+title: MetaMask
+meta:
+  - name: blockchain, ethereum
+  - content: Travay uses MetaMask to process transactions
+---
+
 # MetaMask
 
 What is MetaMask?

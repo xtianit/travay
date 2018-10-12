@@ -2,16 +2,17 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 /* eslint-disable */
 
-import Vue from 'vue';
-import App from './App';
-import router from './router';
-import { store } from './store/';
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import {store} from './store/'
 import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
 import 'vue-loading-overlay/dist/vue-loading.min.css';
-import { userRole } from './directives/userRole';
+import { userRole } from './directives/userRole'
 // import VueMultianalytics from 'vue-multianalytics'
-import VueI18n from 'vue-i18n';
+import InstantSearch from 'vue-instantsearch';
+import VueI18n from 'vue-i18n'
 import enlocale from '../i18n/en.json';
 import htlocale from '../i18n/ht.json';
 import frlocale from '../i18n/fr.json';
@@ -27,21 +28,21 @@ const messages = {
 };
 
 const dateTimeFormats = {
-  en: {
+  'en': {
     datePicker: {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
     }
   },
-  ht: {
+  'ht': {
     datePicker: {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
     }
   },
-  fr: {
+  'fr': {
     datePicker: {
       year: 'numeric',
       month: 'short',
@@ -63,7 +64,7 @@ window['$i18n'] = i18n;
 
 Vue.use(VueUI, {
   store,
-  i18n
+  i18n,
 });
 
 // vue-multianalytics
@@ -85,6 +86,8 @@ Vue.use(VueUI, {
 //   }
 // });
 
+Vue.use(InstantSearch);
+
 Vue.config.productionTip = false;
 
 new Vue({
@@ -92,7 +95,7 @@ new Vue({
   router,
   store,
   i18n,
-  components: { App },
+  components: {App},
   template: '<App/>'
 });
 
@@ -101,6 +104,6 @@ const shouldSW = 'serviceWorker' in navigator && prod;
 
 if (shouldSW) {
   navigator.serviceWorker.register('/service-worker.js').then(() => {
-    console.log('SW registered');
-  });
+    console.log('SW registered')
+  })
 }

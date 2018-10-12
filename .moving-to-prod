@@ -4,14 +4,23 @@ When moving the prod
 
 Blockchain Functions:
 
-create job
-cancel job
-claim job
-uploadProofOfWork (not a blockchain function) - this is loading isn't working
-markJobComplete
-setEvaluator
-evaluateJobAsCompletedSucessfully
-onPayout
-claimPayout
-tip
-sponsor
+Workflow must be in this numbered order (exception is setEvaluator)
+1. createJob
+2. cancelJob (at any time)
+3. claimJob
+```
+4. uploadProofOfWork (at any time)
+```
+5. markJobComplete
+6. setEvaluator (can happen any time before step #5)
+7. evaluateJobAsCompletedSucessfully
+```
+8. evaluateJobAsCompletedUnsucessfully (at any time)
+```
+9. payoutJob
+10. claimPayout
+11. makeTipEscrow (at any time)
+12. sponsorJob (at any time)
+
+# Set the Algolia credentials as environment variables
+firebase functions:config:set algolia.appid="4L1EHNQF84" algolia.apikey="d92c0d4f9242b8cb87d1158a1e9834e5"

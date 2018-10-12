@@ -1,3 +1,10 @@
+---
+title: FAQs
+meta:
+  - name: blockchain, ethereum, travay, haiti's job market
+  - content: Travay's FAQs
+---
+
 # FAQs
 
 ## What is Travay?

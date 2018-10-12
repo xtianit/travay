@@ -8,6 +8,7 @@ import Profile from '@/components/profile'
 import GetStarted from '@/components/get-started'
 import Tip from '@/components/tip'
 import GetFunds from '@/components/get-funds'
+import Pricing from '@/components/pricing'
 
 Vue.use(Router);
 
@@ -53,6 +54,11 @@ export default new Router({
       path: '/get-funds',
       name: 'get-funds',
       component: GetFunds
+    },
+    {
+      path: '/pricing',
+      name: 'pricing',
+      component: Pricing
     }
   ]
 })

@@ -98,16 +98,6 @@
                   <vue-grid-row>
                     <vue-grid-item>
                       <vue-checkbox
-                        name="optInTexts"
-                        id="optInTexts"
-                        v-model="form.optInTexts"
-                        :label="$t('App.profile.optInTexts' /* I want to receive text messages when there are new jobs. */)"/>
-                    </vue-grid-item>
-                  </vue-grid-row>
-
-                  <vue-grid-row>
-                    <vue-grid-item>
-                      <vue-checkbox
                         name="optInWhatsappMessages"
                         id="optInWhatsappMessages"
                         v-model="form.optInWhatsappMessages"
@@ -127,6 +117,16 @@
                     </vue-grid-item>
                   </vue-grid-row>
 
+                  <vue-grid-row>
+                    <vue-grid-item>
+                      <vue-checkbox
+                        name="optInTexts"
+                        id="optInTexts"
+                        v-model="form.optInTexts"
+                        :label="$t('App.profile.optInTexts' /* I want to receive text messages when there are new jobs. */)"/>
+                    </vue-grid-item>
+                  </vue-grid-row>
+                  <br>
                   <vue-button primary
                               :loading="isLoading">
                     {{ $t('App.profile.updateProfileButton' /* Update Profile */) }}

@@ -213,15 +213,18 @@
                   </vue-grid-item>
 
                 </vue-panel-body>
-                <vue-panel-footer v-if="job.role">
-                  <vue-button v-userRole.canSponsor="{role: job.role}" class="sponsor-btn--container"
-                              accent>
-                    <a style="color: white !important;" @click.prevent.stop="e => sponsorJob(job.taskId)"
-                       id="remove-hyperlink">
-                      {{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}
+                <vue-panel-footer>
+                  <div v-if="job.role">
+                    <a @click.prevent.stop="e => sponsorJob(job.taskId)">
+                      <vue-button :v-userRole.canSponsor="{role: job.role}"
+                                  style="color: white !important;"
+                                  accent>
+                        {{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}
+                      </vue-button>
                     </a>
-                  </vue-button>
+                  </div>
                 </vue-panel-footer>
+
               </vue-panel>
             </vue-grid-item>
           </vue-grid-row>
@@ -308,7 +311,7 @@
                   </vue-button>
                   <br><br>
                   <vue-button v-userRole.signedIn.evaluator="{role: job.role}" primary>
-                  <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
+                    <a @click="evaluateJobAsCompletedSucessfully()" style="color: white;">
                       {{ $t('App.job.evaluateJobAsSuccess' /* Approve Work */) }}
                     </a>
                   </vue-button>
@@ -341,19 +344,11 @@
                 <vue-panel-footer v-userRole.manager="{role: job.role}">
                   <vue-grid-item>
                     <vue-button primary style="color: white;"
-                                @click.prevent.stop="e => onPayout(job.id)">
+                                @click.prevent.stop="e => payoutJob(job.id)">
                       {{ $t('App.job.payoutJobButton' /* Payout Job */) }}
                     </vue-button>
                   </vue-grid-item>
 
-                  <!--<vue-grid-item v-if="job.role">-->
-                  <!--<vue-button-->
-                  <!--v-if="job.role['0'] === userId"-->
-                  <!--@click.prevent.stop="e => onPayout(job.id)"-->
-                  <!--primary>-->
-                  <!--{{ $t('App.job.payoutJobButton' /* Payout Job */) }}-->
-                  <!--</vue-button>-->
-                  <!--</vue-grid-item>-->
                 </vue-panel-footer>
               </vue-panel>
             </vue-grid-item>
@@ -832,7 +827,7 @@
             console.log("bad", error);
           });
       },
-      onPayout(docId) {
+      payoutJob(docId) {
 
         if (this.$store.state.web3.networkId !== "1") {
           this.openNetworkModal();

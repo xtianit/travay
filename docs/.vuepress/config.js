@@ -33,6 +33,7 @@ module.exports = {
         collapsable: true,
         children: [
           '/',
+          '../en/how-tos',
           '../en/faqs',
           '../en/dictionary',
           '../en/privacy-policy',

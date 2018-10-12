@@ -9,87 +9,26 @@
         <!--</p>-->
       </vue-grid-item>
     </vue-grid-row>
-
-    <br>
-
-    <!--<vue-grid-row>-->
-    <!--<vue-grid-item>-->
-    <!--<ul class="filter-bar">-->
-    <!--<li class="filter__item">{{ $t('App.jobs.search' /* Search */) }}:-->
-    <!--<input type="text" name="search" v-model="keyword" />-->
-    <!--</li>-->
-
-    <!--<li class="filter__item">{{ $t('App.jobs.filter' /* Filter */) }}:-->
-    <!--</li>-->
-
-    <!--<li-->
-    <!--<select v-model="filterType">-->
-    <!--<option value="all">All</option>-->
-    <!--<option-->
-    <!--v-for="type in types"-->
-    <!--v-bind:value="type.id"-->
-    <!--v-bind:key="type.id"-->
-    <!--&gt;-->
-    <!--{{ type.title }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringBySalary" v-model='startRange'>-->
-    <!--<option>Select a Start range</option>-->
-    <!--<option-->
-    <!--v-for="amount in amounts"-->
-    <!--v-bind:value="amount.value"-->
-    <!--v-bind:key="amount.id"-->
-    <!--&gt;-->
-    <!--{{ amount.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringBySalary" v-model='endRange'>-->
-    <!--<option>Select a End range</option>-->
-    <!--<option-->
-    <!--v-for="amount in amounts"-->
-    <!--v-bind:value="amount.value"-->
-    <!--v-bind:key="amount.id"-->
-    <!--&gt;-->
-    <!--{{ amount.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringBySkill" v-model='skill'>-->
-    <!--<option>Select a Skill</option>-->
-    <!--<option-->
-    <!--v-for="skill in skills"-->
-    <!--v-bind:value="skill.value"-->
-    <!--v-bind:key="skill.id"-->
-    <!--&gt;-->
-    <!--{{ skill.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--<select v-if="isFilteringByDomain" v-model='domain'>-->
-    <!--<option value="">Select a Domain</option>-->
-    <!--<option-->
-    <!--v-for="domain in domains"-->
-    <!--v-bind:value="domain.value"-->
-    <!--v-bind:key="domain.id"-->
-    <!--&gt;-->
-    <!--{{ domain.id }}-->
-    <!--</option>-->
-    <!--</select>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</vue-grid-item>-->
-    <!--</vue-grid-row>-->
     <br>
 
     <vue-grid-row>
       <vue-grid-item>
         <vue-button
-          class="sponsor-btn--container" accent>
-          <a style="color: white !important;" @click.prevent.stop="e => createJobClicked()"
-             id="remove-hyperlink">{{ $t('App.jobs.postAJobButton' /* Post a Job */) }}</a>
+          @click.prevent.stop="e => postAJob()"
+          accent>
+          <a style="color: white !important;">{{
+            $t('App.jobs.postAJobButton' /* Post a Job */) }}</a>
         </vue-button>
       </vue-grid-item>
     </vue-grid-row>
 
     <br>
+
+    <vue-gird-row>
+      <vue-grid-item>
+        <ais-search-box :autofocus="true"></ais-search-box>
+      </vue-grid-item>
+    </vue-gird-row>
 
     <sponsor-modal
       :job="jobToSponsor"
@@ -143,26 +82,25 @@
             </ul>
           </vue-panel-body>
           <vue-panel-footer>
-            <vue-button primary>
-              <router-link :to="`/job/${job.taskId}`" style="color:white; text-decoration: none;">{{
-                $t('App.jobs.learnMoreButton' /* LEARN MORE */) }}
-              </router-link>
-            </vue-button>
+            <router-link :to="`/job/${job.taskId}`">
+              <vue-button primary>
+                {{ $t('App.jobs.learnMoreButton' /* LEARN MORE */) }}
+              </vue-button>
+            </router-link>
             <br/>
             <br/>
-            <vue-button v-userRole.canSponsor="{role: job.role}"
-                        class="sponsor-btn--container"
-                        accent>
-              <a
-                style="color: white !important;"
-                @click.prevent.stop="e => sponsorJob(job.taskId)">{{ $t('App.job.sponsorJobButton' /* Sponsor This Job
-                */) }}</a>
-            </vue-button>
-
+            <div v-if="job.role">
+              <a @click.prevent.stop="e => sponsorJob(job.taskId)">
+                <vue-button :v-userRole.canSponsor="{role: job.role}"
+                            style="color: white !important;"
+                            accent>
+                  {{ $t('App.job.sponsorJobButton' /* Sponsor This Job */) }}
+                </vue-button>
+              </a>
+            </div>
           </vue-panel-footer>
-          <br>
         </vue-panel>
-        <br>
+        <hr>
       </vue-grid-item>
 
     </vue-grid-row>
@@ -183,6 +121,7 @@
   import truffleContract from "truffle-contract";
   import EscrowContract from "../../contracts/build/contracts/Escrow"
   import {store} from '../store';
+  import InstantSearch from 'vue-instantsearch';
 
   export default {
     mixins: [sponsorSubmitMixin],
@@ -309,7 +248,7 @@
       moment: function () {
         return moment();
       },
-      createJobClicked() {
+      postAJob() {
         if (!this.userId) {
           this.openLoginModal();
           return;
