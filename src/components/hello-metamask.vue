@@ -22,8 +22,8 @@
       </vue-grid-item>
     </vue-grid-row>
 
-    <vue-button class="metamask-button">{{ $t('App.helloMetaMask.connectMetaMaskButton' /* CONNECT METAMASK */)
-      }}</vue-button>
+    <!--<vue-button class="metamask-button">{{ $t('App.helloMetaMask.connectMetaMaskButton' /* CONNECT METAMASK */)-->
+      <!--}}</vue-button>-->
 
   </vue-grid>
 </template>
