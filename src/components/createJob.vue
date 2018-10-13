@@ -408,6 +408,8 @@
 
           web3.eth.getAccounts(async (error, accounts) => {
 
+            console.log('create job escrow is doing something')
+
             const manager = accounts[0];
 
             console.log(EscrowInstance.address, DAIInstance.address);
@@ -416,7 +418,7 @@
               await DAIInstance.approve(EscrowInstance.address, salary, {
                 from: manager
               });
-
+              console.log('in create job')
               const result = await EscrowInstance.createJob(description, salary, noOfTotalPayments, {
                 from: manager
               });
