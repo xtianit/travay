@@ -383,57 +383,57 @@
       },
       async createJobInEscrow() {
 
-        return new Promise(async (resolve, reject) => {
-
-          const Escrow = truffleContract(EscrowContract);
-          const DAI = truffleContract(DAIContract);
-
-          window.Escrow = Escrow;
-          Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-          Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-
-          const EscrowInstance = await Escrow.deployed();
-          const DAIInstance = await DAI.deployed();
-
-          window.EscrowInstance = EscrowInstance;
-          const pool = EscrowInstance.address;
-
-          DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-          DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-
-          const description = this.form.task;
-          const salary = this.form.salary * (10 ** 18);
-          const noOfTotalPayments = this.form.termOfEmployment;
-
-          web3.eth.getAccounts(async (error, accounts) => {
-
-            console.log('create job escrow is doing something')
-
-            const manager = accounts[0];
-
-            console.log(EscrowInstance.address, DAIInstance.address);
-
-            try {
-              await DAIInstance.approve(EscrowInstance.address, salary, {
-                from: manager
-              });
-              console.log('in create job')
-              const result = await EscrowInstance.createJob(description, salary, noOfTotalPayments, {
-                from: manager
-              });
-              console.log(result);
-
-              const job = await EscrowInstance.getJob(
-                result.logs[0].args.JobID.toNumber()
-              );
-              resolve(result.logs[0].args.JobID.toNumber())
-
-            } catch (error) {
-              reject(error);
-            }
-          })
-        })
+        // return new Promise(async (resolve, reject) => {
+        //
+        //   const Escrow = truffleContract(EscrowContract);
+        //   const DAI = truffleContract(DAIContract);
+        //
+        //   window.Escrow = Escrow;
+        //   Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        //   Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        //   DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        //
+        //   const EscrowInstance = await Escrow.deployed();
+        //   const DAIInstance = await DAI.deployed();
+        //
+        //   window.EscrowInstance = EscrowInstance;
+        //   const pool = EscrowInstance.address;
+        //
+        //   DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
+        //   DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
+        //
+        //   const description = this.form.task;
+        //   const salary = this.form.salary * (10 ** 18);
+        //   const noOfTotalPayments = this.form.termOfEmployment;
+        //
+        //   web3.eth.getAccounts(async (error, accounts) => {
+        //
+        //     console.log('create job escrow is doing something')
+        //
+        //     const manager = accounts[0];
+        //
+        //     console.log(EscrowInstance.address, DAIInstance.address);
+        //
+        //     try {
+        //       await DAIInstance.approve(EscrowInstance.address, salary, {
+        //         from: manager
+        //       });
+        //       console.log('in create job')
+        //       const result = await EscrowInstance.createJob(description, salary, noOfTotalPayments, {
+        //         from: manager
+        //       });
+        //       console.log(result);
+        //
+        //       const job = await EscrowInstance.getJob(
+        //         result.logs[0].args.JobID.toNumber()
+        //       );
+        //       resolve(result.logs[0].args.JobID.toNumber())
+        //
+        //     } catch (error) {
+        //       reject(error);
+        //     }
+        //   })
+        // })
       }
     },
     computed: {
