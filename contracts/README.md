@@ -2,10 +2,6 @@
 
 Main Network Contract: https://etherscan.io/address/0xfa1909f6fe2120e3aa4a63883776250ba5042b60#code
 
-Ropsten Network Contract:
-
-Ropsten DAI Token: 0xee3ea3cd9afd7cb2c476d44a70fc9ed4cd3ba438
-
 ## Build Contracts
 ```
 cd contracts
