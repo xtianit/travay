@@ -21,3 +21,19 @@ Workflow must be in this numbered order (exception is setEvaluator)
 10. claimPayout
 11. makeTipEscrow (at any time)
 12. sponsorJob (at any time)
+
+# Enth Stuff
+
+Network: UNKNOWN (id: 5777)
+  DAI: 0x78cc161ffe995aedda54445f073c5b8b9a123954
+  Escrow: 0x21d5b9328efaea43937011e7b00243717e572c83
+  Migrations: 0x2417692c322dbd461d2410e36dec83d936f26bea
+
+Network: mainnet (id: 1)
+  Escrow: 0xfa1909f6fe2120e3aa4a63883776250ba5042b60
+  Migrations: 0xf313798734ed33cec1950356e4c16c63765c27c5
+
+Network: ropsten (id: 3)
+  DAI: 0xee3ea3cd9afd7cb2c476d44a70fc9ed4cd3ba438
+  Escrow: 0x186d2514ab736a41b31b8d1f623de17f0ab8380f
+  Migrations: 0xe22d5327d520612e2288ad14e83e55177efa58e7
