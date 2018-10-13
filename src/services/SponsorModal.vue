@@ -1,12 +1,12 @@
 <template>
-  <div :class="$style.sponsorModal" class="loading-parent">
-    <loading
-      :active.sync="isLoading"
-      :can-cancel="false"
-      :is-full-page="fullPage">
-    </loading>
-    <vue-modal :show="show" @close="$emit('update:show', false)">
-      <vue-button warn @click="$emit('update:show', false)">X</vue-button>
+  <div :class="$style.sponsorModal">
+    <vue-modal class="loading-parent" :show="show" @close="(isLoading) ? $emit('update:show', true) : $emit('update:show', false)">
+      <loading
+        :active.sync="isLoading"
+        :can-cancel="false"
+        :is-full-page="fullPage">
+      </loading>
+      <vue-button warn @click="(isLoading) ? $emit('update:show', true) : $emit('update:show', false)">X</vue-button>
 
       <vue-input
         name="sponsorAmount"
@@ -143,5 +143,14 @@
   }
   .loading-parent {
     position: relative;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
 </style>
