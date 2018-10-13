@@ -313,9 +313,9 @@
 
             const self = this;
 
-            // Job ID manually set to "test" to avoid triggering blockchain transations while testing the chat widget implementation
+            // Job ID temporarily set to uuuid to avoid triggering blockchain transations while testing the chat widget implementation
             // const jobId = JobID.toString();
-            const jobId = "test"
+            const jobId = uuid.v1()
 
             let jobData = {
               salary: {
