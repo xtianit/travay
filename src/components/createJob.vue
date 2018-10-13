@@ -313,7 +313,9 @@
 
             const self = this;
 
-            const jobId = JobID.toString();
+            // Job ID manually set to "test" to avoid triggering blockchain transations while testing the chat widget implementation
+            // const jobId = JobID.toString();
+            const jobId = "test"
 
             let jobData = {
               salary: {
