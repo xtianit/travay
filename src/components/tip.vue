@@ -122,13 +122,13 @@
             const receiver = this.form.receiver;
             const sender = accounts[0];
 
-            console.log('tip amount', this.form.amount);
+            console.log('tip amount', payment);
 
             try {
               let receiver_balance_before = await DAIInstance.balanceOf(receiver);
               receiver_balance_before = receiver_balance_before.toNumber();
 
-              await DAIInstance.approve(EscrowInstance.address, payment, {
+              await DAIInstance.approve(EscrowInstance.address, "1000000000000000000", {
                 from: sender
               });
 
