@@ -159,6 +159,8 @@
   "App.createJob.requirementInForm": "Requirement for Job to be Complete",
   "App.createJob.nrMonthsInForm": "Number of Months of Employment",
   "App.createJob.totalFoundingInForm": "Total Funding (Salary) for Job in USD",
+  "App.createJob.evaluatorEthAddress": "Ethereum address of the individual who will validate work is completed.",
+  "App.createJob.setEvaluatorExplanation": "Each job requires an evaluator. This individual can be supervisor of the job worker and cannot be the same person that created the job. If you leave this blank anyone can become the evaluator of a job. For example, if the job is trash pick up and disposal and the job worker shares pictures of the work done and with the geo location. Than the evaluator can be anywhere in the world can can mark the task complete.",
   "App.createJob.jobPostedTitle": "Yay!",
   "App.createJob.jobPostedText": "Your job is now posted! Click here to see the job.",
   "App.createJob.emptyFieldsTitle": "Oops!",

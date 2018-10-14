@@ -159,6 +159,8 @@
   "App.createJob.requirementInForm": "Obligasyon pou travay la dwe ranpli",
   "App.createJob.nrMonthsInForm": "Kantite Mwa Travay",
   "App.createJob.totalFoundingInForm": "Total finansman (salè) pou yon travay nan USD",
+  "App.createJob.evaluatorEthAddress": "Adrès/Kont Ethereum nan moun k ap valide travay la fini.",
+  "App.createJob.setEvaluatorExplanation": "Chak travay mande pou yon evalyatè. Moun sa a ka sipèvizè travayè a epi li pa ka menm moun ki te kreye travay la. Si ou kite jaden sa a vid, nenpòt moun ka vin evalyatè a nan yon travay. Pou egzanp, si travay la se nan ranmase ak jete nan fatra a ak travayè yo pataje imaj nan travay fè ak jeyografik kote. Sa evalyatè a ka nenpòt kote nan mond lan ka make travay la kòm konplè.",
   "App.createJob.jobPostedTitle": "Yay!",
   "App.createJob.jobPostedText": "Se travay ou kounye a afiche! Klike la a pou wè travay la.",
   "App.createJob.emptyFieldsTitle": "Oops!",
