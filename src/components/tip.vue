@@ -89,6 +89,9 @@
           this.openNetworkModal();
           return;
         }
+        
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Make Tip Escrow', label: 'Make Tip Escrow', value: ''});
 
         const self = this;
         self.isLoading = true;
