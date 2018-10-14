@@ -5,7 +5,6 @@ const env = functions.config();
 
 import * as algoliasearch from 'algoliasearch';
 
-// Initialize the Algolia Client
 const client = algoliasearch(env.algolia.appid, env.algolia.apikey);
 const index = client.initIndex('zoo_search');
 
