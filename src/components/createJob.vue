@@ -237,7 +237,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import {NETWORKS} from "../util/constants/networks";
   import {uuid} from 'vue-uuid';
@@ -245,15 +244,6 @@
   import db from '../firebaseinit';
   import {any} from 'bluebird';
   import {store} from '../store';
-=======
-  import {mapActions, mapGetters, mapMutations} from 'vuex'
-  import {NETWORKS} from '../util/constants/networks'
-  import {uuid} from 'vue-uuid'
-  import firebase from 'firebase'
-  import db from '../firebaseinit-dev'
-  import {any} from 'bluebird'
-  import {store} from '../store'
->>>>>>> dev
   import * as types from '../store/types'
   import truffleContract from 'truffle-contract'
   import EscrowContract from '../../contracts/build/contracts/Escrow.json'
