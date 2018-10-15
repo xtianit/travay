@@ -85,7 +85,7 @@
       }),
       async makeTipEscrow() {
 
-        if (this.$store.state.web3.networkId !== "1") {
+        if (this.$store.state.web3.networkId !== "3") {
           this.openNetworkModal();
           return;
         }

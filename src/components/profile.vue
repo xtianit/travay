@@ -211,7 +211,7 @@
 <script>
   import {mapActions, mapGetters, mapMutations} from 'vuex';
   import firebase from 'firebase';
-  import db from '../firebaseinit';
+  import db from '../firebaseinit-dev';
   import * as types from '../store/types'
   import {store} from '../store';
   import SignInModal from '../services/SignInModal';
