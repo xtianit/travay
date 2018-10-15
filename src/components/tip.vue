@@ -89,8 +89,8 @@
           this.openNetworkModal();
           return;
         }
-        
-        //Add Analytics event
+
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Make Tip Escrow', label: 'Make Tip Escrow', value: ''});
 
         const self = this;
@@ -101,28 +101,23 @@
           const Escrow = truffleContract(EscrowContract);
           const DAI = truffleContract(DAIContract);
 
-          console.log('1')
           window.Escrow = Escrow;
           Escrow.setProvider(this.$store.state.web3.web3Instance().currentProvider);
           Escrow.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
           DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
-          console.log('2')
 
           const EscrowInstance = await Escrow.deployed();
           const DAIInstance = await DAI.deployed();
-          console.log('3')
 
           window.EscrowInstance = EscrowInstance;
           const pool = EscrowInstance.address;
 
           DAI.setProvider(this.$store.state.web3.web3Instance().currentProvider);
           DAI.defaults({from: this.$store.state.web3.web3Instance().eth.coinbase});
-          console.log('4')
 
           web3.eth.getAccounts(async (error, accounts) => {
 
             const payment = this.form.amount * (10 ** 18);
-            // const payment = new BigNumber(web3.toWei(this.form.amount, "dai" ));
             const receiver = this.form.receiver;
             const sender = accounts[0];
 
@@ -132,7 +127,7 @@
               let receiver_balance_before = await DAIInstance.balanceOf(receiver);
               receiver_balance_before = receiver_balance_before.toNumber();
 
-              await DAIInstance.approve(EscrowInstance.address, "1000000000000000000", {
+              await DAIInstance.approve(EscrowInstance.address, payment, {
                 from: sender
               });
 

@@ -10,7 +10,7 @@ import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
 import 'vue-loading-overlay/dist/vue-loading.min.css';
 import { userRole } from './directives/userRole'
-// import VueMultianalytics from 'vue-multianalytics'
+import VueMultianalytics from 'vue-multianalytics'
 import InstantSearch from 'vue-instantsearch';
 import VueI18n from 'vue-i18n'
 import enlocale from '../i18n/en.json';
