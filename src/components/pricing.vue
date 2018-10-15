@@ -43,7 +43,8 @@
             <ol>
               <li><a rel="noopener noreferrer" href="https://www.paypal.me/farahb"
                      target="_blank">{{$t('App.pricing.30bullet1' /* Click here and send a $30 payment with the salary for the job. The 2% fee above still applies on the salary. */) }}</a></li>
-              <li><a href="https://airtable.com/shr9JeDUKyfrq6KRr" target="_blank">{{$t('App.pricing.30bullet2' /*
+              <li><a rel="noopener noreferrer" href="https://airtable.com/shr9JeDUKyfrq6KRr"
+                     target="_blank">{{$t('App.pricing.30bullet2' /*
                 Click here to complete a form with your job details. */) }}</a></li>
               <li>{{$t('App.pricing.30bullet3' /* We'll notify you when the job is posted and there are candidates
                 available for your job. */) }}</li>
