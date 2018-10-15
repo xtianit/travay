@@ -122,38 +122,50 @@
             const sender = accounts[0];
 
             console.log('tip amount', payment);
+            web3.eth.getGasPrice(async(err, gasPrice) => {
+              gasPrice = gasPrice.toNumber();
+              console.log("Gas Price ", gasPrice)
+              try {
+                let receiver_balance_before = await DAIInstance.balanceOf(receiver);
+                receiver_balance_before = receiver_balance_before.toNumber();
 
-            try {
-              let receiver_balance_before = await DAIInstance.balanceOf(receiver);
-              receiver_balance_before = receiver_balance_before.toNumber();
+                const approveGas = await DAIInstance.approve.estimateGas(receiver, payment, {
+                  from: sender
+                });
 
-              await DAIInstance.approve(EscrowInstance.address, payment, {
-                from: sender
-              });
+                console.log("Gas calcuated for Approve ",approveGas);
 
-              const result = await EscrowInstance.tip(receiver, payment, {
-                from: sender
-              });
+                await DAIInstance.approve(EscrowInstance.address, payment, {
+                  from: sender,
+                  gas: approveGas,
+                  gasPrice: gasPrice
+                });
 
-              let receiver_balance_after = await DAIInstance.balanceOf(receiver);
-              receiver_balance_after = receiver_balance_after.toNumber();
+                const result = await EscrowInstance.tip(receiver, payment, {
+                  from: sender
+                });
 
-              this.$nextTick(() => {
-                setTimeout(() => {
-                  self.isLoading = false;
+                let receiver_balance_after = await DAIInstance.balanceOf(receiver);
+                receiver_balance_after = receiver_balance_after.toNumber();
 
-                  EventBus.$emit('notification.add', {
-                    id: 1,
-                    title: this.$t("App.tip.tipSentTitle" /* Success! */),
-                    text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
-                  });
-                }, 800);
-              });
-              self.clearForm();
-            } catch (error) {
-              self.isLoading = false;
-              reject(error);
-            }
+                this.$nextTick(() => {
+                  setTimeout(() => {
+                    self.isLoading = false;
+
+                    EventBus.$emit('notification.add', {
+                      id: 1,
+                      title: this.$t("App.tip.tipSentTitle" /* Success! */),
+                      text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
+                    });
+                  }, 800);
+                });
+                self.clearForm();
+              } catch (error) {
+                self.isLoading = false;
+                reject(error);
+              }
+            })
+
           })
         })
       },
