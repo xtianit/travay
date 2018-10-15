@@ -504,6 +504,9 @@
           return;
         }
 
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Cancel Job', label: 'Cancel Job', value: ''});
+
         this.isLoading = true;
 
         const jobId = this.job.taskId;
@@ -538,6 +541,9 @@
           this.openNetworkModal();
           return;
         }
+
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Set Evaluator', label: 'Set Evaluator', value: ''});
 
         this.isLoading = true;
 
@@ -594,6 +600,9 @@
           return;
         }
 
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Mark Job Complete', label: 'Mark Job Complete', value: ''});
+
         const jobId = this.job.taskId;
 
         this.isLoading = true;
@@ -627,6 +636,9 @@
           return;
         }
 
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Evaluate Job As Completed Successfully', label: 'Evaluate Job As Completed Successfully', value: ''});
+
         this.isLoading = true;
 
         const jobId = this.job.taskId;
@@ -657,6 +669,9 @@
       async evaluateJobAsCompletedUnsucessfully() {
         // const jobId = this.job.taskId;
 
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Evaluate Job As Completed Unsuccessfully', label: 'Evaluate Job As Completed Unsuccessfully', value: ''});
+
         //  this.isLoading = true;
         //
         // try {
@@ -686,6 +701,9 @@
           this.openNetworkModal();
           return;
         }
+
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Claim Payout', label: 'Claim Payout', value: ''});
 
         this.isLoading = true;
 
@@ -742,6 +760,9 @@
           return;
         }
 
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Sponsor Job', label: 'Sponsor Job', value: ''});
+
         if (!this.userId) {
           this.openLoginModal();
           return;
@@ -765,6 +786,9 @@
           this.openNetworkModal();
           return;
         }
+
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Claim Job Click', label: 'Claim Job', value: ''});
 
         this.isLoading = true;
 
@@ -833,6 +857,9 @@
           this.openNetworkModal();
           return;
         }
+
+        //Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Payout Job', label: 'Payout Job', value: ''});
 
         const taskId = this.$route.params.id;
 
@@ -906,6 +933,10 @@
         this.isEditingJobDetails = false;
       },
       uploadProofOfWork() {
+
+      //Add Analytics event
+      this.$ma.trackEvent({category: 'Click', action: 'Upload Proof of Work', label: 'Upload Proof of Work', value: ''});
+
         this.isLoading = true;
         this.uploadImages().then(res => {
           console.log('Im done running both funcs')
