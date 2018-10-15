@@ -10,7 +10,7 @@ import VueUI from 'vue-ui/dist/vue-ui.common';
 import 'vue-ui/dist/vue-ui.css';
 import 'vue-loading-overlay/dist/vue-loading.min.css';
 import { userRole } from './directives/userRole'
-// import VueMultianalytics from 'vue-multianalytics'
+import VueMultianalytics from 'vue-multianalytics'
 import InstantSearch from 'vue-instantsearch';
 import VueI18n from 'vue-i18n'
 import enlocale from '../i18n/en.json';
@@ -68,23 +68,23 @@ Vue.use(VueUI, {
 });
 
 // vue-multianalytics
-// let gaConfig = {
-//   appName: 'Travay', // Mandatory
-//   appVersion: '0.0.1', // Mandatory
-//   trackingId: 'UA-71718222-9', // Mandatory
-//   debug: true, // Whether or not display console logs debugs (optional)
-// };
-//
-// let mixpanelConfig = {
-//   token: '4be6f13d7bef9dab00a44273cade05a3'
-// };
-//
-// Vue.use(VueMultianalytics, {
-//   modules: {
-//     ga: gaConfig,
-//     mixpanel: mixpanelConfig
-//   }
-// });
+ let gaConfig = {
+   appName: 'Travay', // Mandatory
+   appVersion: '0.0.1', // Mandatory
+   trackingId: 'UA-71718222-9', // Mandatory
+   debug: true, // Whether or not display console logs debugs (optional)
+ };
+
+ let mixpanelConfig = {
+   token: '4be6f13d7bef9dab00a44273cade05a3'
+ };
+
+ Vue.use(VueMultianalytics, {
+   modules: {
+     ga: gaConfig,
+     mixpanel: mixpanelConfig
+   }
+ });
 
 Vue.use(InstantSearch);
 

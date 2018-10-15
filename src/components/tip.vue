@@ -40,8 +40,7 @@
               <br>
 
               <vue-button primary style="color: white;"
-                          :loading="isLoading"
-                          @click="makeTipEscrow()">
+                          :loading="isLoading">
                 {{ $t('App.tip.sendTipButton' /* Send Tip */) }}
               </vue-button>
 
@@ -63,6 +62,7 @@
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
   import Loading from 'vue-loading-overlay';
+  import BigNumber from 'bignumber.js'
 
   export default {
     name: "tip",
@@ -89,6 +89,9 @@
           this.openNetworkModal();
           return;
         }
+
+        // Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Make Tip Escrow', label: 'Make Tip Escrow', value: ''});
 
         const self = this;
         self.isLoading = true;
@@ -117,6 +120,8 @@
             const payment = this.form.amount * (10 ** 18);
             const receiver = this.form.receiver;
             const sender = accounts[0];
+
+            console.log('tip amount', payment);
 
             try {
               let receiver_balance_before = await DAIInstance.balanceOf(receiver);
