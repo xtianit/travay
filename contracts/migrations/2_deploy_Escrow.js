@@ -2,7 +2,7 @@ const Escrow = artifacts.require("./Escrow.sol");
 const DAI = artifacts.require("./DAI.sol");
 
 // Main Net
-// Contract: https://etherscan.io/address/0xfa1909f6fe2120e3aa4a63883776250ba5042b60#code
+// Contract: https://etherscan.io/address/0xfa1909f6fe2120e3aa4a63883776250ba5042b60
 // const ARBITRATOR = "0xa7c2662a534a0ae22e8b0f27d6a099e3b3971c6a";
 // const DAI_COIN_ADDRESS = "0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359";
 
