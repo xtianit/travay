@@ -154,10 +154,9 @@
                   v-model="form.setEvaluatorCreateJob" />
                 <div>{{ $t('App.createJob.setEvaluatorExplanation' /* Each job requires an evaluator. This
                   individual can be supervisor of the job worker and cannot be the same person that created the job. If
-                  you leave this blank anyone can become the
-                  evaluator of a job. For example, if the job is trash pick up and disposal and the job worker
-                  shares pictures of the work done and with the geo location. Than the evaluator can be anywhere in
-                  the world can can mark the task complete.
+                  you leave this blank anyone can become the evaluator of a job. For example, if the job is trash
+                  pick up and disposal and the job worker shares pictures of the work done and with the geo location.
+                  Than the evaluator can be anywhere in the world can can mark the task complete.
                   */) }}
                 </div>
               </vue-grid-item>

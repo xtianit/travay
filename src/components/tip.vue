@@ -40,8 +40,7 @@
               <br>
 
               <vue-button primary style="color: white;"
-                          :loading="isLoading"
-                          @click="makeTipEscrow()">
+                          :loading="isLoading">
                 {{ $t('App.tip.sendTipButton' /* Send Tip */) }}
               </vue-button>
 
@@ -63,6 +62,7 @@
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
   import Loading from 'vue-loading-overlay';
+  import BigNumber from 'bignumber.js'
 
   export default {
     name: "tip",
@@ -119,6 +119,7 @@
           web3.eth.getAccounts(async (error, accounts) => {
 
             const payment = this.form.amount * (10 ** 18);
+            // const payment = new BigNumber(web3.toWei(this.form.amount, "dai" ));
             const receiver = this.form.receiver;
             const sender = accounts[0];
 
