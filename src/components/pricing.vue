@@ -14,8 +14,8 @@
             <h2>2%</h2>
             <p>One-Time Percentage Fee of Total Salary in USD</p>
             <br>
-            <p>You post a job and individuals directly apply or select your job. When you fund a job 2% of the toal
-              amount is auto deducted and the worker receives the remaining 98%.</p>
+            <p>You post a job and individuals directly select your job. When you fund a job, 2% of the total amount
+              entered for the salary is auto deducted and the worker receives the remaining 98%. We receive the 2%.</p>
           </vue-panel-body>
           <vue-panel-footer>
             <router-link to="createJob">
@@ -40,8 +40,8 @@
             <p>Ready to get started?</p>
             <br>
             <ol>
-              <li>Send the $30 payment and the salary for the job via this link. Note that the 2% fee above still
-                applies.</li>
+              <li><a rel="noopener noreferrer" href="https://www.paypal.me/farahb" target="_blank">Send a $30 payment
+                and the salary for the job. The 2% fee above still applies on the salary.</a></li>
               <li>Send us an email with your job details to travayht@gmail.com</li>
               <li>We'll notify you when the job is posted and there are candidates available for your job.</li>
             </ol>

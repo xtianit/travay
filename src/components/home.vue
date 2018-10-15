@@ -47,16 +47,16 @@
         <p>{{ $t('App.home.noExperienceNeed' /* Find a job, claim it with no experience needed! */) }}</p>
         <br>
         <ol>
-          <li>{{ $t('App.getStarted.installBrowser' /* Install */) }} <a
+          <li>{{ $t('App.getStarted.installBrowser' /* Install */) }} <a rel="noopener noreferrer"
             href="https://play.google.com/store/apps/details?id=org.mozilla.firefox&hl=fr" target="_blank">Firefox</a>
             {{ $t('App.getStarted.browser' /* browser */) }}
           </li>
-          <li>{{ $t('App.getStarted.installExtension' /* extension */) }} <a
+          <li>{{ $t('App.getStarted.installExtension' /* extension */) }} <a rel="noopener noreferrer"
             href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask"
             target="_blank">MetaMask</a>.
           </li>
           <li>{{ $t('App.getStarted.step2' /* Log into Travay with your Gmail Account. Don't have one? Sign up
-            */) }} <a
+            */) }} <a rel="noopener noreferrer"
               href="https://accounts.google.com/signup/v2/webcreateaccount?continue=https%3A%2F%2Faccounts.google.com%2FManageAccount&hl=fr&flowName=GlifWebSignIn&flowEntry=SignUp"
               target="_blank">{{ $t('App.getStarted.here' /* here */) }}</a>.
           </li>
@@ -67,7 +67,7 @@
         <p><em>{{ $t('App.getStarted.note' /* Note: Travay is not available on iPhone. */) }}</em></p><br>
 
         <p>{{ $t('App.getStarted.getInPersonHelp1' /* If you need help registering we are offering free assistance
-          */) }}: <a
+          */) }}: <a rel="noopener noreferrer"
             href="https://calendly.com/farahbrunache/enskri-pou-itilize-travay" target="_blank">{{
             $t('App.getStarted.getInPersonHelp2' /* sign up here */) }}</a>.</p>
       </vue-grid-item>
@@ -76,7 +76,8 @@
     <vue-grid-row>
       <vue-grid-item>
         <h2>{{ $t('App.home.howToKnowOfNewJobs' /* How Will I Know When There Are New Jobs? */) }}</h2>
-        <p><a href="https://airtable.com/shrGJhkEk4SphwEXe" target="_blank">{{ $t('App.footer.getNotified' /* Get
+        <p><a rel="noopener noreferrer" href="https://airtable.com/shrGJhkEk4SphwEXe" target="_blank">{{
+          $t('App.footer.getNotified' /* Get
           Notified of
           New Jobs */) }}</a></p><br>
         <p><em>{{ $t('App.getStarted.howToKnowOfNewJobsNote' /* Note: Registered users who updated their profile with a
