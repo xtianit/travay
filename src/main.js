@@ -77,7 +77,8 @@ Vue.use(VueUI, {
  };
 
  let mixpanelConfig = {
-   token: '4be6f13d7bef9dab00a44273cade05a3'
+   token: '4be6f13d7bef9dab00a44273cade05a3' // Prod
+   // token: '3bfe6ae0af73a824d94cfc4ec8c4d4b8' // Dev
  };
 
  Vue.use(VueMultianalytics, {
