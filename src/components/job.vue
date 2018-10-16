@@ -504,8 +504,8 @@
           return;
         }
 
-        //Add Analytics event
-        this.$ma.trackEvent({category: 'Click', action: 'Cancel Job', label: 'Cancel Job', value: ''});
+        // Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Canceled Job', label: 'Cancel Job', value: ''});
 
         this.isLoading = true;
 
@@ -542,7 +542,7 @@
           return;
         }
 
-        //Add Analytics event
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Set Evaluator', label: 'Set Evaluator', value: ''});
 
         this.isLoading = true;
@@ -600,7 +600,7 @@
           return;
         }
 
-        //Add Analytics event
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Mark Job Complete', label: 'Mark Job Complete', value: ''});
 
         const jobId = this.job.taskId;
@@ -636,7 +636,7 @@
           return;
         }
 
-        //Add Analytics event
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Evaluate Job As Completed Successfully', label: 'Evaluate Job As Completed Successfully', value: ''});
 
         this.isLoading = true;
@@ -669,7 +669,7 @@
       async evaluateJobAsCompletedUnsucessfully() {
         // const jobId = this.job.taskId;
 
-        //Add Analytics event
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Evaluate Job As Completed Unsuccessfully', label: 'Evaluate Job As Completed Unsuccessfully', value: ''});
 
         //  this.isLoading = true;
@@ -702,7 +702,7 @@
           return;
         }
 
-        //Add Analytics event
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Claim Payout', label: 'Claim Payout', value: ''});
 
         this.isLoading = true;
@@ -760,8 +760,8 @@
           return;
         }
 
-        //Add Analytics event
-        this.$ma.trackEvent({category: 'Click', action: 'Sponsor Job', label: 'Sponsor Job', value: ''});
+        // Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Sponsor Job from Job Page', label: 'Sponsor Job from Job Page', value: ''});
 
         if (!this.userId) {
           this.openLoginModal();
@@ -787,7 +787,7 @@
           return;
         }
 
-        //Add Analytics event
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Claim Job Click', label: 'Claim Job', value: ''});
 
         this.isLoading = true;
@@ -858,7 +858,7 @@
           return;
         }
 
-        //Add Analytics event
+        // Add Analytics event
         this.$ma.trackEvent({category: 'Click', action: 'Payout Job', label: 'Payout Job', value: ''});
 
         const taskId = this.$route.params.id;
@@ -934,7 +934,7 @@
       },
       uploadProofOfWork() {
 
-      //Add Analytics event
+      // Add Analytics event
       this.$ma.trackEvent({category: 'Click', action: 'Upload Proof of Work', label: 'Upload Proof of Work', value: ''});
 
         this.isLoading = true;

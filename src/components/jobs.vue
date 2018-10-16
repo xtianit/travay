@@ -262,6 +262,10 @@
           return;
         }
 
+        // Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Sponsor Job from Jobs Page', label: 'Sponsor Job from Jobs Page', value:
+            ''});
+
         if (!this.userId) {
           this.openLoginModal();
           return;
