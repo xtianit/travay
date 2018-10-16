@@ -90,6 +90,8 @@
       },
       async sponsorAmountToEscrow() {
 
+        this.$ma.trackEvent({category: 'Click', action: 'Sponsor a Job', label: 'Sponsor a Job', value: ''});
+
         return new Promise(async (resolve, reject) => {
 
           const Escrow = truffleContract(EscrowContract);

@@ -69,9 +69,10 @@ Vue.use(VueUI, {
 
 // vue-multianalytics
  let gaConfig = {
-   appName: 'Travay', // Mandatory
-   appVersion: '0.0.1', // Mandatory
-   trackingId: 'UA-71718222-9', // Mandatory
+   appName: 'Travay',
+   appVersion: '0.0.1',
+   trackingId: 'UA-71718222-10', // Dev
+   // trackingId: 'UA-71718222-9', // Prod
    debug: true, // Whether or not display console logs debugs (optional)
  };
 
