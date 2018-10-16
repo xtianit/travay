@@ -71,8 +71,8 @@ Vue.use(VueUI, {
  let gaConfig = {
    appName: 'Travay',
    appVersion: '0.0.1',
-   trackingId: 'UA-71718222-10', // Dev
    // trackingId: 'UA-71718222-9', // Prod
+   trackingId: 'UA-71718222-10', // Dev
    debug: true, // Whether or not display console logs debugs (optional)
  };
 
