@@ -70,7 +70,7 @@
         <p><em>{{ $t('App.getStarted.note' /* Note: Travay is not available on iPhone. */) }}</em></p><br>
 
         <p>{{ $t('App.getStarted.getInPersonHelp1' /* If you need help registering we are offering free assistance
-          */) }}: <a
+          */) }}: <a rel="noopener noreferrer"
             href="https://calendly.com/farahbrunache/enskri-pou-itilize-travay" target="_blank">{{
             $t('App.getStarted.getInPersonHelp2' /* sign up here */) }}</a>.</p>
       </vue-grid-item>
@@ -79,7 +79,8 @@
     <vue-grid-row>
       <vue-grid-item>
         <h2>{{ $t('App.home.howToKnowOfNewJobs' /* How Will I Know When There Are New Jobs? */) }}</h2>
-        <p><a href="https://airtable.com/shrGJhkEk4SphwEXe" target="_blank">{{ $t('App.footer.getNotified' /* Get
+        <p><a rel="noopener noreferrer" href="https://airtable.com/shrGJhkEk4SphwEXe" target="_blank">{{
+          $t('App.footer.getNotified' /* Get
           Notified of
           New Jobs */) }}</a></p><br>
         <p><em>{{ $t('App.getStarted.howToKnowOfNewJobsNote' /* Note: Registered users who updated their profile with a

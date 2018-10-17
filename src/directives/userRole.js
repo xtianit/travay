@@ -29,7 +29,7 @@ export const userRole = {
       if (Reflect.has(modifiers, 'evaluator')) {
         if (value.role[1] !== userId) hide(vnode);
       } else {
-        console.log('EVALUATOR Role');
+        // console.log('EVALUATOR Role');
       }
 
       // Worker only
@@ -89,7 +89,7 @@ export const userRole = {
           !value.role[2].includes(userId) &&
           !value.role[3].includes(userId)
         ) {
-          console.log('Become EVALUATOR Role');
+          // console.log('Become EVALUATOR Role');
         } else {
           hide(vnode);
         }

@@ -40,8 +40,7 @@
               <br>
 
               <vue-button primary style="color: white;"
-                          :loading="isLoading"
-                          @click="makeTipEscrow()">
+                          :loading="isLoading">
                 {{ $t('App.tip.sendTipButton' /* Send Tip */) }}
               </vue-button>
 
@@ -63,6 +62,7 @@
   import EscrowContract from "../../contracts/build/contracts/Escrow.json";
   import DAIContract from "../../contracts/build/contracts/DAI.json";
   import Loading from 'vue-loading-overlay';
+  import BigNumber from 'bignumber.js'
 
   export default {
     name: "tip",
@@ -89,6 +89,9 @@
           this.openNetworkModal();
           return;
         }
+
+        // Add Analytics event
+        this.$ma.trackEvent({category: 'Click', action: 'Make Tip Escrow', label: 'Make Tip Escrow', value: ''});
 
         const self = this;
         self.isLoading = true;
@@ -118,37 +121,51 @@
             const receiver = this.form.receiver;
             const sender = accounts[0];
 
-            try {
-              let receiver_balance_before = await DAIInstance.balanceOf(receiver);
-              receiver_balance_before = receiver_balance_before.toNumber();
+            console.log('tip amount', payment);
+            web3.eth.getGasPrice(async(err, gasPrice) => {
+              gasPrice = gasPrice.toNumber();
+              console.log("Gas Price ", gasPrice)
+              try {
+                let receiver_balance_before = await DAIInstance.balanceOf(receiver);
+                receiver_balance_before = receiver_balance_before.toNumber();
 
-              await DAIInstance.approve(EscrowInstance.address, payment, {
-                from: sender
-              });
+                const approveGas = await DAIInstance.approve.estimateGas(receiver, payment, {
+                  from: sender
+                });
 
-              const result = await EscrowInstance.tip(receiver, payment, {
-                from: sender
-              });
+                console.log("Gas calcuated for Approve ",approveGas);
 
-              let receiver_balance_after = await DAIInstance.balanceOf(receiver);
-              receiver_balance_after = receiver_balance_after.toNumber();
+                await DAIInstance.approve(EscrowInstance.address, payment, {
+                  from: sender,
+                  gas: approveGas,
+                  gasPrice: gasPrice
+                });
 
-              this.$nextTick(() => {
-                setTimeout(() => {
-                  self.isLoading = false;
+                const result = await EscrowInstance.tip(receiver, payment, {
+                  from: sender
+                });
 
-                  EventBus.$emit('notification.add', {
-                    id: 1,
-                    title: this.$t("App.tip.tipSentTitle" /* Success! */),
-                    text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
-                  });
-                }, 800);
-              });
-              self.clearForm();
-            } catch (error) {
-              self.isLoading = false;
-              reject(error);
-            }
+                let receiver_balance_after = await DAIInstance.balanceOf(receiver);
+                receiver_balance_after = receiver_balance_after.toNumber();
+
+                this.$nextTick(() => {
+                  setTimeout(() => {
+                    self.isLoading = false;
+
+                    EventBus.$emit('notification.add', {
+                      id: 1,
+                      title: this.$t("App.tip.tipSentTitle" /* Success! */),
+                      text: this.$t("App.tip.tipSentText" /* Your DAI transfer is complete! */)
+                    });
+                  }, 800);
+                });
+                self.clearForm();
+              } catch (error) {
+                self.isLoading = false;
+                reject(error);
+              }
+            })
+
           })
         })
       },
