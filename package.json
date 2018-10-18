@@ -4,6 +4,7 @@
   "description": "Long term job market of Haiti",
   "author": "Farah Brunache",
   "scripts": {
+    "cz": "npx git-cz",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "node server.js",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
@@ -81,6 +82,7 @@
     "copy-webpack-plugin": "^4.5.3",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.11",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^4.15.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
@@ -133,5 +135,10 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
