@@ -23,3 +23,7 @@ npm run e2e
 npm test
 ```
 
+# When committing
+
+Use "npx git-cz" or "npm run cz" instead of "git commit"
+
