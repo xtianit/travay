@@ -132,7 +132,7 @@
       // },
       signInWithGoogle: function () {
 
-        this.$ma.trackEvent({category: 'Click', action: 'Clicked Sign In', label: 'Clicked Sign In', value: ''});
+        // this.$ma.trackEvent({category: 'Click', action: 'Clicked Sign In', label: 'Clicked Sign In', value: ''});
 
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase
