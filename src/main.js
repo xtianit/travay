@@ -104,8 +104,24 @@ const prod = process.env.NODE_ENV === 'production';
 const shouldSW = 'serviceWorker' in navigator && prod;
 
 if (shouldSW) {
-  navigator.serviceWorker.register('/service-worker.js').then(() => {
-    console.log('SW registered')
-  })
-}
+  navigator.serviceWorker.register('/service-worker.js').then((reg) => {
+    reg.onupdatefound = () => {
+      let installWorker = reg.installing;
+      installWorker.onstatechange = () => {
+        switch (installWorker.state) {
+          case 'installed':
+            if (navigator.serviceWorker.controller) {
+              console.log('New or updated content is available');
+            } else {
+              console.log('Content is now available offline!');
+            }
+            break;
+          case'redundant':
+            console.error('Installing service worker became redundant');
+            break;
 
+        }
+      }
+    }
+  }).catch(e => console.log('Error during service worker registration: ', e))
+}

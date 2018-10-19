@@ -1279,7 +1279,7 @@
 </script>
 
 <style lang="scss" module>
-  .loading-parent {
-    position: relative;
-  }
+.loading-parent {
+  position: relative;
+}
 </style>
