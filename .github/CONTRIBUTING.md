@@ -48,7 +48,6 @@ scenario gives us wealth of important information without going back & forth to 
 
 You can file new issues by filling out our [new issue form](https://github.com/electricfeelco/issues/new).
 
-
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
@@ -61,17 +60,21 @@ Before you submit your Pull Request (PR) consider the following guidelines:
      ```
 
 * Create your patch, **including appropriate test cases**.
-* Run the full test suite,
-  and ensure that all tests pass.
+* Run the full test suite, and ensure that all tests pass.
 * Commit your changes using a descriptive commit message that follows our
   [commit message conventions](#commit). Adherence to these conventions
   is necessary because release notes are automatically generated from these messages.
 
      ```shell
-     git commit -a
+     npx git-cz
      ```
-  Note: the optional commit `-a` command line option will automatically "add" and "rm" edited files.
+     or
 
+     ```shell
+     npm run cz
+     ```
+    Instead of `git commit`
+    
 * Push your branch to GitHub:
 
     ```shell

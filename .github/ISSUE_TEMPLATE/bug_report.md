@@ -35,9 +35,9 @@ If applicable, add screenshots to help explain your problem.
  - Version [e.g. 22]
 
 Definition of Done
-[ ] 
-[ ] 
-[ ] 
+- [ ] 
+- [ ] 
+- [ ] Commit your could using using "npx git-cz" or "npm run cz" instead of "git commit"
 
 **Additional context**
 Add any other context about the problem here.
